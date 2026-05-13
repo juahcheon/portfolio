@@ -8,45 +8,9 @@ type Props = {
 };
 
 export function WindowContents({ win, data }: Props) {
-  const { profile, about, experienceSummary, jobs, skills, timeline, projects, github, windowsCopy } =
-    data;
+  const { about, experienceSummary, jobs, skills, timeline, projects, github } = data;
 
   switch (win.kind) {
-    case "profile":
-      return (
-        <div className="space-y-4">
-          <div
-            className="mx-auto flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold text-white shadow-inner"
-            style={{
-              background: `linear-gradient(135deg, ${profile.heroPlaceholder.gradientFrom}, ${profile.heroPlaceholder.gradientTo})`,
-            }}
-          >
-            {profile.heroPlaceholder.initial}
-          </div>
-          <div className="text-center">
-            <h2 className="text-xl font-semibold">{profile.name}</h2>
-            <p className="text-neutral-600">{profile.title}</p>
-            <a className="text-winBlue underline" href={`mailto:${profile.email}`}>
-              {profile.email}
-            </a>
-          </div>
-          <ul className="list-disc space-y-2 pl-5 text-neutral-800">
-            {profile.headlineLines.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          <p>
-            <a
-              className="text-winBlue underline"
-              href={profile.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub ({profile.githubUsername})
-            </a>
-          </p>
-        </div>
-      );
     case "about":
       return (
         <div className="space-y-4 leading-relaxed text-neutral-800">
@@ -197,8 +161,6 @@ export function WindowContents({ win, data }: Props) {
           </div>
         </div>
       );
-    case "recycle":
-      return <p className="text-neutral-700">{windowsCopy.trash}</p>;
     default:
       return null;
   }

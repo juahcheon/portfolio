@@ -24,7 +24,7 @@ npm run sync:legacy
 $env:LEGACY_ROOT="C:\path\to\juahcheon.github.io"; npm run sync:legacy
 ```
 
-복사 항목: `img/webp/*`, `task-remove.png`, `task02-remove.png`, `folder_lnb.png`, `protect-remove.png`, `chrome_logo.svg`, `wifi.svg`, `Netflix_2015_logo.svg`
+복사 항목: `img/webp/*`, `task-remove.png`, `task02-remove.png`, `folder_lnb.png`, `protect-remove.png`, `chrome_logo.svg`, `wifi.svg`
 
 ### 바탕화면 아이콘이 안 보일 때
 

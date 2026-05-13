@@ -1,0 +1,162 @@
+// Windows 10 스타일 타이틀 바 (리본 제외)
+
+.root {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  flex-shrink: 0;
+  padding: 0 2px 0 6px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  user-select: none;
+  cursor: default;
+  font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+}
+
+.leading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.controls {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  margin-right: -2px;
+}
+
+.controlBtn {
+  width: 45px;
+  min-width: 45px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  color: #000000;
+
+  &:hover {
+    background: #e5e5e5;
+  }
+
+  &:active {
+    background: #cccccc;
+  }
+}
+
+.closeBtn {
+  width: 45px;
+  min-width: 45px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  color: #000000;
+
+  &:hover {
+    background: #e81123;
+    color: #ffffff;
+  }
+
+  &:active {
+    background: #941010;
+    color: #ffffff;
+  }
+}
+
+.iconMin,
+.iconMax,
+.iconRestore,
+.iconClose {
+  display: block;
+  pointer-events: none;
+}
+
+.iconMin {
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+}
+
+.iconMax {
+  width: 10px;
+  height: 10px;
+  border: 1px solid currentColor;
+  box-sizing: border-box;
+}
+
+.iconRestore {
+  width: 10px;
+  height: 10px;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 7px;
+    height: 6px;
+    border: 1px solid currentColor;
+    box-sizing: border-box;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    width: 7px;
+    height: 6px;
+    border: 1px solid currentColor;
+    background: #ffffff;
+    box-sizing: border-box;
+  }
+}
+
+.iconClose {
+  width: 10px;
+  height: 10px;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}

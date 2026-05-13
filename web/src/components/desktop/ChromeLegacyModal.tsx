@@ -1,22 +1,56 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import styles from "@/styles/chromeLegacyModal.module.scss";
 
 type Props = {
   zIndex: number;
+  stackIndex?: number;
   iframeUrl: string;
+  /** github.com 은 iframe 차단 → 기여도 차트로 대체 */
+  activityChartUrl?: string;
+  profileUrl?: string;
   onClose: () => void;
   onFocus: () => void;
 };
 
-export function ChromeLegacyModal({ zIndex, iframeUrl, onClose, onFocus }: Props) {
+function isGitHubProfileEmbedBlocked(url: string): boolean {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    return host === "github.com";
+  } catch {
+    return false;
+  }
+}
+
+export function ChromeLegacyModal({
+  zIndex,
+  stackIndex = 0,
+  iframeUrl,
+  activityChartUrl,
+  profileUrl,
+  onClose,
+  onFocus,
+}: Props) {
   const [maximized, setMaximized] = useState(false);
+
+  const useActivityFallback =
+    Boolean(activityChartUrl) && isGitHubProfileEmbedBlocked(iframeUrl);
+
+  const stackX = stackIndex * 14;
+  const stackY = stackIndex * 12;
+  const positionStyle = maximized
+    ? { zIndex }
+    : {
+        zIndex,
+        transform: `translate(calc(-50% + ${stackX}px), calc(-50% + ${stackY}px))`,
+      };
 
   return (
     <div
       className={`${styles.pageModal} ${maximized ? styles.pageModalMax : ""}`}
-      style={{ zIndex }}
+      style={positionStyle}
       role="dialog"
       aria-label="Chrome"
       onMouseDown={onFocus}
@@ -52,7 +86,7 @@ export function ChromeLegacyModal({ zIndex, iframeUrl, onClose, onFocus }: Props
               </button>
               <button
                 type="button"
-                className={`${styles.hoverDark}`}
+                className={styles.hoverDark}
                 aria-label="최대화"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -101,7 +135,35 @@ export function ChromeLegacyModal({ zIndex, iframeUrl, onClose, onFocus }: Props
           </div>
         </div>
         <div className={styles.modalBody}>
-          <iframe title="Chrome" src={iframeUrl} className={styles.iframe} />
+          {useActivityFallback && activityChartUrl ? (
+            <div className={styles.activityFallback}>
+              <p className={styles.activityNote}>
+                GitHub은 보안 정책(X-Frame-Options) 때문에 다른 사이트의 iframe 안에 프로필·Activity 페이지를
+                표시하지 않습니다. 대신 기여도 차트(외부 서비스)를 보여 주고, 전체 프로필은 새 탭에서 열 수
+                있습니다.
+              </p>
+              <Image
+                src={activityChartUrl}
+                alt="GitHub contribution activity"
+                width={800}
+                height={128}
+                className={styles.activityChart}
+                unoptimized
+              />
+              {profileUrl ? (
+                <a
+                  href={profileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.activityLink}
+                >
+                  GitHub에서 프로필·Activity 열기
+                </a>
+              ) : null}
+            </div>
+          ) : (
+            <iframe title="Chrome" src={iframeUrl} className={styles.iframe} />
+          )}
         </div>
       </div>
     </div>

@@ -56,7 +56,9 @@ function DesktopIconButton({
       <button
         type="button"
         title="더블 클릭 또는 Enter로 열기"
-        className={`${styles.desktopIconBtn} ${selected ? styles.desktopIconSelected : ""}`}
+        className={`${styles.desktopIconBtn} ${selected ? styles.desktopIconSelected : ""} ${
+          icon.gapAfter === "none" ? styles.desktopIconBtnTight : ""
+        }`}
         onClick={(e) => {
           e.stopPropagation();
           onSelect(icon.id);
@@ -144,7 +146,7 @@ export function PortfolioDesktop({ data }: { data: PortfolioPayload }) {
           win={win}
           data={data}
           zIndex={win.id === activeId ? 80 : 20 + idx}
-          offset={{ left: 36 + idx * 26, top: 28 + idx * 24 }}
+          stackIndex={idx}
           isActive={win.id === activeId}
           onClose={closeWindow}
           onFocus={focusWindow}

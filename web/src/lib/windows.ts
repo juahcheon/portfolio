@@ -10,7 +10,7 @@ export function openWindowFromDesktopId(
     case "trash":
       return { id, title: "휴지통", kind: "recycle" };
     case "hero":
-      return { id, title: "내 PC", kind: "profile" };
+      return { id, title: "내 PC", kind: "thisPc" };
     case "skills":
       return { id, title: "제어판", kind: "skills" };
     case "about":
@@ -25,6 +25,8 @@ export function openWindowFromDesktopId(
         title: "Chrome",
         kind: "chrome",
         iframeUrl: data.windowsCopy.chromeFrameUrl,
+        githubActivityChartUrl: data.github.chartImageUrl,
+        githubProfileUrl: data.github.profileUrl,
       };
     default:
       return null;

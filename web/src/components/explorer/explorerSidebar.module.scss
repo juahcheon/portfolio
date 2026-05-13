@@ -1,0 +1,106 @@
+// Windows 10 탐색기 내비게이션 창
+
+.root {
+  width: 168px;
+  flex-shrink: 0;
+  background: #f3f3f3;
+  border-right: 1px solid #d9d9d9;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 12px;
+  color: #000000;
+  padding: 8px 0 12px;
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 14px;
+  font-weight: 400;
+  color: #000000;
+}
+
+.starIcon {
+  color: #0078d4;
+  font-size: 11px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 12px 3px 28px;
+  min-height: 22px;
+  cursor: default;
+  color: #000000;
+  text-decoration: none;
+
+  &:hover {
+    background: #e5f3ff;
+  }
+}
+
+.pin {
+  margin-left: auto;
+  opacity: 0.45;
+  font-size: 10px;
+}
+
+.divider {
+  height: 1px;
+  margin: 8px 8px;
+  background: #d9d9d9;
+}
+
+.thisPcLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 12px 3px 28px;
+  min-height: 22px;
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    background: #cce8ff;
+  }
+
+  &:focus-visible {
+    outline: 1px dotted #000000;
+    outline-offset: -2px;
+  }
+}
+
+.thisPcLinkActive {
+  background: #d9d9d9;
+  border: 1px solid #c8c8c8;
+
+  &:hover {
+    background: #d0d0d0;
+  }
+}
+
+.cloudIcon {
+  color: #0078d4;
+  font-size: 13px;
+}
+
+.pcIcon {
+  color: #606060;
+  font-size: 13px;
+}
+
+.netIcon {
+  color: #606060;
+  font-size: 13px;
+}
+
+.folderGlyph {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

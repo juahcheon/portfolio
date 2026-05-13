@@ -4,7 +4,7 @@ export type OpenWindow = {
   id: string;
   title: string;
   kind:
-    | "profile"
+    | "thisPc"
     | "about"
     | "experience"
     | "skills"
@@ -14,6 +14,9 @@ export type OpenWindow = {
     | "chrome"
     | "recycle";
   iframeUrl?: string;
+  /** github.com 은 iframe 불가 → 기여도 이미지로 대체할 때 사용 */
+  githubActivityChartUrl?: string;
+  githubProfileUrl?: string;
 };
 
 type State = {
