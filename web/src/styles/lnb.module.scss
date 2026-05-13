@@ -1,0 +1,290 @@
+// juahcheon.github.io/css/portfolio.css — 작업 표시줄(LNB) 이식
+
+.lnb {
+  width: 100%;
+  height: 50px;
+  background-color: rgba(230, 230, 230, 0.8);
+  backdrop-filter: blur(1px);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  font-size: 0;
+}
+
+.leftLnb {
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.centerRunning {
+  position: absolute;
+  left: 196px;
+  right: 300px;
+  bottom: 0;
+  height: 50px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+
+.runningBtn {
+  max-width: 10rem;
+  height: 46px;
+  padding: 0 8px;
+  margin-bottom: 2px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 12px;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.runningBtnActive {
+  background-color: rgba(255, 255, 255, 0.72);
+  border-color: rgba(0, 120, 212, 0.35);
+}
+
+.lnbHover {
+  transition: background-color 0.2s;
+}
+
+.lnbHover:hover {
+  background-color: rgba(230, 230, 230, 1);
+}
+
+.leftBtn {
+  width: 48px;
+  height: 49px;
+  background-color: transparent;
+  font-size: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+}
+
+.leftBtn img {
+  width: 35%;
+  background-color: transparent;
+}
+
+.folderBtn img {
+  width: 50%;
+}
+
+.searchBtn {
+  transform: rotateY(180deg);
+}
+
+.rightLnb {
+  height: 50px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+.rightIcons {
+  height: 50px;
+  margin-right: 10px;
+  display: flex;
+}
+
+.moreOption {
+  width: 30px;
+  height: 50px;
+  font-size: 15px;
+  transition: background-color 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #222;
+}
+
+.rightBtn {
+  width: 25px;
+  height: 49px;
+  background-color: transparent;
+  font-size: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+}
+
+.lowBattery {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lowBattery svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.wifi {
+  transform: rotate(-50deg);
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.wifi svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.volume {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volume svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.timeAndDate {
+  width: 73px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 12px;
+  padding: 5px 0;
+  box-sizing: border-box;
+  cursor: context-menu;
+  color: #111;
+}
+
+.timeLine {
+  margin: 0;
+  line-height: 1.15;
+}
+
+.dateLine {
+  margin: 0;
+  line-height: 1.15;
+}
+
+.noticeTown {
+  display: flex;
+  align-items: flex-start;
+}
+
+.noticeBtn {
+  width: 41px;
+  height: 50px;
+  background-color: transparent;
+  font-size: 21px;
+  margin-right: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+}
+
+.chatIcon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatIcon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.noticeCenter {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid #555;
+  backdrop-filter: blur(1px);
+  right: 5px;
+  bottom: 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+}
+
+.moreWrap {
+  max-width: 80px;
+  background-color: rgba(230, 230, 230, 0.8);
+  backdrop-filter: blur(1px);
+  position: fixed;
+  bottom: 49px;
+  left: 0;
+  z-index: 110;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid #aaa;
+  display: flex;
+}
+
+.moreIcon {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: #222;
+}
+
+.moreIcon img {
+  width: 40%;
+  height: 40%;
+}
+
+.startFlyout {
+  min-width: 160px;
+  background-color: rgba(230, 230, 230, 0.8);
+  backdrop-filter: blur(1px);
+  position: fixed;
+  bottom: 49px;
+  left: 8px;
+  z-index: 110;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid #aaa;
+  display: flex;
+  flex-direction: column;
+}
+
+.noticeCenter p {
+  margin: 0;
+}
