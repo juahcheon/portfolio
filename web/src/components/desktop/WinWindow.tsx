@@ -1,14 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { OpenWindow } from "@/store/desktopStore";
 import type { PortfolioPayload } from "@/types/portfolio";
 import { WinExplorerHeader } from "@/components/explorer/WinExplorerHeader";
 import { RecycleBinExplorerView } from "@/components/explorer/RecycleBinExplorerView";
 import { ThisPcExplorerView } from "@/components/explorer/ThisPcExplorerView";
+import { WordAppWindow } from "@/components/word/WordAppWindow";
 import { ChromeLegacyModal } from "./ChromeLegacyModal";
 import { WindowContents } from "./WindowContents";
-import styles from "./winWindow.module.scss";
 
 function RecycleBinTitleIcon() {
   return (
@@ -31,7 +32,7 @@ function MyPcTitleIcon() {
 }
 
 function DefaultExplorerIcon() {
-  return <i className="fa-solid fa-folder" style={{ color: "#e8b931", fontSize: "15px" }} aria-hidden />;
+  return <i className="fa-solid fa-folder text-[15px] text-[#e8b931]" aria-hidden />;
 }
 
 type Props = {
@@ -62,14 +63,29 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
   const [maximized, setMaximized] = useState(false);
   const [minimized, setMinimized] = useState(false);
 
+  if (win.kind === "github") {
+    const gh = data.github;
+    return (
+      <ChromeLegacyModal
+        zIndex={zIndex}
+        stackIndex={stackIndex}
+        iframeUrl={gh.profileUrl}
+        displayAddressUrl="https://github.com/juahcheon"
+        activityChartUrl={gh.chartImageUrl}
+        profileUrl={gh.profileUrl}
+        ariaLabel="GitHub"
+        onClose={() => onClose(win.id)}
+        onFocus={() => onFocus(win.id)}
+      />
+    );
+  }
+
   if (win.kind === "chrome" && win.iframeUrl) {
     return (
       <ChromeLegacyModal
         zIndex={zIndex}
         stackIndex={stackIndex}
         iframeUrl={win.iframeUrl}
-        activityChartUrl={win.githubActivityChartUrl}
-        profileUrl={win.githubProfileUrl}
         onClose={() => onClose(win.id)}
         onFocus={() => onFocus(win.id)}
       />
@@ -80,7 +96,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
     return (
       <button
         type="button"
-        className={styles.minimizedBtn}
+        className="fixed bottom-[52px] flex h-8 min-w-[168px] max-w-[220px] cursor-pointer items-center gap-2 border border-[#a0a0a0] bg-white px-2.5 text-left font-sans text-xs text-black shadow-md hover:bg-[#f0f0f0]"
         style={{
           zIndex,
           left: `max(8px, calc(50% - 90px + ${stackIndex * 168}px))`,
@@ -92,14 +108,25 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
           onFocus(win.id);
         }}
       >
-        {minimizedLeading(win)}
-        <span className={styles.minimizedTitle}>{win.title}</span>
+        {win.taskbarIconUrl ? (
+          <Image
+            src={win.taskbarIconUrl}
+            alt=""
+            width={16}
+            height={16}
+            className="h-4 w-4 shrink-0 object-contain"
+            unoptimized
+          />
+        ) : (
+          minimizedLeading(win)
+        )}
+        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap">{win.title}</span>
       </button>
     );
   }
 
-  const frameClass = `${styles.frame} ${isActive ? styles.frameActive : ""}`;
   const explorer = isExplorerShell(win.kind);
+  const isWordDoc = win.kind === "about";
   const stackX = stackIndex * 14;
   const stackY = stackIndex * 12;
 
@@ -114,8 +141,16 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
     : {
         left: "50%",
         top: "50%",
-        width: explorer ? "min(92vw, 700px)" : "min(92vw, 760px)",
-        height: explorer ? "min(76vh, 520px)" : "min(78vh, min(640px, calc(100vh - 70px)))",
+        width: isWordDoc
+          ? "min(96vw, 920px)"
+          : explorer
+            ? "min(92vw, 700px)"
+            : "min(92vw, 760px)",
+        height: isWordDoc
+          ? "min(92vh, 780px)"
+          : explorer
+            ? "min(76vh, 520px)"
+            : "min(78vh, min(640px, calc(100vh - 70px)))",
         transform: `translate(calc(-50% + ${stackX}px), calc(-50% + ${stackY}px))`,
       };
 
@@ -125,29 +160,44 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
       aria-modal="false"
       aria-label={win.title}
       onMouseDown={() => onFocus(win.id)}
-      className={frameClass}
+      className={`fixed flex flex-col overflow-hidden border border-[#a0a0a0] bg-white shadow-win ${
+        isActive ? "outline outline-2 outline-[rgba(0,120,212,0.55)] outline-offset-0" : ""
+      }`}
       style={{
         zIndex,
         ...sizeStyle,
       }}
     >
-      <WinExplorerHeader
-        title={win.title}
-        leading={titleLeading(win)}
-        maximized={maximized}
-        onMinimize={() => setMinimized(true)}
-        onMaximize={() => setMaximized((m) => !m)}
-        onClose={() => onClose(win.id)}
-      />
-
-      {win.kind === "recycle" ? (
-        <RecycleBinExplorerView />
-      ) : win.kind === "thisPc" ? (
-        <ThisPcExplorerView />
+      {isWordDoc ? (
+        <WordAppWindow
+          data={data}
+          maximized={maximized}
+          onMinimize={() => setMinimized(true)}
+          onMaximize={() => setMaximized((m) => !m)}
+          onClose={() => onClose(win.id)}
+        />
       ) : (
-        <div className={styles.bodyScroll}>
-          <WindowContents win={win} data={data} />
-        </div>
+        <>
+          <WinExplorerHeader
+            title={win.title}
+            titleIconUrl={win.taskbarIconUrl}
+            leading={titleLeading(win)}
+            maximized={maximized}
+            onMinimize={() => setMinimized(true)}
+            onMaximize={() => setMaximized((m) => !m)}
+            onClose={() => onClose(win.id)}
+          />
+
+          {win.kind === "recycle" ? (
+            <RecycleBinExplorerView />
+          ) : win.kind === "thisPc" ? (
+            <ThisPcExplorerView />
+          ) : (
+            <div className="min-h-0 flex-1 overflow-auto p-4 text-sm text-neutral-800">
+              <WindowContents win={win} data={data} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

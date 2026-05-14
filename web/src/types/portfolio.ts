@@ -6,8 +6,10 @@ export type DesktopIcon = {
   action: "window" | "external";
   windowId?: string;
   url?: string;
-  /** 다음 아이콘과 세로 간격 제거 (escapeFinal 바로 아래 Chrome 등) */
+  /** 다음 아이콘과 세로 간격 제거 */
   gapAfter?: "none";
+  /** "circle": 아이콘 이미지를 정사각 영역에서 원형 클립 (border-radius 50%) */
+  shape?: "circle";
 };
 
 export type Desktop = {

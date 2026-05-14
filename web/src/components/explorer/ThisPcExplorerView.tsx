@@ -1,7 +1,23 @@
 "use client";
 
-import layout from "./recycleBinExplorer.module.scss";
-import styles from "./thisPcExplorer.module.scss";
+import {
+  exAddressBox,
+  exAddressCrumb,
+  exCommandBar,
+  exListPane,
+  exMainRow,
+  exNavBtn,
+  exNavCluster,
+  exRefreshBtn,
+  exSearchInput,
+  exSearchMag,
+  exSearchWrap,
+  exShell,
+  exStatusBar,
+  exStatusIconBtn,
+  exStatusRight,
+  exTableScroll,
+} from "./explorerShellClasses";
 import { ExplorerFolderIcon } from "./ExplorerFolderIcon";
 import { ExplorerSidebar } from "./ExplorerSidebar";
 
@@ -22,84 +38,90 @@ const drives = [
 
 export function ThisPcExplorerView() {
   return (
-    <div className={layout.shell}>
-      <div className={layout.commandBar}>
-        <div className={layout.navCluster}>
-          <button type="button" className={layout.navBtn} aria-label="뒤로" title="뒤로">
+    <div className={exShell}>
+      <div className={exCommandBar}>
+        <div className={exNavCluster}>
+          <button type="button" className={exNavBtn} aria-label="뒤로" title="뒤로">
             <i className="fa-solid fa-arrow-left" />
           </button>
-          <button type="button" className={layout.navBtn} aria-label="앞으로" title="앞으로">
+          <button type="button" className={exNavBtn} aria-label="앞으로" title="앞으로">
             <i className="fa-solid fa-arrow-right" />
           </button>
-          <button type="button" className={layout.navBtn} aria-label="상위 폴더" title="상위 폴더">
+          <button type="button" className={exNavBtn} aria-label="상위 폴더" title="상위 폴더">
             <i className="fa-solid fa-arrow-up" />
           </button>
         </div>
-        <div className={layout.addressBox}>
-          <i className="fa-solid fa-desktop" style={{ color: "#606060", fontSize: "12px" }} aria-hidden />
-          <span className={layout.addressCrumb}>&gt; 내 PC</span>
+        <div className={exAddressBox}>
+          <i className="fa-solid fa-desktop text-xs text-[#606060]" aria-hidden />
+          <span className={exAddressCrumb}>&gt; 내 PC</span>
         </div>
-        <button type="button" className={layout.refreshBtn} aria-label="새로 고침">
+        <button type="button" className={exRefreshBtn} aria-label="새로 고침">
           <i className="fa-solid fa-rotate-right" />
         </button>
-        <div className={layout.searchWrap}>
-          <input className={layout.searchInput} type="search" placeholder="내 PC 검색" readOnly aria-readonly />
-          <i className={`fa-solid fa-magnifying-glass ${layout.searchMag}`} aria-hidden />
+        <div className={exSearchWrap}>
+          <input className={exSearchInput} type="search" placeholder="내 PC 검색" readOnly aria-readonly />
+          <i className={`fa-solid fa-magnifying-glass ${exSearchMag}`} aria-hidden />
         </div>
       </div>
 
-      <div className={layout.mainRow}>
+      <div className={exMainRow}>
         <ExplorerSidebar thisPcSelected />
-        <div className={layout.listPane}>
-          <div className={layout.tableScroll}>
-            <div className={styles.folderSection}>
-              <div className={styles.sectionHead}>
-                <i className={`fa-solid fa-chevron-down ${styles.chevron}`} aria-hidden />
+        <div className={exListPane}>
+          <div className={exTableScroll}>
+            <div className="border-b border-[#e5e5e5] px-3 pb-3 pt-2">
+              <div className="mb-2.5 flex cursor-default items-center gap-1.5 text-xs font-normal text-[#3190c5]">
+                <i className="fa-solid fa-chevron-down text-[8px] text-[#3190c5]" aria-hidden />
                 <span>폴더 (7)</span>
               </div>
-              <div className={styles.folderGrid}>
+              <div className="grid max-w-full grid-cols-[repeat(auto-fill,minmax(76px,_1fr))] gap-x-2 gap-y-3">
                 {folders.map((name) => (
-                  <div key={name} className={styles.folderTile}>
+                  <div
+                    key={name}
+                    className="flex cursor-default flex-col items-center gap-1.5 rounded-sm border border-transparent px-1 py-1.5 text-center hover:border-[#c4e2f8] hover:bg-[#e5f3ff]"
+                  >
                     <ExplorerFolderIcon width={48} height={48} title={name} />
-                    <span className={styles.folderLabel}>{name}</span>
+                    <span className="break-keep text-[11px] leading-tight text-black">{name}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className={styles.driveSection}>
-              <div className={styles.sectionHead}>
-                <i className={`fa-solid fa-chevron-down ${styles.chevron}`} aria-hidden />
+            <div className="px-3 pb-2 pt-3">
+            <div className="mb-2.5 flex cursor-default items-center gap-1.5 text-xs font-normal text-[#3190c5]">
+            <i className="fa-solid fa-chevron-down text-[8px] text-[#3190c5]" aria-hidden />
                 <span>장치 및 드라이브 (2)</span>
               </div>
               {drives.map((d) => (
-                <div key={d.label} className={styles.driveRow}>
-                  <div className={styles.driveIconWrap}>
-                    <i className={`fa-solid fa-hard-drive ${styles.driveIcon}`} aria-hidden />
+                <div
+                  key={d.label}
+                  className="flex cursor-default items-start gap-3 border-b border-[#f0f0f0] px-1 py-2.5 last:border-b-0 hover:bg-[#f7f7f7]"
+                >
+                  <div className="relative flex h-10 w-10 shrink-0 items-center justify-center text-[28px] text-[#5a5a5a]">
+                    <i className="fa-solid fa-hard-drive" aria-hidden />
                     {d.showWin ? (
-                      <span className={styles.windowsLogo} aria-hidden>
+                      <span className="absolute bottom-0.5 right-0.5 text-[10px] text-winBlue" aria-hidden>
                         <i className="fa-brands fa-windows" />
                       </span>
                     ) : null}
                   </div>
-                  <div className={styles.driveBody}>
-                    <div className={styles.driveTitle}>{d.label}</div>
-                    <div className={styles.driveBar}>
-                      <div className={styles.driveBarFill} style={{ width: `${d.pct}%` }} />
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1.5 text-xs font-normal text-black">{d.label}</div>
+                    <div className="mb-1 h-3 overflow-hidden rounded-sm border border-[#c8c8c8] bg-[#e8e8e8]">
+                      <div className="h-full bg-winBlue" style={{ width: `${d.pct}%` }} />
                     </div>
-                    <div className={styles.driveMeta}>{d.meta}</div>
+                    <div className="text-[11px] text-[#505050]">{d.meta}</div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className={layout.statusBar}>
+          <div className={exStatusBar}>
             <span>9개 항목</span>
-            <div className={layout.statusRight}>
-              <button type="button" className={layout.statusIconBtn} aria-label="자세히">
+            <div className={exStatusRight}>
+              <button type="button" className={exStatusIconBtn} aria-label="자세히">
                 <i className="fa-solid fa-list" />
               </button>
-              <button type="button" className={layout.statusIconBtn} aria-label="큰 아이콘">
+              <button type="button" className={exStatusIconBtn} aria-label="큰 아이콘">
                 <i className="fa-regular fa-square" />
               </button>
             </div>

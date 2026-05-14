@@ -7,7 +7,7 @@
         "column": 0,
         "id": "trash",
         "label": "휴지통",
-        "imageUrl": "/img/webp/trash.webp",
+        "imageUrl": "/icons/desktop/trashcanIcon.png",
         "action": "window",
         "windowId": "trash"
       },
@@ -15,7 +15,7 @@
         "column": 0,
         "id": "mypc",
         "label": "내 PC",
-        "imageUrl": "/img/webp/thisPC.webp",
+        "imageUrl": "/icons/desktop/myPcIcon.png",
         "action": "window",
         "windowId": "hero"
       },
@@ -23,48 +23,49 @@
         "column": 0,
         "id": "control",
         "label": "제어판",
-        "imageUrl": "/img/webp/control_panel.webp",
+        "imageUrl": "/icons/desktop/controlPanelIcon.png",
         "action": "window",
         "windowId": "skills"
       },
       {
-        "column": 1,
+        "column": 0,
         "id": "word",
         "label": "Word",
-        "imageUrl": "/img/webp/word.webp",
+        "imageUrl": "/icons/desktop/word.png",
         "action": "window",
         "windowId": "about"
       },
       {
-        "column": 1,
-        "id": "excel",
-        "label": "Excel",
-        "imageUrl": "/img/webp/excel.webp",
+        "column": 0,
+        "id": "cursor",
+        "label": "Cursor",
+        "imageUrl": "/icons/desktop/cursorIcon.png",
         "action": "window",
-        "windowId": "experience"
+        "windowId": "cursor",
+        "shape": "circle"
+      },
+      {
+        "column": 0,
+        "id": "githubDesktop",
+        "label": "GitHub",
+        "imageUrl": "/icons/desktop/githubIcon.svg",
+        "action": "window",
+        "windowId": "github"
       },
       {
         "column": 1,
-        "id": "ppt",
-        "label": "Powerpoint",
-        "imageUrl": "/img/webp/powerpoint.webp",
-        "action": "window",
-        "windowId": "projects"
-      },
-      {
-        "column": 2,
-        "id": "escape",
-        "label": "escapeFinal",
-        "imageUrl": "/img/webp/folder_main.webp",
+        "id": "dshelper",
+        "label": "DS Helper",
+        "imageUrl": "/icons/desktop/dshelperIcon.svg",
         "action": "external",
-        "url": "https://escapefinal.netlify.app/",
-        "gapAfter": "none"
+        "url": "https://dshelper.kr/",
+        "shape": "circle"
       },
       {
-        "column": 2,
+        "column": 1,
         "id": "chrome",
         "label": "Chrome",
-        "imageUrl": "/img/chrome_logo.svg",
+        "imageUrl": "/icons/desktop/chromeIcon.svg",
         "action": "window",
         "windowId": "chrome"
       }
@@ -209,6 +210,6 @@
   },
   "windowsCopy": {
     "trash": "휴지통이 비어 있습니다.",
-    "chromeFrameUrl": "https://github.com/juahcheon"
+    "chromeFrameUrl": "https://www.google.com"
   }
 }

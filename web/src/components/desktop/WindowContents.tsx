@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { OpenWindow } from "@/store/desktopStore";
 import type { PortfolioPayload } from "@/types/portfolio";
 
@@ -8,15 +7,21 @@ type Props = {
 };
 
 export function WindowContents({ win, data }: Props) {
-  const { about, experienceSummary, jobs, skills, timeline, projects, github } = data;
+  const { experienceSummary, jobs, skills, timeline, projects } = data;
 
   switch (win.kind) {
-    case "about":
+    case "cursor":
       return (
         <div className="space-y-4 leading-relaxed text-neutral-800">
-          <p>{about.intro}</p>
-          <p>{about.philosophy}</p>
-          <p>{about.goals}</p>
+          <p>
+            이 포트폴리오 데스크톱 UI는 <strong>Cursor</strong>로 작업했습니다. AI 보조와 편집기가 한곳에 모여 있어
+            빠르게 반복할 수 있습니다.
+          </p>
+          <p>
+            <a className="text-winBlue underline" href="https://cursor.com" target="_blank" rel="noreferrer">
+              https://cursor.com
+            </a>
+          </p>
         </div>
       );
     case "experience":
@@ -142,25 +147,7 @@ export function WindowContents({ win, data }: Props) {
         </div>
       );
     case "github":
-      return (
-        <div className="space-y-4">
-          <p>
-            <a className="text-winBlue underline" href={github.profileUrl} target="_blank" rel="noreferrer">
-              {github.profileUrl}
-            </a>
-          </p>
-          <div className="overflow-x-auto rounded border border-neutral-200 bg-neutral-50 p-2">
-            <Image
-              src={github.chartImageUrl}
-              alt={`${github.username} contribution graph`}
-              width={800}
-              height={128}
-              className="h-auto max-w-full"
-              unoptimized
-            />
-          </div>
-        </div>
-      );
+      return null;
     default:
       return null;
   }

@@ -3,6 +3,8 @@ import { create } from "zustand";
 export type OpenWindow = {
   id: string;
   title: string;
+  /** 작업 표시줄에 데스크톱과 동일한 아이콘을 표시할 때 사용 */
+  taskbarIconUrl?: string;
   kind:
     | "thisPc"
     | "about"
@@ -12,11 +14,9 @@ export type OpenWindow = {
     | "projects"
     | "github"
     | "chrome"
-    | "recycle";
+    | "recycle"
+    | "cursor";
   iframeUrl?: string;
-  /** github.com 은 iframe 불가 → 기여도 이미지로 대체할 때 사용 */
-  githubActivityChartUrl?: string;
-  githubProfileUrl?: string;
 };
 
 type State = {

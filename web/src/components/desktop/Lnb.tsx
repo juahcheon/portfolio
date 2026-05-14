@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { OpenWindow } from "@/store/desktopStore";
-import styles from "@/styles/lnb.module.scss";
 import { IconBattery, IconChat, IconVolume, IconWifi } from "./TrayIcons";
 
 type Props = {
@@ -30,6 +29,8 @@ function formatLegacyClock(now: Date) {
   const line2 = `${y}-${mo}-${d}`;
   return { line1, line2 };
 }
+
+const lnbHover = "transition-colors duration-200 hover:bg-[#e6e6e6]";
 
 export function Lnb({
   open,
@@ -82,14 +83,22 @@ export function Lnb({
       {moreOpen && (
         <div
           ref={moreWrapRef}
-          className={styles.moreWrap}
+          className="fixed bottom-[49px] z-[110] flex max-w-[80px] border border-[#aaa] bg-winBar shadow-task backdrop-blur-[1px]"
           role="menu"
           onMouseDown={(e) => e.stopPropagation()}
         >
-          <button type="button" className={`${styles.moreIcon} ${styles.lnbHover}`} aria-label="Bluetooth">
-            <i className="fa-brands fa-bluetooth" style={{ color: "#0082fc" }} />
+          <button
+            type="button"
+            className={`flex h-10 w-10 items-center justify-center bg-transparent text-[#222] ${lnbHover}`}
+            aria-label="Bluetooth"
+          >
+            <i className="fa-brands fa-bluetooth text-[#0082fc]" />
           </button>
-          <button type="button" className={`${styles.moreIcon} ${styles.lnbHover}`} aria-label="Windows 보안">
+          <button
+            type="button"
+            className={`flex h-10 w-10 items-center justify-center bg-transparent text-[#222] ${lnbHover}`}
+            aria-label="Windows 보안"
+          >
             <Image src="/img/protect-remove.png" alt="" width={18} height={18} className="object-contain" unoptimized />
           </button>
         </div>
@@ -98,14 +107,13 @@ export function Lnb({
       {startOpen && (
         <div
           ref={startPanelRef}
-          className={styles.startFlyout}
+          className="fixed bottom-[49px] left-2 z-[110] flex min-w-[160px] flex-col border border-[#aaa] bg-winBar shadow-task backdrop-blur-[1px]"
           role="menu"
           onMouseDown={(e) => e.stopPropagation()}
         >
           <button
             type="button"
-            className={`${styles.moreIcon} ${styles.lnbHover}`}
-            style={{ width: "100%", justifyContent: "flex-start", paddingLeft: 8, height: 36 }}
+            className={`flex h-9 w-full items-center justify-start bg-transparent pl-2 text-[#222] ${lnbHover}`}
             onClick={() => {
               onOpenGithub();
               setStartOpen(false);
@@ -115,8 +123,7 @@ export function Lnb({
           </button>
           <button
             type="button"
-            className={`${styles.moreIcon} ${styles.lnbHover}`}
-            style={{ width: "100%", justifyContent: "flex-start", paddingLeft: 8, height: 36 }}
+            className={`flex h-9 w-full items-center justify-start bg-transparent pl-2 text-[#222] ${lnbHover}`}
             onClick={() => {
               onOpenTimeline();
               setStartOpen(false);
@@ -127,12 +134,12 @@ export function Lnb({
         </div>
       )}
 
-      <div className={styles.lnb}>
-        <div className={styles.leftLnb}>
+      <div className="fixed bottom-0 left-0 z-[100] flex h-[50px] w-full items-end bg-winBar text-[0] shadow-task backdrop-blur-[1px]">
+        <div className="flex shrink-0 items-end">
           <button
             ref={startBtnRef}
             type="button"
-            className={`${styles.leftBtn} ${styles.lnbHover} gnb_btn`}
+            className={`gnb_btn flex h-[49px] w-12 cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`}
             aria-label="시작"
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
@@ -145,14 +152,14 @@ export function Lnb({
           </button>
           <button
             type="button"
-            className={`${styles.leftBtn} ${styles.lnbHover} ${styles.searchBtn}`}
+            className={`flex h-[49px] w-12 cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] [transform:rotateY(180deg)] ${lnbHover}`}
             aria-label="검색"
           >
             <i className="fa-solid fa-magnifying-glass" />
           </button>
           <button
             type="button"
-            className={`${styles.leftBtn} ${styles.lnbHover}`}
+            className={`flex h-[49px] w-12 cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`}
             aria-label="작업 보기"
             onMouseEnter={() => setTaskHover(true)}
             onMouseLeave={() => setTaskHover(false)}
@@ -162,45 +169,58 @@ export function Lnb({
               alt=""
               width={18}
               height={18}
-              className="object-contain"
-              style={{ width: "35%", height: "auto" }}
+              className="h-auto w-[35%] object-contain"
               unoptimized
             />
           </button>
-          <button type="button" className={`${styles.leftBtn} ${styles.lnbHover} folder_btn`} aria-label="탐색기">
+          <button
+            type="button"
+            className={`folder_btn flex h-[49px] w-12 cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`}
+            aria-label="탐색기"
+          >
             <Image
               src="/img/folder_lnb.png"
               alt=""
               width={22}
               height={22}
-              className="object-contain"
-              style={{ width: "50%", height: "auto" }}
+              className="h-auto w-1/2 object-contain"
               unoptimized
             />
           </button>
         </div>
 
-        <div className={styles.centerRunning}>
+        <div className="absolute bottom-0 left-[196px] right-[300px] flex h-[50px] items-end justify-start gap-0.5 overflow-x-auto overflow-y-hidden pb-0.5">
           {open.map((w) => (
             <button
               key={w.id}
               type="button"
-              className={`${styles.runningBtn} ${styles.lnbHover} ${
-                w.id === activeId ? styles.runningBtnActive : ""
+              title={w.title}
+              aria-label={w.title}
+              className={`mb-0.5 flex h-[46px] max-w-[10rem] cursor-pointer items-center gap-1.5 border border-transparent px-2 py-0 text-xs text-[#111] ${lnbHover} ${
+                w.id === activeId ? "border-[rgba(0,120,212,0.35)] bg-white/70" : ""
               }`}
               onClick={() => onFocus(w.id)}
             >
-              {w.title}
+                <span className="relative h-7 w-7 shrink-0">
+                  <Image
+                    src={w.taskbarIconUrl || "/icons/desktop/folderIcon.png"}
+                    alt=""
+                    fill
+                    sizes="28px"
+                    className="object-contain"
+                    unoptimized
+                  />
+                </span>
             </button>
           ))}
         </div>
 
-        <div className={styles.rightLnb}>
-          <div className={styles.rightIcons}>
+        <div className="absolute bottom-0 right-0 flex h-[50px] items-start">
+          <div className="mr-2.5 flex h-[50px]">
             <button
               ref={moreBtnRef}
               type="button"
-              className={`${styles.moreOption} ${styles.rightBtn} ${styles.lnbHover}`}
+              className={`flex h-[50px] w-[30px] items-center justify-center bg-transparent text-[15px] text-[#222] transition-colors duration-500 ${lnbHover}`}
               title="숨겨진 아이콘 표시"
               onMouseDown={(e) => e.stopPropagation()}
               onClick={(e) => {
@@ -211,33 +231,33 @@ export function Lnb({
             >
               <i className="fa-solid fa-chevron-up" />
             </button>
-            <button type="button" className={`${styles.rightBtn} ${styles.lnbHover}`} aria-label="배터리">
-              <span className={styles.lowBattery}>
+            <button type="button" className={`flex h-[49px] w-[25px] cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`} aria-label="배터리">
+              <span className="inline-flex h-5 w-5 items-center justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full">
                 <IconBattery />
               </span>
             </button>
-            <button type="button" className={`${styles.rightBtn} ${styles.lnbHover}`} aria-label="Wi-Fi">
-              <span className={styles.wifi}>
+            <button type="button" className={`flex h-[49px] w-[25px] cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`} aria-label="Wi-Fi">
+              <span className="inline-flex h-5 w-5 -rotate-[50deg] items-center justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full">
                 <IconWifi />
               </span>
             </button>
-            <button type="button" className={`${styles.rightBtn} ${styles.lnbHover}`} aria-label="볼륨">
-              <span className={styles.volume}>
+            <button type="button" className={`flex h-[49px] w-[25px] cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`} aria-label="볼륨">
+              <span className="inline-flex h-5 w-5 items-center justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full">
                 <IconVolume />
               </span>
             </button>
           </div>
-          <div className={`${styles.timeAndDate} ${styles.lnbHover}`}>
-            <p className={styles.timeLine}>{clock.line1}</p>
-            <span className={styles.dateLine}>{clock.line2}</span>
+          <div className={`box-border flex h-[50px] w-[73px] cursor-context-menu flex-col justify-around px-0 py-1.5 text-xs text-[#111] ${lnbHover}`}>
+            <p className="m-0 leading-[1.15]">{clock.line1}</p>
+            <span className="m-0 leading-[1.15]">{clock.line2}</span>
           </div>
-          <div className={styles.noticeTown}>
-            <button type="button" className={`${styles.noticeBtn} ${styles.lnbHover}`} aria-label="알림 센터">
-              <span className={styles.chatIcon}>
+          <div className="flex items-start">
+            <button type="button" className={`relative mr-3 flex h-[50px] w-[41px] cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`} aria-label="알림 센터">
+              <span className="inline-flex h-7 w-7 items-center justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full">
                 <IconChat />
               </span>
-              <div className={styles.noticeCenter}>
-                <p>5</p>
+              <div className="absolute bottom-2.5 right-1.5 flex h-[15px] w-[15px] items-center justify-center rounded-full border border-[#555] bg-black/10 text-xs font-black backdrop-blur-[1px]">
+                <p className="m-0">5</p>
               </div>
             </button>
           </div>

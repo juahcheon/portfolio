@@ -14,7 +14,7 @@ type Props = {
  * 최종 폴백은 `/img/folder_sub02.png` 입니다.
  */
 const FOLDER_SUB02_SOURCES = [
-  "/img/folder_sub_02.png",
+  "/icons/explore/folderIcon.png",
 ] as const;
 
 export function ExplorerFolderIcon({ className, width, height, title }: Props) {

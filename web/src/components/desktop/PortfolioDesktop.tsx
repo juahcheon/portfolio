@@ -8,7 +8,6 @@ import {
   openWindowFromDesktopId,
   timelineWindow,
 } from "@/lib/windows";
-import styles from "@/styles/windowsDesktop.module.scss";
 import { WinWindow } from "./WinWindow";
 import { Lnb } from "./Lnb";
 
@@ -40,6 +39,9 @@ function DesktopIconButton({
     setImgFailed(false);
   }, [icon.imageUrl]);
 
+  const imageShapeClass =
+    icon.shape === "circle" ? "rounded-full" : "";
+
   const activate = () => {
     if (icon.action === "external" && icon.url) {
       window.open(icon.url, "_blank", "noopener,noreferrer");
@@ -47,17 +49,19 @@ function DesktopIconButton({
     }
     if (icon.action === "window" && icon.windowId) {
       const w = openWindowFromDesktopId(icon.windowId, data);
-      if (w) openWindow(w);
+      if (w) openWindow({ ...w, taskbarIconUrl: icon.imageUrl });
     }
   };
 
   return (
-    <li className={styles.desktopIconSlot}>
+    <li className="m-0 list-none p-0">
       <button
         type="button"
         title="더블 클릭 또는 Enter로 열기"
-        className={`${styles.desktopIconBtn} ${selected ? styles.desktopIconSelected : ""} ${
-          icon.gapAfter === "none" ? styles.desktopIconBtnTight : ""
+        className={`box-border flex min-h-[88px] w-[95px] cursor-default flex-col items-center justify-center overflow-visible border border-transparent bg-transparent px-0 py-1.5 ${
+          selected
+            ? "border-[#add7ff7d] bg-[#80b9ee72] hover:bg-[#80b9ee72]"
+            : "hover:bg-[#559de464]"
         }`}
         onClick={(e) => {
           e.stopPropagation();
@@ -74,24 +78,30 @@ function DesktopIconButton({
           }
         }}
       >
-        <figure>
+        <figure className="m-0 flex w-full max-w-[95px] shrink-0 flex-col items-center justify-center gap-0.5">
           {!imgFailed ? (
             <img
               src={icon.imageUrl}
               alt=""
               width={51}
               height={51}
-              className={styles.mainImg}
+              className={`h-[51px] w-[51px] shrink-0 object-contain ${imageShapeClass}`}
               draggable={false}
               decoding="async"
               onError={() => setImgFailed(true)}
             />
           ) : (
-            <div className={styles.mainImgFallback} title={icon.label} aria-hidden>
+            <div
+              className={`flex h-[51px] w-[51px] shrink-0 items-center justify-center border border-white/40 bg-gradient-to-br from-white/35 to-black/20 text-[22px] font-bold text-white [text-shadow:-1px_0_#000,0_1px_#000,1px_0_#000,0_-1px_#000] ${icon.shape === "circle" ? "rounded-full" : "rounded"}`}
+              title={icon.label}
+              aria-hidden
+            >
               {icon.label.slice(0, 1)}
             </div>
           )}
-          <figcaption className={styles.caption}>{icon.label}</figcaption>
+          <figcaption className="w-full max-w-[95px] shrink-0 break-words px-0.5 text-center text-[13px] font-normal leading-snug text-white [text-shadow:-1px_0_#000,0_1px_#000,1px_0_#000,0_-1px_#000]">
+            {icon.label}
+          </figcaption>
         </figure>
       </button>
     </li>
@@ -114,17 +124,19 @@ export function PortfolioDesktop({ data }: { data: PortfolioPayload }) {
 
   return (
     <div
-      className={styles.wrap}
+      className="relative h-screen w-full"
       style={{ backgroundColor: wallpaper }}
       onClick={() => setSelectedIconId(null)}
     >
-      <div className={styles.bgimg} onClick={() => setSelectedIconId(null)}>
+      <div
+        className="relative flex h-full w-full flex-row items-start"
+        onClick={() => setSelectedIconId(null)}
+      >
         {columns.map((col, colIdx) =>
           col.length === 0 ? null : (
             <ul
               key={colIdx}
-              className={styles.iconColumnWrap}
-              style={{ left: colIdx * 100 }}
+              className="m-0 flex w-[100px] shrink-0 list-none flex-col items-center gap-5 p-0"
             >
               {col.map((icon) => (
                 <DesktopIconButton

@@ -13,8 +13,366 @@ html,
 body {
   height: 100%;
   overflow: hidden;
+  font-weight: 400;
 }
 
 body {
   @apply antialiased text-neutral-900;
+}
+
+button {
+  cursor: default;
+}
+
+/* Chrome 레거시 모달 — 탭·주소바 의사 요소 등 모듈 SCSS 이식 (Tailwind @layer components) */
+@layer components {
+  .clmPageModal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 70%;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .clmPageModalMax {
+    top: 50% !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+  }
+
+  .clmModalWrap {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .clmModalHeader {
+    height: 80px;
+    width: 100%;
+    flex-shrink: 0;
+    background-color: #fff;
+  }
+
+  .clmHeaderPage {
+    position: relative;
+    height: 50%;
+    width: 100%;
+    background-color: #0078d4;
+  }
+
+  .clmActivePage a {
+    display: flex;
+    margin: 10px 0;
+    height: 50%;
+    width: 100%;
+    cursor: default;
+    align-items: center;
+  }
+
+  .clmOpenPage {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  .clmNewPage {
+    margin-left: 10px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    padding: 8px 10px;
+    color: #fff;
+    cursor: default;
+    transition: 0.5s;
+  }
+
+  .clmOpenPage ul {
+    display: flex;
+    margin: 0;
+    margin-top: 8px;
+    height: 80%;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+  .clmOpenPage ul li {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    height: 103%;
+    width: 17%;
+    align-items: center;
+  }
+
+  .clmOpenPage ul > button {
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .clmOpenPage ul li:not(.clmActivePage) a {
+    display: flex;
+    margin: 10px 0;
+    height: 50%;
+    width: 100%;
+    cursor: auto;
+    align-items: center;
+    border-right: 1px solid #fff;
+  }
+
+  .clmActivePage {
+    z-index: 4;
+    border-radius: 10px 10px 0 0;
+    background-color: #fff;
+  }
+
+  .clmActivePage::before,
+  .clmActivePage::after {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 11px;
+    height: 11px;
+    background-color: #fff;
+    content: "";
+  }
+
+  .clmActivePage::before {
+    left: -9px;
+  }
+
+  .clmActivePage::after {
+    right: -9px;
+  }
+
+  .clmActivePage a::before,
+  .clmActivePage a::after {
+    position: absolute;
+    bottom: 1px;
+    z-index: 2;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #0078d4;
+    content: "";
+  }
+
+  .clmActivePage a::before {
+    left: -15px;
+  }
+
+  .clmActivePage a::after {
+    right: -15px;
+  }
+
+  .clmExitPage {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    transform: translateY(-50%);
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    padding: 0 3px;
+    font-size: 14px;
+    color: #fff;
+    cursor: default;
+  }
+
+  .clmHoverLight:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .clmHoverDark:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .clmActivePage .clmExitPage {
+    color: #333;
+  }
+
+  .clmHeaderRight {
+    position: absolute;
+    top: 1px;
+    right: 0;
+    display: flex;
+  }
+
+  .clmHeaderRight button {
+    display: flex;
+    width: 40px;
+    height: 30px;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    color: #555;
+    cursor: default;
+    transition: 0.3s;
+  }
+
+  .clmHeaderRight button:not(.clmMinimize) {
+    justify-content: center;
+  }
+
+  .clmMinimize {
+    box-sizing: border-box;
+    padding-top: 5px;
+  }
+
+  .clmHeaderRight button i {
+    font-size: 12px;
+  }
+
+  .clmHeaderRight button .fa-xmark {
+    font-size: 16px;
+  }
+
+  .clmHeaderRight button:hover {
+    color: #111;
+  }
+
+  .clmHeaderAddress {
+    box-sizing: border-box;
+    display: flex;
+    height: 50%;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 5px;
+  }
+
+  .clmAddressMove {
+    height: 100%;
+    width: 100px;
+  }
+
+  .clmAddressMove button {
+    height: 30px;
+    width: 30px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    font-size: 16px;
+    cursor: default;
+    transition: 0.3s;
+  }
+
+  .clmAddressMove button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .clmAddressDetail {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: 83%;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0 2px;
+  }
+
+  .clmAddressDetail button {
+    height: 28px;
+    width: 33px;
+    border: none;
+    border-radius: 20px;
+    background-color: transparent;
+    cursor: default;
+    transition: 0.3s;
+  }
+
+  .clmAddressDetail button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .clmAddressUrl {
+    margin: 0;
+    flex: 1;
+    overflow: hidden;
+    padding: 0 8px;
+    font-size: 13px;
+    color: #222;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .clmSettingChrome {
+    height: 30px;
+    width: 30px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: default;
+    transition: 0.3s;
+  }
+
+  .clmSettingChrome:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .clmModalBody {
+    min-height: 0;
+    flex: 1;
+    background: #f3f3f3;
+  }
+
+  .clmActivityFallback {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    overflow: auto;
+    padding: 16px;
+  }
+
+  .clmActivityNote {
+    margin: 0;
+    max-width: 42rem;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+  }
+
+  .clmActivityChart {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .clmActivityLink {
+    font-size: 14px;
+    color: #0969da;
+    text-decoration: underline;
+  }
+
+  .clmActivityLink:hover {
+    text-decoration: underline;
+  }
+
+  .clmIframe {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: 0;
+  }
 }
