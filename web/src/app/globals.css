@@ -4,20 +4,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * layout.css 등 .next 산출물에 직접 쓰면 다음 빌드에서 지워짐.
+ * text-winSkyBlue는 Tailwind JIT 청크에 안 잡힐 때가 있어 globals에 고정.
+ */
+@layer utilities {
+  .text-winSkyBlue {
+    color: var(--win-sky-blue);
+  }
+}
+
 :root {
   --win-title: #0078d4;
   --win-border: #a0a0a0;
+  /* Tailwind theme와 별도: .next 재빌드 시에도 항상 포함되도록 유틸은 globals @layer utilities 참고 */
+  --win-sky-blue: #00bcd4;
 }
 
 html,
 body {
   height: 100%;
   overflow: hidden;
-  font-weight: 400;
 }
 
 body {
-  @apply antialiased text-neutral-900;
+  /* next/font에 로드한 실제 300 — 없으면 브라우저가 두껍게 합성함 */
+  font-weight: 400;
+  color: #000;
 }
 
 button {
@@ -42,10 +55,13 @@ button {
   }
 
   .clmPageModalMax {
-    top: 50% !important;
+    top: 0 !important;
     left: 0 !important;
+    right: 0;
+    bottom: 0;
     width: 100% !important;
     height: 100% !important;
+    max-height: 100dvh;
     transform: none !important;
   }
 
@@ -329,15 +345,19 @@ button {
   }
 
   .clmModalBody {
+    display: flex;
     min-height: 0;
     flex: 1;
+    flex-direction: column;
+    overflow: hidden;
     background: #f3f3f3;
   }
 
   .clmActivityFallback {
     box-sizing: border-box;
     display: flex;
-    height: 100%;
+    min-height: 0;
+    flex: 1;
     flex-direction: column;
     align-items: center;
     gap: 12px;
@@ -369,9 +389,59 @@ button {
     text-decoration: underline;
   }
 
+  /* GitHub 창만: 본문·주소줄 다크 (다른 Chrome 모달은 기존 밝은 스타일) */
+  .clmPageModal--github .clmModalBody {
+    background: #0d1117;
+  }
+
+  .clmPageModal--github .clmHeaderAddress {
+    background: #21262d;
+  }
+
+  .clmPageModal--github .clmAddressMove button,
+  .clmPageModal--github .clmSettingChrome {
+    color: #c9d1d9;
+  }
+
+  .clmPageModal--github .clmAddressMove button:hover,
+  .clmPageModal--github .clmSettingChrome:hover {
+    background-color: rgba(240, 246, 252, 0.12);
+    color: #f0f6fc;
+  }
+
+  .clmPageModal--github .clmAddressDetail {
+    border: 1px solid #30363d;
+    background-color: #0d1117;
+  }
+
+  .clmPageModal--github .clmAddressDetail button {
+    color: #d1d9e0;
+  }
+
+  .clmPageModal--github .clmAddressDetail button:hover {
+    background-color: rgba(240, 246, 252, 0.08);
+  }
+
+  .clmPageModal--github .clmAddressUrl {
+    color: #d1d9e0;
+  }
+
+  .clmPageModal--github .clmHeaderRight button {
+    color: #e6edf3;
+  }
+
+  .clmPageModal--github .clmHeaderRight button:hover {
+    color: #f0f6fc;
+  }
+
+  .clmPageModal--github .clmActivePage .clmExitPage {
+    color: #24292f;
+  }
+
   .clmIframe {
     display: block;
-    height: 100%;
+    min-height: 0;
+    flex: 1;
     width: 100%;
     border: 0;
   }

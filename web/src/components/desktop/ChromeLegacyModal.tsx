@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import type { GithubPinnedRepo } from "./githubPinnedRepos";
+import { GitHubChromeContent } from "./GitHubChromeContent";
 
 type Props = {
   zIndex: number;
@@ -12,6 +14,15 @@ type Props = {
   /** github.com 은 iframe 차단 → 기여도 차트로 대체 */
   activityChartUrl?: string;
   profileUrl?: string;
+  /** `github`: 본문·주소줄 다크 + GitHub UI. 기본 `chrome` */
+  variant?: "chrome" | "github";
+  /** `variant === "github"`일 때 프로필 영역 데이터 */
+  githubMeta?: {
+    username: string;
+    displayName: string;
+    tagline: string;
+    pinnedRepos: GithubPinnedRepo[];
+  };
   /** 접근성 라벨 */
   ariaLabel?: string;
   onClose: () => void;
@@ -34,6 +45,8 @@ export function ChromeLegacyModal({
   displayAddressUrl,
   activityChartUrl,
   profileUrl,
+  variant = "chrome",
+  githubMeta,
   ariaLabel = "Chrome",
   onClose,
   onFocus,
@@ -52,9 +65,12 @@ export function ChromeLegacyModal({
         transform: `translate(calc(-50% + ${stackX}px), calc(-50% + ${stackY}px))`,
       };
 
+  const modalClass =
+    variant === "github" ? "clmPageModal clmPageModal--github" : "clmPageModal";
+
   return (
     <div
-      className={`clmPageModal ${maximized ? "clmPageModalMax" : ""}`}
+      className={`${modalClass} ${maximized ? "clmPageModalMax" : ""}`}
       style={positionStyle}
       role="dialog"
       aria-label={ariaLabel}
@@ -141,31 +157,32 @@ export function ChromeLegacyModal({
         </div>
         <div className="clmModalBody">
           {useActivityFallback && activityChartUrl ? (
-            <div className="clmActivityFallback">
-              <p className="clmActivityNote">
-                GitHub은 보안 정책(X-Frame-Options) 때문에 다른 사이트의 iframe 안에 프로필·Activity 페이지를
-                표시하지 않습니다. 대신 기여도 차트(외부 서비스)를 보여 주고, 전체 프로필은 새 탭에서 열 수
-                있습니다.
-              </p>
-              <Image
-                src={activityChartUrl}
-                alt="GitHub contribution activity"
-                width={800}
-                height={128}
-                className="clmActivityChart"
-                unoptimized
+            variant === "github" && githubMeta && profileUrl ? (
+              <GitHubChromeContent
+                username={githubMeta.username}
+                displayName={githubMeta.displayName}
+                tagline={githubMeta.tagline}
+                profileUrl={profileUrl}
+                activityChartUrl={activityChartUrl}
+                pinnedRepos={githubMeta.pinnedRepos}
               />
-              {profileUrl ? (
-                <a
-                  href={profileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="clmActivityLink"
-                >
-                  GitHub에서 프로필·Activity 열기
-                </a>
-              ) : null}
-            </div>
+            ) : (
+              <div className="clmActivityFallback">
+                <Image
+                  src={activityChartUrl}
+                  alt="GitHub contribution activity"
+                  width={800}
+                  height={128}
+                  className="clmActivityChart"
+                  unoptimized
+                />
+                {profileUrl ? (
+                  <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="clmActivityLink">
+                    GitHub에서 프로필·Activity 열기
+                  </a>
+                ) : null}
+              </div>
+            )
           ) : (
             <iframe title="Chrome" src={iframeUrl} className="clmIframe" />
           )}

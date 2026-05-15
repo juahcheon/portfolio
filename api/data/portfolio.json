@@ -42,7 +42,7 @@
         "imageUrl": "/icons/desktop/cursorIcon.png",
         "action": "window",
         "windowId": "cursor",
-        "shape": "circle"
+        "shape": "rounded10"
       },
       {
         "column": 0,

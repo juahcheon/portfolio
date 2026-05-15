@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ExplorerFolderIcon } from "./ExplorerFolderIcon";
 import Image from "next/image";
 
 const favorites = [
@@ -14,6 +13,18 @@ const favorites = [
   { label: "project", pin: false },
   { label: "매력일자리", pin: false },
 ];
+
+/** 라이브러리 폴더는 전용 아이콘, 나머지 즐겨찾기는 공용 폴더 PNG */
+const favoriteIconSrcByLabel: Record<string, string> = {
+  "바탕 화면": "/icons/explore/desktopIcon.png",
+  다운로드: "/icons/explore/downloadIcon.png",
+  문서: "/icons/explore/documentIcon.png",
+  사진: "/icons/explore/imageIcon.png",
+};
+
+function favoriteIconSrc(label: string) {
+  return favoriteIconSrcByLabel[label] ?? "/icons/explore/folderIcon.png";
+}
 
 type Props = {
   /** 내 PC 창일 때 사이드바에서 '내 PC' 항목 선택 표시 */
@@ -33,19 +44,21 @@ export function ExplorerSidebar({ thisPcSelected = false }: Props) {
       {favorites.map((item) => (
         <div
           key={item.label}
-          className="flex min-h-[22px] cursor-default items-center gap-2 py-0.5 pl-7 pr-3 text-black hover:bg-[#e5f3ff] "
+          className="flex min-h-[22px] cursor-pointer items-center gap-2 py-0.5 pl-7 pr-3 text-black hover:bg-[#e5f3ff] "
         >
           <span className="flex shrink-0 items-center justify-center">
-            <ExplorerFolderIcon width={16} height={16} title={item.label} />
+            <Image src={favoriteIconSrc(item.label)} alt="" width={16} height={16} className="select-none" draggable={false} />
           </span>
           <span>{item.label}</span>
-          {item.pin ? <i className="fa-solid fa-thumbtack ml-auto text-[10px] opacity-45" aria-hidden /> : null}
+          {item.pin ? (
+            <i className="fa-solid fa-thumbtack ml-auto rotate-45 text-[8px] opacity-45" aria-hidden />
+          ) : null}
         </div>
       ))}
 
       <Link
         href="/"
-        className={`flex min-h-[22px] cursor-pointer items-center gap-2 py-0.5 pl-7 pr-3 mt-3 mb-2 text-black no-underline hover:bg-[#cce8ff] focus-visible:outline focus-visible:outline-1 focus-visible:outline-dotted focus-visible:outline-black focus-visible:outline-offset-[-2px] ${
+        className={`flex min-h-[22px] cursor-default items-center gap-2 py-0.5 pl-7 pr-3 mt-3 mb-2 text-black no-underline hover:bg-[#cce8ff] focus-visible:outline focus-visible:outline-1 focus-visible:outline-dotted focus-visible:outline-black focus-visible:outline-offset-[-2px] ${
           thisPcSelected ? "bg-[#d9d9d9] hover:bg-[#e5f3ff]" : ""
         }`}
         title="포트폴리오 바탕화면으로 이동"
@@ -54,7 +67,7 @@ export function ExplorerSidebar({ thisPcSelected = false }: Props) {
         <span>내 PC</span>
       </Link>
 
-      <div className="flex min-h-[22px] cursor-default items-center gap-2 py-0.5 pl-7 pr-3 text-black hover:bg-[#e5f3ff]">
+      <div className="flex min-h-[22px] cursor-pointer items-center gap-2 py-0.5 pl-7 pr-3 text-black hover:bg-[#e5f3ff]">
         <Image src="/icons/explore/networkIcon.png" alt="네트워크" width={16} height={16} />
         <span>네트워크</span>
       </div>

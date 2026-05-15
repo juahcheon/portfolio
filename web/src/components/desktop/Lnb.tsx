@@ -30,7 +30,7 @@ function formatLegacyClock(now: Date) {
   return { line1, line2 };
 }
 
-const lnbHover = "transition-colors duration-200 hover:bg-[#e6e6e6]";
+const lnbHover = "transition-colors text-center duration-200 hover:bg-[#e6e6e6]";
 
 export function Lnb({
   open,

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { tailwindPalette } from "./tailwind.palette";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
@@ -8,9 +9,7 @@ const config: Config = {
         sans: ["var(--font-noto)", "system-ui", "sans-serif"],
       },
       colors: {
-        winBlue: "#0078D4",
-        winBar: "rgba(230,230,230,0.88)",
-        desk: "#5f9ea0",
+        ...tailwindPalette,
       },
       boxShadow: {
         win: "0 0 10px rgba(0,0,0,0.35)",

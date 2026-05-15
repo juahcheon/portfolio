@@ -40,7 +40,11 @@ function DesktopIconButton({
   }, [icon.imageUrl]);
 
   const imageShapeClass =
-    icon.shape === "circle" ? "rounded-full" : "";
+    icon.shape === "circle"
+      ? "rounded-full"
+      : icon.shape === "rounded10"
+        ? "rounded-[10px]"
+        : "";
 
   const activate = () => {
     if (icon.action === "external" && icon.url) {
@@ -92,7 +96,9 @@ function DesktopIconButton({
             />
           ) : (
             <div
-              className={`flex h-[51px] w-[51px] shrink-0 items-center justify-center border border-white/40 bg-gradient-to-br from-white/35 to-black/20 text-[22px] font-bold text-white [text-shadow:-1px_0_#000,0_1px_#000,1px_0_#000,0_-1px_#000] ${icon.shape === "circle" ? "rounded-full" : "rounded"}`}
+              className={`flex h-[51px] w-[51px] shrink-0 items-center justify-center border border-white/40 bg-gradient-to-br from-white/35 to-black/20 text-[22px] font-bold text-white [text-shadow:-1px_0_#000,0_1px_#000,1px_0_#000,0_-1px_#000] ${
+                icon.shape === "circle" ? "rounded-full" : icon.shape === "rounded10" ? "rounded-[10px]" : "rounded"
+              }`}
               title={icon.label}
               aria-hidden
             >

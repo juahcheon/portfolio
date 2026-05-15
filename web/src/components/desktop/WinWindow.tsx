@@ -9,6 +9,7 @@ import { RecycleBinExplorerView } from "@/components/explorer/RecycleBinExplorer
 import { ThisPcExplorerView } from "@/components/explorer/ThisPcExplorerView";
 import { WordAppWindow } from "@/components/word/WordAppWindow";
 import { ChromeLegacyModal } from "./ChromeLegacyModal";
+import { pickGithubPinnedRepos } from "./githubPinnedRepos";
 import { WindowContents } from "./WindowContents";
 
 function RecycleBinTitleIcon() {
@@ -73,6 +74,13 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
         displayAddressUrl="https://github.com/juahcheon"
         activityChartUrl={gh.chartImageUrl}
         profileUrl={gh.profileUrl}
+        variant="github"
+        githubMeta={{
+          username: gh.username,
+          displayName: data.profile.name,
+          tagline: data.profile.headlineLines[0] ?? data.profile.title,
+          pinnedRepos: pickGithubPinnedRepos(data.projects),
+        }}
         ariaLabel="GitHub"
         onClose={() => onClose(win.id)}
         onFocus={() => onFocus(win.id)}
@@ -127,6 +135,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
 
   const explorer = isExplorerShell(win.kind);
   const isWordDoc = win.kind === "about";
+  const isCursorWin = win.kind === "cursor";
   const stackX = stackIndex * 14;
   const stackY = stackIndex * 12;
 
@@ -161,8 +170,8 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
       aria-label={win.title}
       onMouseDown={() => onFocus(win.id)}
       className={`fixed flex flex-col overflow-hidden border border-[#a0a0a0] bg-white shadow-win ${
-        isActive ? "outline outline-2 outline-[rgba(0,120,212,0.55)] outline-offset-0" : ""
-      }`}
+        isCursorWin && !maximized ? "rounded-[10px]" : ""
+      } ${isActive ? "outline outline-2 outline-[rgba(0,120,212,0.55)] outline-offset-0" : ""}`}
       style={{
         zIndex,
         ...sizeStyle,
