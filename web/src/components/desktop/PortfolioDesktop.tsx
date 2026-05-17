@@ -128,6 +128,11 @@ export function PortfolioDesktop({ data }: { data: PortfolioPayload }) {
   const closeWindow = useDesktopStore((s) => s.closeWindow);
   const focusWindow = useDesktopStore((s) => s.focusWindow);
 
+  const dsHelperUrl = useMemo(
+    () => data.desktop.icons.find((i) => i.id === "dshelper")?.url ?? "https://dshelper.kr/",
+    [data.desktop.icons]
+  );
+
   return (
     <div
       className="relative h-screen w-full"
@@ -177,6 +182,11 @@ export function PortfolioDesktop({ data }: { data: PortfolioPayload }) {
         onFocus={focusWindow}
         onOpenGithub={() => openWindow(githubWindow())}
         onOpenTimeline={() => openWindow(timelineWindow())}
+        dsHelperUrl={dsHelperUrl}
+        onOpenWindowById={(windowId) => {
+          const w = openWindowFromDesktopId(windowId, data);
+          if (w) openWindow(w);
+        }}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { OpenWindow } from "@/store/desktopStore";
 import { IconBattery, IconChat, IconVolume, IconWifi } from "./TrayIcons";
+import { WindowsStartMenu } from "./WindowsStartMenu";
 
 type Props = {
   open: OpenWindow[];
@@ -11,6 +12,8 @@ type Props = {
   onFocus: (id: string) => void;
   onOpenGithub: () => void;
   onOpenTimeline: () => void;
+  dsHelperUrl: string;
+  onOpenWindowById: (windowId: string) => void;
 };
 
 function formatLegacyClock(now: Date) {
@@ -38,6 +41,8 @@ export function Lnb({
   onFocus,
   onOpenGithub,
   onOpenTimeline,
+  dsHelperUrl,
+  onOpenWindowById,
 }: Props) {
   const [clock, setClock] = useState(() => formatLegacyClock(new Date()));
   const [taskHover, setTaskHover] = useState(false);
@@ -62,6 +67,15 @@ export function Lnb({
     el.style.left = `${r.left + 15}px`;
     el.style.transform = "translateX(-50%)";
   }, [moreOpen]);
+
+  useEffect(() => {
+    if (!startOpen) return;
+    const k = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") setStartOpen(false);
+    };
+    document.addEventListener("keydown", k);
+    return () => document.removeEventListener("keydown", k);
+  }, [startOpen]);
 
   useEffect(() => {
     if (!moreOpen && !startOpen) return;
@@ -105,33 +119,15 @@ export function Lnb({
       )}
 
       {startOpen && (
-        <div
+        <WindowsStartMenu
           ref={startPanelRef}
-          className="fixed bottom-[49px] left-2 z-[110] flex min-w-[160px] flex-col border border-[#aaa] bg-winBar shadow-task backdrop-blur-[1px]"
-          role="menu"
-          onMouseDown={(e) => e.stopPropagation()}
-        >
-          <button
-            type="button"
-            className={`flex h-9 w-full items-center justify-start bg-transparent pl-2 text-[#222] ${lnbHover}`}
-            onClick={() => {
-              onOpenGithub();
-              setStartOpen(false);
-            }}
-          >
-            GitHub
-          </button>
-          <button
-            type="button"
-            className={`flex h-9 w-full items-center justify-start bg-transparent pl-2 text-[#222] ${lnbHover}`}
-            onClick={() => {
-              onOpenTimeline();
-              setStartOpen(false);
-            }}
-          >
-            타임라인
-          </button>
-        </div>
+          dsHelperUrl={dsHelperUrl}
+          onClose={() => setStartOpen(false)}
+          onOpenGitHub={onOpenGithub}
+          onOpenTimeline={onOpenTimeline}
+          onOpenWindowById={onOpenWindowById}
+          onOpenExternal={(url) => window.open(url, "_blank", "noopener,noreferrer")}
+        />
       )}
 
       <div className="fixed bottom-0 left-0 z-[100] flex h-[50px] w-full items-end bg-winBar text-[0] shadow-task backdrop-blur-[1px]">
