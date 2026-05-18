@@ -23,9 +23,9 @@ export default function Home() {
       <div className="flex min-h-screen flex-col items-center justify-center gap-2 bg-neutral-900 px-4 text-center text-white">
         <p className="font-medium">데이터를 불러오지 못했습니다.</p>
         <p className="text-sm text-neutral-300">
-          API 서버가 실행 중인지 확인하고,{" "}
-          <code className="rounded bg-neutral-800 px-1">NEXT_PUBLIC_PORTFOLIO_API_URL</code>를
-          설정하세요.
+          <code className="rounded bg-neutral-800 px-1">web/data/portfolio.json</code>과{" "}
+          <code className="rounded bg-neutral-800 px-1">/api/v1/portfolio</code> Route Handler를
+          확인하세요.
         </p>
         <p className="text-xs text-red-200">{(q.error as Error).message}</p>
       </div>
