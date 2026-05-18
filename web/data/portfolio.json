@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "desktop": {
+    "wallpaper": "#5f9ea0",
+    "icons": [
+      {
+        "column": 0,
+        "id": "trash",
+        "label": "휴지통",
+        "imageUrl": "/icons/desktop/trashcanIcon.png",
+        "action": "window",
+        "windowId": "trash"
+      },
+      {
+        "column": 0,
+        "id": "mypc",
+        "label": "내 PC",
+        "imageUrl": "/icons/desktop/myPcIcon.png",
+        "action": "window",
+        "windowId": "hero"
+      },
+      {
+        "column": 0,
+        "id": "control",
+        "label": "제어판",
+        "imageUrl": "/icons/desktop/controlPanelIcon.png",
+        "action": "window",
+        "windowId": "skills"
+      },
+      {
+        "column": 0,
+        "id": "word",
+        "label": "Word",
+        "imageUrl": "/icons/desktop/word.png",
+        "action": "window",
+        "windowId": "about"
+      },
+      {
+        "column": 0,
+        "id": "cursor",
+        "label": "Cursor",
+        "imageUrl": "/icons/desktop/cursorIcon.png",
+        "action": "window",
+        "windowId": "cursor",
+        "shape": "rounded10"
+      },
+      {
+        "column": 0,
+        "id": "githubDesktop",
+        "label": "GitHub",
+        "imageUrl": "/icons/desktop/githubIcon.svg",
+        "action": "window",
+        "windowId": "github"
+      },
+      {
+        "column": 1,
+        "id": "dshelper",
+        "label": "DS Helper",
+        "imageUrl": "/icons/desktop/dshelperIcon.svg",
+        "action": "external",
+        "url": "https://dshelper.kr/",
+        "shape": "circle"
+      },
+      {
+        "column": 1,
+        "id": "chrome",
+        "label": "Chrome",
+        "imageUrl": "/icons/desktop/chromeIcon.svg",
+        "action": "window",
+        "windowId": "chrome"
+      }
+    ]
+  },
+  "profile": {
+    "name": "천주아",
+    "title": "Frontend Developer",
+    "headlineLines": [
+      "배움을 멈추지 않고 달리는 프론트엔드 개발자입니다.",
+      "웹 트렌드에 맞춰 나아가는 것이 프론트엔드의 숙명이라 생각하며, 배움을 두려워하지 않고 도전하는 것을 좋아합니다.",
+      "사용자의 편의를 높이는 인터페이스와 간결한 코드를 지향합니다."
+    ],
+    "email": "juacheon@gmail.com",
+    "githubUrl": "https://github.com/juahcheon",
+    "githubUsername": "juahcheon",
+    "heroPlaceholder": {
+      "gradientFrom": "#2563eb",
+      "gradientTo": "#7c3aed",
+      "initial": "주"
+    }
+  },
+  "about": {
+    "intro": "창원대학교 국어국문학과를 졸업한 뒤, 풀스택 자바 웹 개발 과정을 거쳐 프론트엔드로 성장했습니다. 팀 프로젝트와 실무에서 Next.js 기반 서비스를 설계·구현·배포까지 경험했습니다.",
+    "philosophy": "평소 웹을 이용하며 느꼈던 불편함을 바탕으로 사용성을 개선하는 데 집중합니다. 컴포넌트와 훅을 활용한 재사용 가능한 구조, 타입으로 안전하게 API를 연동하는 것을 중요하게 생각합니다.",
+    "goals": "사용자에게 닿는 완성도 높은 웹·앱을 만드는 프론트엔드 개발자로 계속 성장하고, 팀과의 협업 속에서도 빠르게 학습하며 기여하고 싶습니다."
+  },
+  "experienceSummary": {
+    "totalMonths": 8,
+    "headline": "실무·프로젝트를 포함해 약 8개월간 프론트엔드에 집중해 왔습니다."
+  },
+  "jobs": [
+    {
+      "company": "㈜한국공원체육산업",
+      "role": "개발 · 사원",
+      "focus": "프론트엔드",
+      "periodLabel": "2025.03 ~ 2025.10",
+      "durationLabel": "8개월",
+      "summary": "디자인 및 프론트엔드를 담당했습니다.",
+      "stack": {
+        "framework": "Next.js 15 (App Router)",
+        "languages": ["React", "TypeScript", "React Native (앱)"],
+        "state": ["TanStack Query (React Query)", "Zustand"],
+        "runtime": ["PM2"],
+        "deploy": ["AWS EC2 (SSH·인증서 기반 직접 배포)"],
+        "server": ["Nginx"],
+        "collab": ["Figma", "GitHub Organization", "Notion"]
+      },
+      "highlights": [
+        "MVP: 정치 관련 포털 사이트 — 피그마로 웹 사이즈 UI를 설계하고 구현한 뒤 API를 연결하고 기능을 구현·배포까지 수행했습니다.",
+        "문외한이었던 React Native를 학습해 앱까지 확장할 수 있을 만큼 몰입했습니다.",
+        "웹과 앱을 한 레포지토리에서 관리하기 위해 Monorepo 구조를 설계했고, API·타입·상태 관리를 공유해 재사용성과 유지보수성을 높였습니다."
+      ]
+    }
+  ],
+  "skills": {
+    "frontend": [
+      "Next.js 14·15 (Pages / App Router)",
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "HTML · CSS · SCSS",
+      "React Native"
+    ],
+    "stateData": ["TanStack Query (React Query)", "Zustand"],
+    "tools": [
+      "Figma",
+      "Git",
+      "GitHub",
+      "GitHub Organization",
+      "Vercel",
+      "Notion",
+      "Netlify",
+      "Swagger",
+      "Docker",
+      "Slack",
+      "Riido",
+      "PM2",
+      "Nginx",
+      "AWS EC2"
+    ]
+  },
+  "timeline": [
+    {
+      "dateLabel": "2015 ~ 2022",
+      "title": "창원대학교 국어국문학과",
+      "description": "입학 ~ 졸업"
+    },
+    {
+      "dateLabel": "2023.03 ~ 2023.09",
+      "title": "이젠아카데미컴퓨터학원",
+      "description": "[스마트웹&콘텐츠개발] 풀스택 자바웹개발자 과정 — HTML/CSS 퍼블리싱, Figma, JavaScript, Java, Linux, SQL, UI 구현 등"
+    },
+    {
+      "dateLabel": "2025.03 ~ 2025.10",
+      "title": "㈜한국공원체육산업",
+      "description": "프론트엔드 · 디자인 — Next.js 15, React Native, Monorepo, EC2 배포"
+    }
+  ],
+  "projects": [
+    {
+      "slug": "dshelper",
+      "name": "DS Helper",
+      "role": "프론트엔드",
+      "team": "2명",
+      "contribution": "90%",
+      "stackSummary": "Next.js, React, TypeScript, SCSS, TanStack Query, Zustand",
+      "env": "Notion, GitHub Organizations, Figma, Swagger, Netlify",
+      "description": "대구시 달성군 자원봉사를 위한 홈페이지. 소셜 로그인(카카오·구글·네이버), 반응형, 커뮤니티·휴지통 찾기(위치 API) 등 확장 예정 기능을 고려한 구조로 개발했습니다.",
+      "links": [
+        { "label": "서비스", "url": "https://dshelper.kr/" },
+        { "label": "GitHub", "url": "https://github.com/DS-Helper/frontend" },
+        {
+          "label": "Figma",
+          "url": "https://www.figma.com/design/2iAVNLVHxB1OENFZvaKy6S/Main?node-id=3442-22658"
+        }
+      ]
+    },
+    {
+      "slug": "weddy",
+      "name": "Weddy",
+      "role": "프론트엔드",
+      "team": "2명",
+      "contribution": "50%",
+      "stackSummary": "Next.js, React, TypeScript, SCSS, TanStack Query, Zustand",
+      "env": "Notion, GitHub Organizations, Figma, Swagger, AWS EC2, Docker, Slack, Riido",
+      "description": "셀프 결혼 준비를 희망하는 예비 부부를 위한 결혼 준비 체크리스트. 6주 스프린트로 완주했으며 카카오 로그인을 구현했습니다.",
+      "links": [
+        { "label": "데모·워크스페이스", "url": "https://front-juah.vercel.app/workSpace" },
+        { "label": "GitHub", "url": "https://github.com/your-weddy/front" },
+        {
+          "label": "Notion",
+          "url": "https://www.notion.so/918155c98d5c5803a8da1e083d868e584"
+        }
+      ]
+    }
+  ],
+  "github": {
+    "username": "juahcheon",
+    "profileUrl": "https://github.com/juahcheon",
+    "chartImageUrl": "https://ghchart.rshah.org/juahcheon"
+  },
+  "windowsCopy": {
+    "trash": "휴지통이 비어 있습니다.",
+    "chromeFrameUrl": "https://www.google.com"
+  }
+}

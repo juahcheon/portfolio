@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev -p 3003",
+    "sync:content": "node scripts/sync-portfolio-json.mjs",
+    "prebuild": "node scripts/sync-portfolio-json.mjs",
     "build": "next build",
     "start": "next start -p 3003",
     "lint": "next lint",
