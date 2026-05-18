@@ -2,6 +2,20 @@
 
 Vercel에 `web`을, API는 별도(Vercel Serverless / Railway 등)로 두는 구성을 권장합니다.
 
+## 문서
+
+| 문서 | 설명 |
+|------|------|
+| [docs/PRD.md](docs/PRD.md) | 제품 요구사항·화면 매핑 |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 기술 구조·API 분리 이유 |
+| [docs/CONTENT.md](docs/CONTENT.md) | `portfolio.json` 수정 가이드 |
+| [docs/DESIGN.md](docs/DESIGN.md) | UI·SCSS 규칙 |
+| [docs/HISTORY.md](docs/HISTORY.md) | 프로젝트 연대기·커밋·버전 전략 |
+| [docs/CHANGELOG.md](docs/CHANGELOG.md) | 버전별 변경 목록 |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | 할 일·우선순위 |
+| [docs/WORKLOG.md](docs/WORKLOG.md) | 작업 일지 |
+| [docs/AGENTS.md](docs/AGENTS.md) | Cursor / Claude 협업 규칙 |
+
 ## 구조
 
 | 경로 | 설명 |
