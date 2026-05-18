@@ -32,7 +32,7 @@
 
 **사용자가 디자인 변경을 요청하지 않으면 디자인 작업을 하지 않는다.**
 
-- 색·간격·레이아웃·타이포·아이콘 배치·SCSS 구조·Windows 크롬 비율 **임의 변경 금지**
+- 색·간격·레이아웃·타이포·아이콘 배치·Tailwind/토큰 구조·Windows 크롬 비율 **임의 변경 금지**
 - 버그·기능 수정 시 **기존 시각 유지** (동작만 수정)
 - [docs/DESIGN.md](docs/DESIGN.md)는 참고용 — “개선”“통일”을 이유로 리디자인하지 말 것
 
@@ -72,7 +72,7 @@
 |------|------|
 | 단순함 | 최소 파일·최소 의존성. “best practice”가 곧 복잡함이면 **하지 않음** |
 | 범위 | **요청된 것만**. drive-by refactor·디자인 개편·문서 남발 금지 |
-| 스타일 | SCSS module, `className`, camelCase, `!important` 지양 |
+| 스타일 | Tailwind, `className`, 토큰(`tailwind.config`/`globals.css`), `!important` 지양 — 이유는 [docs/DESIGN.md](docs/DESIGN.md) §3 |
 | UX | 바탕화면 → **창 1단계**; 앱 안 다단계 탐색 추가 금지 |
 | 창 추가 | `portfolio.json` → `windows.ts` → `desktopStore` kind → `WinWindow` / `WindowContents` — **PRD·CONTENT 동시 확인** |
 | 검증 | 변경 후 `npm run verify` (가능하면) |
@@ -85,7 +85,21 @@
 
 ---
 
-## 5. AI가 하지 말아야 할 제안 (기본)
+## 5. 불가·한계 — 억지 구현 금지
+
+요청이 **기술·플랫폼·프로젝트 범위 밖**이면, 우회용 해킹·과한 복잡도로 “된 것처럼” 만들지 말고 **먼저 불가 또는 제약을 짧게 말한다.**
+
+| 해야 할 것 | 하지 말 것 |
+|------------|------------|
+| 왜 안 되는지(브라우저·Vercel·구조·비용 등) 한두 문장으로 설명 | 불가능한데 억지로 비슷한 동작을 넣어 품질·유지보수만 악화 |
+| 가능한 대안 1~2개 제시 (더 단순한 방법, 문서만 수정, 범위 축소) | 사용자가 고르기 전에 대안 없이 임의로 큰 리팩터 진행 |
+| “지금 repo 구조로는 ~까지 가능”처럼 **경계** 명시 | 모호한 “해보겠습니다” 후 실패·롤백 반복 |
+
+예: Express API를 Vercel에 그대로 상시 호스팅, 무료로 24시간 전용 서버, 브라우저만으로 OS 수준 동작 등 — **안 되면 안 된다고 말하고** [docs/DEPLOY.md](docs/DEPLOY.md)·[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)와 맞는 방법을 제안한다.
+
+---
+
+## 6. AI가 하지 말아야 할 제안 (기본)
 
 - 마이크로서비스·Redis·GraphQL·i18n·다크모드·CMS
 - “portfolio store 꼭 도입하세요” (현재 단일 페이지면 불필요)
@@ -95,14 +109,14 @@
 
 ---
 
-## 6. 브랜치
+## 7. 브랜치
 
 - 현재: `feature-cursor`
 - 추가 브랜치는 **사용자가 필요 시 정의** — AI가 임의로 늘리지 않음
 
 ---
 
-## 7. 문서 맵 (필요할 때만)
+## 8. 문서 맵 (필요할 때만)
 
 | 문서 | 용도 |
 |------|------|
@@ -116,18 +130,18 @@
 
 ---
 
-## 8. 세션 마무리 (권장)
+## 9. 세션 마무리 (권장)
 
 - 큰 변경: [docs/WORKLOG.md](docs/WORKLOG.md) 한 줄
 - 릴리스: [docs/CHANGELOG.md](docs/CHANGELOG.md) `[Unreleased]`
 
 ---
 
-## 9. 환경 (PowerShell)
+## 10. 환경 (PowerShell)
 
 ```powershell
 cd api; npm run dev
-cd web; npm run dev   # .env.local → NEXT_PUBLIC_PORTFOLIO_API_URL=http://localhost:4000
+cd web; npm run dev   # http://localhost:3003 — 데이터는 /api/v1/portfolio (Route Handler)
 cd D:\factory\portfolio; npm run verify
 cd web; npm run sync:legacy
 ```

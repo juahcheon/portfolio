@@ -1,7 +1,7 @@
 # DESIGN — UI·스타일 가이드
 
 Windows 데스크톱 메타포를 웹으로 옮길 때의 **시각·레이아웃·스타일 규칙**입니다.  
-제품 의도는 [PRD.md](./PRD.md), SCSS 파일 위치는 [ARCHITECTURE.md](./ARCHITECTURE.md)를 참고하세요.
+제품 의도는 [PRD.md](./PRD.md), web 구조는 [ARCHITECTURE.md](./ARCHITECTURE.md)를 참고하세요.
 
 ---
 
@@ -12,7 +12,7 @@ Windows 데스크톱 메타포를 웹으로 옮길 때의 **시각·레이아웃
 | **친숙함** | Windows 10/11 데스크톱·작업 표시줄·시작 메뉴를 “알아보게” |
 | **정보 도달** | 화려함보다 **한 번에 창이 열리는** 명확함 (PRD: 클릭 최소화) |
 | **디테일 즐기기** | 스크롤 레일, 시계, 아이콘 선택 하이라이트 등 **작은 요소**에 시간 투자 |
-| **유지보수** | Tailwind(레이아웃·유틸) + SCSS 모듈(복잡 UI) 분리 |
+| **유지보수** | 스타일은 **Tailwind + 최소 globals** — 파일 수·맥락 전환 최소화 |
 
 ---
 
@@ -33,27 +33,50 @@ Excel·PowerPoint 메타포는 **사용하지 않음** (경력·프로젝트 전
 
 ---
 
-## 3. 기술 스택 (스타일)
+## 3. 왜 Tailwind CSS를 쓰는가
+
+### 3.1 이 프로젝트에서의 선택 (1인·포트폴리오)
+
+| 맥락 | 스타일 방식 |
+|------|-------------|
+| **협업·팀 프로젝트** (일반적으로) | **SCSS** — 공통 변수·믹스인·partial, 디자인 토큰 공유, 로직(`.tsx`)과 스타일(`.scss`) 분리로 리뷰·역할 분담이 쉬움 |
+| **이 repo (1인 포트폴리오)** | **Tailwind** — **파일 수를 최소화**하고, 컴포넌트 하나당 `.tsx` + (필요 시) 짧은 `globals` 예외만 두기 위함 |
+
+혼자 작업할 때는 `Component.tsx`와 `Component.module.scss`를 오가며 맥락을 나눌 필요가 적습니다.  
+스타일을 **마크업과 같은 파일의 `className`**에 두면 “이 화면이 어떻게 생겼는지”를 한곳에서 읽을 수 있고, 포트폴리오 규모에서는 **유지보수 비용이 SCSS 분리 이득보다 작다**고 보고 Tailwind를 기본으로 했습니다.
+
+### 3.2 Tailwind가 이 구조에 잘 맞는 추가 이유
+
+위 “파일 최소화” 외에, 이 프로젝트에서 실제로 도움이 되는 점입니다.
+
+| 이유 | 설명 |
+|------|------|
+| **설계 토큰 한곳** | `tailwind.config.ts`, `tailwind.palette.ts`에 `winBar`, `winBlue`, `shadow-win` 등 Windows 톤을 모아 두고 `className`에서 재사용 |
+| **미사용 CSS 정리** | 빌드 시 쓰인 유틸만 남김 — 데모·포트폴리오에 쌓인 `.scss` dead code를 줄이기 쉬움 |
+| **스타일 누수 방지** | SCSS 모듈처럼 파일을 나누지 않아도, 유틸은 **해당 요소에만** 붙이면 됨 (전역 클래스 남발만 피하면 됨) |
+| **Next.js와 궁합** | App Router·PostCSS 파이프라인과 기본 세팅이 맞고, 레이아웃·반응형을 유틸 문자열로 빠르게 맞추기 좋음 |
+| **복잡 UI도 동일 패턴** | 시작 메뉴처럼 상태가 많은 UI도 **TSX + Tailwind + (필요 시) `globals.css` 예외**로 통일 — 별도 500줄 `.scss` 파일 없음 |
+
+Tailwind가 **만능은 아닙니다.** `::-webkit-scrollbar` 같은 pseudo, 긴 `@keyframes`, 레거시 Chrome 모달처럼 **선언형 CSS가 읽기 나은 구간**은 `globals.css`의 `@layer components`에만 둡니다 (아래 §3.4).
+
+### 3.3 기술 스택 (스타일)
 
 | 용도 | 도구 |
 |------|------|
-| 전역·유틸 | Tailwind 3 (`globals.css`, `@layer utilities`) |
-| 시작 메뉴 등 복잡 UI | **SCSS Modules** — `*.module.scss`, **camelCase** 클래스 |
+| 컴포넌트·레이아웃 | **Tailwind 3** — `className`, `tailwind.config.ts`, `explorerShellClasses.ts` 등 |
+| 전역·예외 | `globals.css` — CSS 변수, `@layer utilities`, pseudo/레거시 모달 |
 | 아이콘 | `react-icons`, Font Awesome 6 (CDN in globals), `/public` PNG·SVG·webp |
 | 폰트 | `layout.tsx` next/font (본문 400) |
 
-### 3.1 왜 SCSS 모듈인가 (시작 메뉴)
+**사용하지 않음:** `*.module.scss` — 과거 AI가 추가한 SCSS 모듈은 제거했고, 새 UI도 SCSS 모듈을 추가하지 않습니다.
 
-`WindowsStartMenu.module.scss` (~500줄)는 스크롤 레일·휠 스무딩·행 호버 등 **상태가 많은 UI**입니다.  
-Tailwind만으로는 가독성이 떨어져 **컴포넌트 전용 모듈**로 격리했습니다.  
-다른 컴포넌트로 스타일이 **새지 않도록** className은 모듈 export만 사용합니다.
+### 3.4 `globals.css`만 쓰는 경우
 
-### 3.2 Tailwind vs SCSS 선택 기준
-
-| Tailwind | SCSS module |
-|----------|-------------|
-| 바탕화면·Lnb·WinWindow 크롬 | WindowsStartMenu |
-| 탐색기 shell (`explorerShellClasses`) | (필요 시) Chrome 레거시 일부 globals |
+| 예 | 이유 |
+|----|------|
+| `.startMenuListScroll` | 스크롤바 `::-webkit-scrollbar` — Tailwind만으로 표현 어려움 |
+| `.clmPageModal` 등 | 레거시 Chrome 모달 — 탭·주소창 pseudo·긴 공통 규칙 |
+| `text-winSkyBlue` 등 | JIT 청크에서 빠질 수 있는 토큰을 `@layer utilities`에 고정 ([ARCHITECTURE.md](./ARCHITECTURE.md) 참고) |
 
 ---
 
@@ -76,11 +99,12 @@ Tailwind `theme`와 별도로 유지 — `.next` 재빌드 시에도 `text-winSk
 - `bg-desk`, `bg-winBar`, `text-winBlue`, `shadow-win`, `shadow-task` 등 Windows 톤.
 - `web/tailwind.palette.ts` — 팔레트 확장 참고.
 
-### 4.3 SCSS 모듈 네이밍
+### 4.3 클래스·네이밍
 
-- **camelCase** — 예: `startMenuRoot`, `startMenuScrollRail`, `startMenuRow`
-- BEM을 엄격히 쓰지 않고, **컴포넌트 접두**로 충돌 방지
+- Tailwind 유틸 + 프로젝트 토큰(`bg-winBar`, `text-winBlue` 등) 위주
+- 반복되는 긴 `className` 묶음은 `explorerShellClasses.ts`처럼 **TS 상수**로 분리 가능
 - `!important`는 **사용하지 않음** (서드파티 override 불가피한 경우만 예외)
+- 인라인 `style`은 **동적 값**(스크롤 thumb 위치 등)처럼 Tailwind로 표현하기 어려울 때만
 
 ---
 
@@ -160,8 +184,8 @@ GitHub variant는 pinned repo·차트 이미지 추가.
 ## 10. 새 UI 추가 시 체크리스트
 
 1. PRD에 메타포·스코프 맞는지 확인.
-2. 스타일: Tailwind로 충분한지, 100줄 넘으면 SCSS module 검토.
-3. className **모듈 또는 Tailwind** — 인라인 style 지양.
+2. 스타일: **Tailwind 우선** — pseudo·긴 keyframes만 `globals.css` 검토.
+3. `className` 위주 — 인라인 style·새 SCSS module 지양.
 4. public 에셋 경로·webp 소문자.
 5. 키보드·aria 최소 한 가지.
 6. CONTENT/PRD 매핑 표 업데이트.

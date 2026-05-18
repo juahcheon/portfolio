@@ -17,18 +17,19 @@
 │  │  · TanStack Query: portfolio 서버 상태                 │  │
 │  └───────────────────────────┬───────────────────────────┘  │
 └──────────────────────────────┼──────────────────────────────┘
-                               │ GET /v1/portfolio
+                               │ GET /api/v1/portfolio (Route Handler)
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  api/ — Express                                              │
-│  · readFile(api/data/portfolio.json)                         │
-│  · CORS origin: true (개발·분리 배포)                        │
+│  web/data/portfolio.json + app/api/v1/portfolio/route.ts     │
+│  (Vercel 배포 시 web/ 만 포함)                               │
 └─────────────────────────────────────────────────────────────┘
+
+레거시: `api/` Express + `api/data/portfolio.json` — 로컬 참고·sync:content 용.
 ```
 
 | 패키지 | 역할 | 주요 기술 |
 |--------|------|-----------|
-| `web/` | UI, 라우팅, 클라이언트 상태 | Next 15, React 19, TS, Tailwind, SCSS modules, Zustand, TanStack Query |
+| `web/` | UI, 라우팅, 클라이언트 상태 | Next 15, React 19, TS, Tailwind (+ `globals.css` 예외), Zustand, TanStack Query |
 | `api/` | 포트폴리오 JSON HTTP 제공 | Express, Node ESM |
 | 루트 | 검증 스크립트 | `npm run verify` → api + web 각각 verify |
 
@@ -51,9 +52,8 @@
 
 ### 2.3 개발·운영 편의
 
-- 로컬: API `4000`, web `3003` — 각각 hot reload.
-- web만 mock API로 UI 작업 가능.
-- 배포: Vercel(Serverless/Edge) + Railway·Render 등 **호스팅을 독립** 선택 (README 권장).
+- 로컬: **`cd web && npm run dev`** (3003) — JSON은 `/api/v1/portfolio`.
+- 배포: **Vercel Root `web`만** — [DEPLOY.md](./DEPLOY.md).
 
 ### 2.4 포트폴리오로서의 설명 포인트
 

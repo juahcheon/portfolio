@@ -1,7 +1,7 @@
 # CHANGELOG
 
 이 파일은 **버전 단위로 무엇이 바뀌었는지** 기록합니다.  
-맥락·동기·마이그레이션 스토리는 [HISTORY.md](./HISTORY.md)를 봅주세요.
+맥락·동기·마이그레이션 스토리는 [HISTORY.md](./HISTORY.md)를 봐주세요.
 
 형식은 [Keep a Changelog](https://keepachangelog.com/ko/1.0.0/)를 따르고, 버전은 [Semantic Versioning](https://semver.org/lang/ko/)을 사용합니다.
 

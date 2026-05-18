@@ -1,9 +1,11 @@
 # CONTENT — 콘텐츠 운영 가이드
 
-이력·프로젝트·바탕화면 아이콘 등 **사용자에게 보이는 문구와 링크**의 단일 소스는  
-`api/data/portfolio.json` 입니다.
+이력·프로젝트·바탕화면 아이콘 등 **사용자에게 보이는 문구와 링크**의 배포용 단일 소스는  
+**`web/data/portfolio.json`** 입니다.
 
 타입 정의: `web/src/types/portfolio.ts` (`PortfolioPayload`).
+
+레거시 경로 `api/data/portfolio.json`을 쓰는 경우: `cd web && npm run sync:content`로 `web/data`에 복사하세요.
 
 ---
 
@@ -11,12 +13,11 @@
 
 | 작업 | 방법 |
 |------|------|
-| 로컬 수정 | `api/data/portfolio.json` 편집 |
-| 반영 | API 서버 재시작 (`cd api && npm run dev`) |
-| 웹 확인 | 브라우저 새로고침 (Query가 no-store로 재요청) |
+| 로컬 수정 | **`web/data/portfolio.json`** 편집 (권장) |
+| 레거시 | `api/data/portfolio.json` → `npm run sync:content` (web) |
+| 로컬 확인 | `cd web && npm run dev` → 새로고침 |
+| Vercel 반영 | `web/data` 변경 **커밋·push** → 자동 재배포 |
 | 타입 검사 | `cd web && npx tsc --noEmit` |
-
-JSON을 고친 뒤 **web을 rebuild할 필요는 없습니다** (문구만 변경 시).
 
 ---
 

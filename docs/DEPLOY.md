@@ -1,7 +1,9 @@
-# DEPLOY — 배포 (미정)
+# DEPLOY — Vercel (web 단일)
 
-**배포 예정일·프로덕션 URL은 아직 정하지 않았습니다.**  
-1차는 **로컬 구현·`npm run verify`** 를 우선하고, URL이 정해지면 이 문서와 README를 갱신합니다.
+프로덕션은 **Vercel에 `web/`만** 배포합니다.  
+포트폴리오 JSON은 Next **Route Handler** `GET /api/v1/portfolio`로 제공합니다 (`web/data/portfolio.json`).
+
+별도 Express API 호스팅은 **하지 않습니다**.
 
 ---
 
@@ -9,47 +11,70 @@
 
 | 항목 | 값 | 비고 |
 |------|-----|------|
-| **Web (Vercel)** | `_TBD_` | Next.js `web/` |
-| **API** | `_TBD_` | Express `api/`, `GET /v1/portfolio` |
-| **Web env** | `NEXT_PUBLIC_PORTFOLIO_API_URL=_TBD_` | `web/.env.local` / Vercel 환경 변수 |
-
-URL을 알게 되면 AI·본인 모두 **이 표를 먼저 업데이트**한 뒤 README·ROADMAP P0 배포 체크를 진행합니다.
+| **Web (Vercel)** | `_TBD_` | Root Directory: **`web`** |
+| **데이터 API** | `https://(your-domain)/api/v1/portfolio` | 같은 Vercel 프로젝트 |
+| **환경 변수** | (보통 **불필요**) | 기본은 same-origin `/api/v1/portfolio` |
 
 ---
 
-## 권장 topology (변경 없음)
+## Vercel 설정
 
-```
-사용자 → Vercel (web)
-       → API 호스트 (portfolio.json)
-```
+1. GitHub repo 연결
+2. **Root Directory**: `web`
+3. Framework: Next.js (자동)
+4. Build Command: `npm run build` (기본 — `prebuild`에서 `sync:content` 시도, `api/` 없으면 스킵)
+5. Output: Next 기본
+6. **Environment Variables**: 기본 없음. 레거시 Express로만 테스트할 때 `NEXT_PUBLIC_PORTFOLIO_API_URL`
 
-자세한 구조: [ARCHITECTURE.md](./ARCHITECTURE.md)
+배포 후 브라우저에서 `https://(your-domain)/api/v1/portfolio` 가 JSON이면 성공.
 
 ---
 
-## 로컬 (현재 개발)
+## 콘텐츠 수정 → 재배포
+
+| 수정 위치 | 배포 |
+|-----------|------|
+| **`web/data/portfolio.json`** (권장·Vercel에 포함) | Git push → Vercel 자동 빌드 |
+| `api/data/portfolio.json` (레거시) | 로컬에서 `cd web; npm run sync:content` 후 **web/data 커밋** |
+
+Vercel Root가 `web`이면 빌드 시 **`api/` 폴더는 번들에 없음** — 반드시 `web/data/portfolio.json`을 repo에 포함하세요.
+
+---
+
+## 로컬 (개발)
 
 ```powershell
-cd api; npm run dev          # http://localhost:4000
-cd web; npm run dev          # http://localhost:3003
-# web/.env.local
-# NEXT_PUBLIC_PORTFOLIO_API_URL=http://localhost:4000
+cd D:\factory\portfolio\web
+npm install
+npm run dev
+```
+
+- http://localhost:3003
+- 데이터: http://localhost:3003/api/v1/portfolio
+- **`api/` Express는 필수 아님** (레거시로만 `cd api; npm run dev` + env override 가능)
+
+`api/data`만 수정했다면:
+
+```powershell
+cd web
+npm run sync:content
 ```
 
 ---
 
-## 배포 시 체크리스트 (나중에)
+## 배포 체크리스트
 
-- [ ] API URL 확정 → `DEPLOY.md` · Vercel env 반영
-- [ ] CORS 필요 시 API origin 제한 검토
-- [ ] `web/public/img/webp` 등 에셋 포함 여부
+- [ ] `web/data/portfolio.json` 최신·커밋됨
+- [ ] Vercel Root = `web`
 - [ ] `npm run verify` 통과
-- [ ] Git tag `v1.x.x` + [CHANGELOG.md](./CHANGELOG.md)
+- [ ] 프로덕션 `/api/v1/portfolio` JSON 확인
+- [ ] `DEPLOY.md` URL 표 갱신
+- [ ] Git tag + [CHANGELOG.md](./CHANGELOG.md) (릴리스 시)
 
 ---
 
 ## 관련 문서
 
-- [ROADMAP.md](./ROADMAP.md) — P0 배포 항목
-- [HISTORY.md](./HISTORY.md) — 릴리스 절차
+- [ARCHITECTURE.md](./ARCHITECTURE.md)
+- [CONTENT.md](./CONTENT.md)
+- [ROADMAP.md](./ROADMAP.md)
