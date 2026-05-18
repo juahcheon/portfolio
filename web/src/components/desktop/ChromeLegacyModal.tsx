@@ -2,6 +2,19 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaArrowRotateRight,
+  FaChevronDown,
+  FaEllipsisVertical,
+  FaLock,
+  FaPlus,
+  FaRegSquare,
+  FaRegStar,
+  FaWindowMinimize,
+  FaXmark,
+} from "react-icons/fa6";
 import type { GithubPinnedRepo } from "./githubPinnedRepos";
 import { GitHubChromeContent } from "./GitHubChromeContent";
 
@@ -84,26 +97,26 @@ export function ChromeLegacyModal({
                 <li className={`clmActivePage clmHoverLight`}>
                   <a href="#" onClick={(e) => e.preventDefault()} aria-hidden />
                   <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
-                    <i className="fa-solid fa-xmark" />
+                    <FaXmark aria-hidden />
                   </button>
                 </li>
                 <li className="clmHoverLight">
                   <a href="#" onClick={(e) => e.preventDefault()} aria-hidden />
                   <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
-                    <i className="fa-solid fa-xmark" />
+                    <FaXmark aria-hidden />
                   </button>
                 </li>
                 <button type="button" className={`clmNewPage clmHoverDark`} aria-label="새 탭">
-                  <i className="fa-solid fa-plus" />
+                  <FaPlus aria-hidden />
                 </button>
               </ul>
             </div>
             <div className="clmHeaderRight">
               <button type="button" className="clmHoverDark" aria-label="메뉴">
-                <i className="fa-solid fa-chevron-down" />
+                <FaChevronDown aria-hidden />
               </button>
               <button type="button" className={`clmMinimize clmHoverDark`} aria-label="최소화">
-                <i className="fa-solid fa-window-minimize" />
+                <FaWindowMinimize aria-hidden />
               </button>
               <button
                 type="button"
@@ -114,7 +127,7 @@ export function ChromeLegacyModal({
                   setMaximized((m) => !m);
                 }}
               >
-                <i className="fa-regular fa-square" />
+                <FaRegSquare aria-hidden />
               </button>
               <button
                 type="button"
@@ -125,33 +138,33 @@ export function ChromeLegacyModal({
                   onClose();
                 }}
               >
-                <i className="fa-solid fa-xmark" />
+                <FaXmark aria-hidden />
               </button>
             </div>
           </div>
           <div className="clmHeaderAddress">
             <div className="clmAddressMove">
               <button type="button" aria-label="뒤로">
-                <i className="fa-solid fa-arrow-left" />
+                <FaArrowLeft aria-hidden />
               </button>
               <button type="button" aria-label="앞으로">
-                <i className="fa-solid fa-arrow-right" />
+                <FaArrowRight aria-hidden />
               </button>
               <button type="button" aria-label="새로고침">
-                <i className="fa-solid fa-rotate-right" />
+                <FaArrowRotateRight aria-hidden />
               </button>
             </div>
             <div className="clmAddressDetail">
               <button type="button" aria-label="보안">
-                <i className="fa-solid fa-lock" />
+                <FaLock aria-hidden />
               </button>
               <p className="clmAddressUrl">{displayAddressUrl ?? iframeUrl}</p>
               <button type="button" aria-label="북마크">
-                <i className="fa-regular fa-star" />
+                <FaRegStar aria-hidden />
               </button>
             </div>
             <button type="button" className={`clmSettingChrome clmHoverDark`} aria-label="설정">
-              <i className="fa-solid fa-ellipsis-vertical" />
+              <FaEllipsisVertical aria-hidden />
             </button>
           </div>
         </div>

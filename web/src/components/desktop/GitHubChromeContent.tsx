@@ -1,6 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import {
+  FaBook,
+  FaBookBookmark,
+  FaChartSimple,
+  FaLocationDot,
+  FaRegStar,
+  FaThumbtack,
+  FaUserGroup,
+} from "react-icons/fa6";
+import { SiGithub } from "react-icons/si";
 import type { GithubPinnedRepo } from "./githubPinnedRepos";
 
 type Props = {
@@ -45,11 +55,11 @@ export function GitHubChromeContent({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-md border border-[#30363d] bg-[#21262d] px-3 py-1 text-xs font-medium text-[#f0f6fc] no-underline hover:border-[#58a6ff] hover:bg-[#30363d]"
               >
-                <i className="fa-brands fa-github text-[#e6edf3]" aria-hidden />
+                <SiGithub className="text-[#e6edf3]" aria-hidden />
                 프로필로 이동
               </a>
               <span className="inline-flex items-center gap-1.5 rounded-md border border-[#30363d] px-3 py-1 text-xs text-[#b1bac4]">
-                <i className="fa-solid fa-location-dot" aria-hidden />
+                <FaLocationDot aria-hidden />
                 Portfolio
               </span>
             </div>
@@ -59,21 +69,21 @@ export function GitHubChromeContent({
         <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-[#21262d] pt-4 text-sm">
           <div className="flex items-center gap-2">
             <dt className="m-0 text-[#b1bac4]">
-              <i className="fa-solid fa-book-bookmark mr-1" aria-hidden />
+              <FaBookBookmark className="mr-1" aria-hidden />
               Repos
             </dt>
             <dd className="m-0 font-semibold text-[#f0f6fc]">{12 + pinnedRepos.length}</dd>
           </div>
           <div className="flex items-center gap-2">
             <dt className="m-0 text-[#b1bac4]">
-              <i className="fa-regular fa-star mr-1" aria-hidden />
+              <FaRegStar className="mr-1" aria-hidden />
               Stars
             </dt>
             <dd className="m-0 font-semibold text-[#f0f6fc]">—</dd>
           </div>
           <div className="flex items-center gap-2">
             <dt className="m-0 text-[#b1bac4]">
-              <i className="fa-solid fa-user-group mr-1" aria-hidden />
+              <FaUserGroup className="mr-1" aria-hidden />
               Followers
             </dt>
             <dd className="m-0 font-semibold text-[#f0f6fc]">—</dd>
@@ -84,7 +94,7 @@ export function GitHubChromeContent({
       {pinnedRepos.length > 0 ? (
         <section className="border-b border-[#30363d] px-4 py-4 sm:px-6">
           <h3 className="m-0 mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#b1bac4]">
-            <i className="fa-solid fa-thumbtack rotate-45 text-[10px] opacity-80" aria-hidden />
+            <FaThumbtack className="rotate-45 text-[10px] opacity-80" aria-hidden />
             Pinned
           </h3>
           <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2">
@@ -97,7 +107,7 @@ export function GitHubChromeContent({
                   className="block rounded-md border border-[#30363d] bg-[#161b22] p-3 no-underline transition-colors hover:border-[#58a6ff]"
                 >
                   <div className="flex items-start gap-2">
-                    <i className="fa-solid fa-book mt-0.5 shrink-0 text-[#b1bac4]" aria-hidden />
+                    <FaBook className="mt-0.5 shrink-0 text-[#b1bac4]" aria-hidden />
                     <div className="min-w-0">
                       <div className="truncate text-sm font-semibold text-[#79c0ff]">{repo.name}</div>
                       <p className="mt-1 line-clamp-2 text-xs text-[#b1bac4]">{repo.description}</p>
@@ -118,7 +128,7 @@ export function GitHubChromeContent({
 
       <section className="flex flex-1 flex-col gap-3 px-4 py-4 sm:px-6">
         <h3 className="m-0 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[#b1bac4]">
-          <i className="fa-solid fa-chart-simple" aria-hidden />
+          <FaChartSimple aria-hidden />
           Contributions
         </h3>
         <div className="overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] p-2">

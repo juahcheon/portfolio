@@ -14,11 +14,6 @@ import {
 import {
   FiChevronDown,
   FiFileText,
-  FiImage,
-  FiMenu,
-  FiPower,
-  FiSettings,
-  FiUser,
 } from "react-icons/fi";
 import {
   SiAndroidstudio,
@@ -28,6 +23,12 @@ import {
   SiGooglechrome,
   SiKakaotalk,
 } from "react-icons/si";
+import { IoMenuOutline } from "react-icons/io5";
+import { LiaUserSolid } from "react-icons/lia";
+import { HiOutlineDocument } from "react-icons/hi2";
+import { PiImage } from "react-icons/pi";
+import { TfiPowerOff } from "react-icons/tfi";
+import { CiSettings } from "react-icons/ci";
 import { TbBrandVscode } from "react-icons/tb";
 import { FaFolder } from "react-icons/fa";
 import { MdOutlineRocketLaunch } from "react-icons/md";
@@ -256,24 +257,24 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
           <aside className={styles.startMenuRail}>
             <div className={styles.startMenuRailTop}>
               <button type="button" className={styles.startMenuRailBtn} aria-label="메뉴" title="메뉴">
-                <FiMenu size={18} strokeWidth={2.2} />
+                <IoMenuOutline size={18} strokeWidth={2.2} />
               </button>
             </div>
             <div className={styles.startMenuRailBottom}>
-              <button type="button" className={styles.startMenuRailBtn} aria-label="사용자 계정" title="계정">
-                <FiUser size={17} />
+              <button type="button" className={`${styles.startMenuRailBtn} ${styles.startMenuRailBtnUser}`} aria-label="사용자 계정" title="계정">
+                <LiaUserSolid size={14} />
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="문서" title="문서">
-                <FiFileText size={16} />
+                <HiOutlineDocument size={16} />
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="사진" title="사진">
-                <FiImage size={16} />
+                <PiImage size={16} />
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="설정" title="설정">
-                <FiSettings size={17} />
+                <CiSettings size={20} />
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="전원" title="전원">
-                <FiPower size={16} />
+                <TfiPowerOff size={15} />
               </button>
             </div>
           </aside>

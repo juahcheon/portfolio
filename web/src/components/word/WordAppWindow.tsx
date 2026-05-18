@@ -1,5 +1,19 @@
 "use client";
 
+import {
+  FaAlignCenter,
+  FaAlignJustify,
+  FaAlignLeft,
+  FaAlignRight,
+  FaArrowRotateLeft,
+  FaArrowRotateRight,
+  FaBook,
+  FaFloppyDisk,
+  FaPaste,
+  FaQuoteLeft,
+  FaRegCopy,
+  FaScissors,
+} from "react-icons/fa6";
 import type { PortfolioPayload } from "@/types/portfolio";
 
 type Props = {
@@ -75,13 +89,13 @@ export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose
       <div className={`flex h-8 shrink-0 items-stretch text-white ${wordBlue}`}>
         <div className="flex shrink-0 items-center gap-0.5 pl-1 pr-2">
           <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="저장">
-            <i className="fa-solid fa-floppy-disk text-sm" />
+            <FaFloppyDisk className="text-sm" aria-hidden />
           </button>
           <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="실행 취소">
-            <i className="fa-solid fa-arrow-rotate-left text-xs" />
+            <FaArrowRotateLeft className="text-xs" aria-hidden />
           </button>
           <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="다시 실행">
-            <i className="fa-solid fa-arrow-rotate-right text-xs" />
+            <FaArrowRotateRight className="text-xs" aria-hidden />
           </button>
         </div>
         <div className="flex min-w-0 flex-1 items-center justify-center px-2 text-xs font-normal tracking-tight">
@@ -124,13 +138,13 @@ export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose
           <div className="flex flex-col items-center border-r border-[#d8d8d8] pr-3">
             <div className="flex gap-0.5">
               <RibbonBtn>
-                <i className="fa-solid fa-paste text-sm" />
+                <FaPaste className="text-sm" aria-hidden />
               </RibbonBtn>
               <RibbonBtn>
-                <i className="fa-solid fa-scissors text-[10px]" />
+                <FaScissors className="text-[10px]" aria-hidden />
               </RibbonBtn>
               <RibbonBtn>
-                <i className="fa-regular fa-copy text-[10px]" />
+                <FaRegCopy className="text-[10px]" aria-hidden />
               </RibbonBtn>
             </div>
             <span className="mt-0.5 text-[10px] text-[#666]">클립보드</span>
@@ -154,16 +168,16 @@ export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose
           <div className="flex flex-col items-center border-r border-[#d8d8d8] pr-3">
             <div className="flex gap-0.5">
               <RibbonBtn>
-                <i className="fa-solid fa-align-left" />
+                <FaAlignLeft aria-hidden />
               </RibbonBtn>
               <RibbonBtn>
-                <i className="fa-solid fa-align-center" />
+                <FaAlignCenter aria-hidden />
               </RibbonBtn>
               <RibbonBtn>
-                <i className="fa-solid fa-align-right" />
+                <FaAlignRight aria-hidden />
               </RibbonBtn>
               <RibbonBtn>
-                <i className="fa-solid fa-align-justify" />
+                <FaAlignJustify aria-hidden />
               </RibbonBtn>
             </div>
             <span className="mt-0.5 text-[10px] text-[#666]">단락</span>
@@ -222,7 +236,7 @@ export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose
 
             <section className="mb-10 rounded-sm border border-[#d6e4f7] bg-gradient-to-br from-[#f7fbff] to-[#eef4fc] px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
               <div className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#4a6fa5]">
-                <i className="fa-solid fa-quote-left text-[10px] opacity-70" aria-hidden />
+                <FaQuoteLeft className="text-[10px] opacity-70" aria-hidden />
                 개발 철학
               </div>
               <blockquote className="border-l-[3px] border-[#2b579a] pl-4 text-[11pt] italic leading-[1.8] text-neutral-800">
@@ -255,7 +269,7 @@ export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose
         <div className="flex items-center gap-3">
           <span>페이지 1/1</span>
           <span>단어 약 {approxWords}개</span>
-          <i className="fa-solid fa-book text-[#888]" aria-label="맞춤법" />
+          <FaBook className="text-[#888]" aria-label="맞춤법" />
         </div>
         <div className="flex items-center gap-2">
           <span className="hidden sm:inline">읽기용 레이아웃</span>

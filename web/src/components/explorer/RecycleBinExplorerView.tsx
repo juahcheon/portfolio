@@ -1,5 +1,20 @@
 "use client";
 
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaArrowRotateRight,
+  FaArrowUp,
+  FaFileCode,
+  FaFileZipper,
+  FaList,
+  FaMagnifyingGlass,
+  FaMarkdown,
+  FaRegFileLines,
+  FaRegSquare,
+  FaTrashCan,
+  FaWindowMaximize,
+} from "react-icons/fa6";
 import { ExplorerFolderIcon } from "./ExplorerFolderIcon";
 import { ExplorerSidebar } from "./ExplorerSidebar";
 import {
@@ -107,15 +122,15 @@ function FileGlyph({ kind }: { kind: Row["icon"] }) {
     case "folder":
       return <ExplorerFolderIcon width={16} height={16} className={exFolderImg} />;
     case "zip":
-      return <i className={`fa-solid fa-file-zipper ${exFileIcon} ${exZipColor}`} aria-hidden />;
+      return <FaFileZipper className={`${exFileIcon} ${exZipColor}`} aria-hidden />;
     case "text":
-      return <i className={`fa-regular fa-file-lines ${exFileIcon} ${exTextColor}`} aria-hidden />;
+      return <FaRegFileLines className={`${exFileIcon} ${exTextColor}`} aria-hidden />;
     case "json":
-      return <i className={`fa-solid fa-file-code ${exFileIcon} ${exJsonColor}`} aria-hidden />;
+      return <FaFileCode className={`${exFileIcon} ${exJsonColor}`} aria-hidden />;
     case "md":
-      return <i className={`fa-brands fa-markdown ${exFileIcon} ${exMdColor}`} aria-hidden />;
+      return <FaMarkdown className={`${exFileIcon} ${exMdColor}`} aria-hidden />;
     case "app":
-      return <i className={`fa-solid fa-window-maximize ${exFileIcon} ${exAppIcon}`} aria-hidden />;
+      return <FaWindowMaximize className={`${exFileIcon} ${exAppIcon}`} aria-hidden />;
     default:
       return null;
   }
@@ -127,25 +142,25 @@ export function RecycleBinExplorerView() {
       <div className={exCommandBar}>
         <div className={exNavCluster}>
           <button type="button" className={exNavBtn} aria-label="뒤로" title="뒤로">
-            <i className="fa-solid fa-arrow-left" />
+            <FaArrowLeft aria-hidden />
           </button>
           <button type="button" className={exNavBtn} aria-label="앞으로" title="앞으로">
-            <i className="fa-solid fa-arrow-right" />
+            <FaArrowRight aria-hidden />
           </button>
           <button type="button" className={exNavBtn} aria-label="상위 폴더" title="상위 폴더">
-            <i className="fa-solid fa-arrow-up" />
+            <FaArrowUp aria-hidden />
           </button>
         </div>
         <div className={exAddressBox}>
-          <i className="fa-solid fa-trash-can text-xs text-[#6b6b6b]" aria-hidden />
+          <FaTrashCan className="text-xs text-[#6b6b6b]" aria-hidden />
           <span className={exAddressCrumb}>&gt; 휴지통</span>
         </div>
         <button type="button" className={exRefreshBtn} aria-label="새로 고침">
-          <i className="fa-solid fa-rotate-right" />
+          <FaArrowRotateRight aria-hidden />
         </button>
         <div className={exSearchWrap}>
           <input className={exSearchInput} type="search" placeholder="휴지통 검색" readOnly aria-readonly />
-          <i className={`fa-solid fa-magnifying-glass ${exSearchMag}`} aria-hidden />
+          <FaMagnifyingGlass className={exSearchMag} aria-hidden />
         </div>
       </div>
 
@@ -204,10 +219,10 @@ export function RecycleBinExplorerView() {
             <span>{rows.length}개 항목</span>
             <div className={exStatusRight}>
               <button type="button" className={exStatusIconBtn} aria-label="자세히">
-                <i className="fa-solid fa-list" />
+                <FaList aria-hidden />
               </button>
               <button type="button" className={exStatusIconBtn} aria-label="큰 아이콘">
-                <i className="fa-regular fa-square" />
+                <FaRegSquare aria-hidden />
               </button>
             </div>
           </div>

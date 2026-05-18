@@ -2,6 +2,18 @@
 
 import Image from "next/image";
 import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaArrowRotateRight,
+  FaArrowUp,
+  FaChevronDown,
+  FaDesktop,
+  FaList,
+  FaMagnifyingGlass,
+  FaRegSquare,
+  FaWindows,
+} from "react-icons/fa6";
+import {
   exAddressBox,
   exAddressCrumb,
   exCommandBar,
@@ -58,25 +70,25 @@ export function ThisPcExplorerView() {
       <div className={exCommandBar}>
         <div className={exNavCluster}>
           <button type="button" className={exNavBtn} aria-label="뒤로" title="뒤로">
-            <i className="fa-solid fa-arrow-left" />
+            <FaArrowLeft aria-hidden />
           </button>
           <button type="button" className={exNavBtn} aria-label="앞으로" title="앞으로">
-            <i className="fa-solid fa-arrow-right" />
+            <FaArrowRight aria-hidden />
           </button>
           <button type="button" className={exNavBtn} aria-label="상위 폴더" title="상위 폴더">
-            <i className="fa-solid fa-arrow-up" />
+            <FaArrowUp aria-hidden />
           </button>
         </div>
         <div className={exAddressBox}>
-          <i className="fa-solid fa-desktop text-xs text-[#606060]" aria-hidden />
+          <FaDesktop className="text-xs text-[#606060]" aria-hidden />
           <span className={exAddressCrumb}>&gt; 내 PC</span>
         </div>
         <button type="button" className={exRefreshBtn} aria-label="새로 고침">
-          <i className="fa-solid fa-rotate-right" />
+          <FaArrowRotateRight aria-hidden />
         </button>
         <div className={exSearchWrap}>
           <input className={exSearchInput} type="search" placeholder="내 PC 검색" readOnly aria-readonly />
-          <i className={`fa-solid fa-magnifying-glass ${exSearchMag}`} aria-hidden />
+          <FaMagnifyingGlass className={exSearchMag} aria-hidden />
         </div>
       </div>
 
@@ -86,7 +98,7 @@ export function ThisPcExplorerView() {
           <div className={exTableScroll}>
             <div className="px-3 pb-3 pt-2">
               <div className={thisPcSectionHeaderRow}>
-                <i className="fa-solid fa-chevron-down mr-1.5 shrink-0 text-[8px] text-[#3190c5]" aria-hidden />
+                <FaChevronDown className="mr-1.5 shrink-0 text-[8px] text-[#3190c5]" aria-hidden />
                 <span className="shrink-0">폴더 (7)</span>
                 <div className="ml-[5px] h-px min-h-px flex-1 bg-[#eee]" role="presentation" aria-hidden />
               </div>
@@ -122,7 +134,7 @@ export function ThisPcExplorerView() {
 
             <div className="px-3 pb-2 pt-3">
               <div className={thisPcSectionHeaderRow}>
-                <i className="fa-solid fa-chevron-down mr-1.5 shrink-0 text-[8px] text-[#3190c5]" aria-hidden />
+                <FaChevronDown className="mr-1.5 shrink-0 text-[8px] text-[#3190c5]" aria-hidden />
                 <span className="shrink-0">장치 및 드라이브 (2)</span>
                 <div className="ml-[5px] h-px min-h-px flex-1 bg-[#eee]" role="presentation" aria-hidden />
               </div>
@@ -140,7 +152,7 @@ export function ThisPcExplorerView() {
                       />
                       {d.showWin ? (
                         <span className="absolute top-2 left-1 text-[18px] leading-none text-winSkyBlue" aria-hidden>
-                          <i className="fa-brands fa-windows" />
+                          <FaWindows aria-hidden />
                         </span>
                       ) : null}
                     </div>
@@ -160,10 +172,10 @@ export function ThisPcExplorerView() {
             <span>9개 항목</span>
             <div className={exStatusRight}>
               <button type="button" className={exStatusIconBtn} aria-label="자세히">
-                <i className="fa-solid fa-list" />
+                <FaList aria-hidden />
               </button>
               <button type="button" className={exStatusIconBtn} aria-label="큰 아이콘">
-                <i className="fa-regular fa-square" />
+                <FaRegSquare aria-hidden />
               </button>
             </div>
           </div>

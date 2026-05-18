@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { FaThumbtack } from "react-icons/fa6";
 
 const favorites = [
   { label: "바탕 화면", pin: true },
@@ -51,7 +52,7 @@ export function ExplorerSidebar({ thisPcSelected = false }: Props) {
           </span>
           <span>{item.label}</span>
           {item.pin ? (
-            <i className="fa-solid fa-thumbtack ml-auto rotate-45 text-[8px] opacity-45" aria-hidden />
+            <FaThumbtack className="ml-auto rotate-45 text-[8px] opacity-45" aria-hidden />
           ) : null}
         </div>
       ))}

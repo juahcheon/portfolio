@@ -1,16 +1,31 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
+import { FaFolder } from "react-icons/fa6";
 import type { OpenWindow } from "@/store/desktopStore";
 import type { PortfolioPayload } from "@/types/portfolio";
 import { WinExplorerHeader } from "@/components/explorer/WinExplorerHeader";
-import { RecycleBinExplorerView } from "@/components/explorer/RecycleBinExplorerView";
-import { ThisPcExplorerView } from "@/components/explorer/ThisPcExplorerView";
-import { WordAppWindow } from "@/components/word/WordAppWindow";
-import { ChromeLegacyModal } from "./ChromeLegacyModal";
 import { pickGithubPinnedRepos } from "./githubPinnedRepos";
 import { WindowContents } from "./WindowContents";
+
+const ChromeLegacyModal = dynamic(
+  () => import("./ChromeLegacyModal").then((m) => m.ChromeLegacyModal),
+  { ssr: false }
+);
+const WordAppWindow = dynamic(
+  () => import("@/components/word/WordAppWindow").then((m) => m.WordAppWindow),
+  { ssr: false }
+);
+const RecycleBinExplorerView = dynamic(
+  () => import("@/components/explorer/RecycleBinExplorerView").then((m) => m.RecycleBinExplorerView),
+  { ssr: false }
+);
+const ThisPcExplorerView = dynamic(
+  () => import("@/components/explorer/ThisPcExplorerView").then((m) => m.ThisPcExplorerView),
+  { ssr: false }
+);
 
 function RecycleBinTitleIcon() {
   return (
@@ -33,7 +48,7 @@ function MyPcTitleIcon() {
 }
 
 function DefaultExplorerIcon() {
-  return <i className="fa-solid fa-folder text-[15px] text-[#e8b931]" aria-hidden />;
+  return <FaFolder className="text-[15px] text-[#e8b931]" aria-hidden />;
 }
 
 type Props = {

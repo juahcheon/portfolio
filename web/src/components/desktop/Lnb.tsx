@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FaBluetoothB, FaChevronUp, FaMagnifyingGlass, FaWindows } from "react-icons/fa6";
 import type { OpenWindow } from "@/store/desktopStore";
 import { IconBattery, IconChat, IconVolume, IconWifi } from "./TrayIcons";
 import { WindowsStartMenu } from "./WindowsStartMenu";
@@ -106,7 +107,7 @@ export function Lnb({
             className={`flex h-10 w-10 items-center justify-center bg-transparent text-[#222] ${lnbHover}`}
             aria-label="Bluetooth"
           >
-            <i className="fa-brands fa-bluetooth text-[#0082fc]" />
+            <FaBluetoothB className="text-[#0082fc]" aria-hidden />
           </button>
           <button
             type="button"
@@ -144,14 +145,14 @@ export function Lnb({
               setMoreOpen(false);
             }}
           >
-            <i className="fa-brands fa-windows" />
+            <FaWindows aria-hidden />
           </button>
           <button
             type="button"
             className={`flex h-[49px] w-12 cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] [transform:rotateY(180deg)] ${lnbHover}`}
             aria-label="검색"
           >
-            <i className="fa-solid fa-magnifying-glass" />
+            <FaMagnifyingGlass aria-hidden />
           </button>
           <button
             type="button"
@@ -225,7 +226,7 @@ export function Lnb({
                 setStartOpen(false);
               }}
             >
-              <i className="fa-solid fa-chevron-up" />
+              <FaChevronUp aria-hidden />
             </button>
             <button type="button" className={`flex h-[49px] w-[25px] cursor-inherit items-center justify-center bg-transparent text-[21px] text-[#222] ${lnbHover}`} aria-label="배터리">
               <span className="inline-flex h-5 w-5 items-center justify-center [&_svg]:block [&_svg]:h-full [&_svg]:w-full">
