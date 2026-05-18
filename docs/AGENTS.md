@@ -1,7 +1,9 @@
-# AGENTS — AI 협업 가이드
+# AGENTS — AI 협업 가이드 (상세)
 
-이 저장소는 **1차: Cursor로 구현**, **2차: Claude로 검수**하는 흐름을 전제로 합니다.  
-사람(주아)과 AI가 같은 규칙으로 작업할 때 참고하는 문서입니다.
+> **세션마다 먼저 읽을 공통 규칙**은 루트 [AGENTS.md](../AGENTS.md)에 있습니다.  
+> (디자인 임의 수정 금지, React Query → portfolio store 순서 등)
+
+이 저장소는 **1차: Cursor로 구현**, **2차: Claude로 검수**하는 흐름을 전제로 합니다.
 
 ---
 
@@ -10,7 +12,7 @@
 | 단계 | 도구 | 브랜치 | 할 일 |
 |------|------|--------|--------|
 | **1차 구현** | **Cursor** | `feature-cursor` | 기능·UI·SCSS·JSON 콘텐츠·문서 초안 |
-| **2차 검수** | **Claude** | PR → `main` (또는 `review/claude-*`) | 버그·타입·a11y·보안·문서↔코드 불일치 |
+| **2차 검수** | **Claude** | PR → `main` | 버그·타입·a11y·보안·문서↔코드 불일치 |
 | **릴리스** | 사람 | `main` + tag `v1.x.x` | verify, 배포, CHANGELOG |
 
 현재 remote: `origin/feature-cursor`, `origin/main`.
@@ -19,11 +21,14 @@
 
 ## 2. 저장소 맥락 (에이전트용 요약)
 
-- **제품**: Windows 데스크톱 메타포 포트폴리오 ([PRD.md](./PRD.md)).
-- **구조**: `api/` Express + `web/` Next.js 15 ([ARCHITECTURE.md](./ARCHITECTURE.md)).
-- **콘텐츠**: `api/data/portfolio.json` only ([CONTENT.md](./CONTENT.md)).
-- **스타일**: Tailwind + SCSS modules, camelCase ([DESIGN.md](./DESIGN.md)).
-- **클릭 원칙**: 바탕화면 → 창 **1단계**; 앱 내부 깊은 탐색 없음.
+- **성격**: **1인 개인 포트폴리오** — 단순함 우선. 엔터프라이즈·과설계 금지 ([AGENTS.md](../AGENTS.md) §0).
+- **제품**: Windows 데스크톱 메타포 ([PRD.md](./PRD.md)).
+- **구조**: `api/` + `web/` 단일 페이지 ([ARCHITECTURE.md](./ARCHITECTURE.md)).
+- **콘텐츠**: `api/data/portfolio.json` ([CONTENT.md](./CONTENT.md)).
+- **지원 맥락**: 신입 지원 + 실무 약 8개월 (`jobs` JSON). **경력 전용 UI는 1차 구현 후 사용자가 추가 예정** — 지금 만들지 말 것.
+- **클릭 원칙**: 바탕화면 → 창 1단계.
+- **배포**: 미정 — [DEPLOY.md](./DEPLOY.md).
+- **금지**: Excel/PowerPoint 창, escapeFinal.
 
 ---
 
@@ -37,9 +42,12 @@
 
 ### 3.2 구현 시
 
+- **디자인**: 사용자가 디자인 변경을 요청하지 않으면 **색·레이아웃·SCSS 구조를 바꾸지 않음** ([DESIGN.md](./DESIGN.md) 참고만).
 - **범위**: 요청된 기능만 — drive-by refactor 금지.
-- **스타일**: SCSS module, `className`, camelCase 클래스 ([DESIGN.md](./DESIGN.md)).
-- **데이터**: UI 문구 하드코딩보다 `portfolio.json` 우선.
+- **스타일**: SCSS module, `className`, camelCase 클래스.
+- **데이터**: UI 문구는 `portfolio.json` 우선.
+- **데이터**: Query로 fetch 1회·캐시; 단일 페이지면 props OK. portfolio store·신규 라우트는 **필요할 때만**. [AGENTS.md](../AGENTS.md) §3.
+- **단순함**: 요청 범위만, 새 라이브러리·레이어·문서 자동 추가 금지.
 - **검증**: 변경 후 `npm run verify` (가능하면).
 
 ### 3.3 커밋
@@ -113,22 +121,9 @@ Blocker는 **직접 수정 PR** 또는 Cursor에게 “이슈 #n 수정”으로
 
 ## 5. 브랜치·PR 워크플로
 
-```
-main          ← 안정, 배포
-  ↑ merge PR
-feature-cursor ← Cursor 1차 개발 (현재)
-```
-
-**권장 PR 흐름 (2차)**
-
-1. `feature-cursor`에서 작업 완료 → `npm run verify`
-2. PR: `feature-cursor` → `main` (제목·본문에 스크린샷, ROADMAP 항목)
-3. Claude 리뷰 코멘트 → Cursor 또는 사람이 수정 → 재push
-4. merge → tag `v1.0.0` (또는 patch) → CHANGELOG 날짜 확정
-
-**3차 이후 (선택)**
-
-- `feature/cursor-<topic>` 짧은 브랜치 → `feature-cursor` merge (기능 단위)
+- 현재: `feature-cursor`에서 1차 개발.
+- **추가 브랜치·review 브랜치는 필요할 때 사용자가 정의** — AI가 임의로 체계를 늘리지 않음.
+- merge·PR·tag는 배포 준비가 되었을 때 ([DEPLOY.md](./DEPLOY.md) URL 확정 후).
 
 ---
 

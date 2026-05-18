@@ -11,13 +11,20 @@
 
 ### Added
 
-- (다음 커밋부터 여기에 기록)
+- 루트 [AGENTS.md](../AGENTS.md) — AI 공통 규칙 (디자인 임의 수정 금지, 데이터 로딩 순서)
+- [docs/DEPLOY.md](./DEPLOY.md) — 배포 URL placeholder (미정)
 
 ### Changed
 
-### Fixed
+- 문서: 배포일 미정·구현 우선 명시
+- Excel/PowerPoint 창 제거 — 경력·프로젝트는 JSON·GitHub pinned 등으로만 활용 가능
+- [AGENTS.md](../AGENTS.md): 1인·단순함 원칙, 경력 UI 추후, Query+props 우선, 금지 제안 목록
+- [.cursor/rules/portfolio.mdc](../.cursor/rules/portfolio.mdc): Cursor alwaysApply 규칙
 
 ### Removed
+
+- Excel(`experience`) / PowerPoint(`projects`) 창 UI 및 `windowId` 매핑
+- README escapeFinal 안내
 
 ---
 

@@ -11,19 +11,19 @@
 | 항목 | 상태 |
 |------|------|
 | 제품 버전 | **1.0.0** (1차) |
-| 개발 브랜치 | `feature-cursor` |
+| 개발 브랜치 | `feature-cursor` (추가 브랜치는 필요 시 본인이 정의) |
 | 검수 | **2차 — Claude** (예정) |
-| 배포 | web Vercel + API 별도 (README) |
+| 배포 | **미정** — [DEPLOY.md](./DEPLOY.md) |
 
 ---
 
-## P0 — 1.0 마무리
+## P0 — 1.0 마무리 (배포 전)
 
+- [ ] `npm run verify` 통과
+- [ ] (보류) portfolio store — 단일 페이지면 **불필요**, props drilling 문제 생길 때만
 - [ ] `feature-cursor` → Claude 검수 → `main` merge
-- [ ] 프로덕션 `NEXT_PUBLIC_PORTFOLIO_API_URL` 설정·동작 확인
-- [ ] `npm run verify` CI 또는 수동 게이트 통과
+- [ ] **배포 시점에** [DEPLOY.md](./DEPLOY.md) URL 기입 + Vercel env
 - [ ] Git tag `v1.0.0` + CHANGELOG 확정
-- [ ] (선택) 라이브 URL README에 명시
 
 ---
 
@@ -31,7 +31,7 @@
 
 ### 콘텐츠·네비게이션
 
-- [ ] 바탕화면 **Excel(경력)** · **PowerPoint(프로젝트)** 아이콘 연결 (`windowId`: experience, projects)
+- [ ] **1차 UI 완료 후** 경력 상세(`jobs`) 노출 — Word·타임라인 등 (사용자 추가 예정, Excel 창 없음)
 - [ ] 시작 메뉴 Placeholder 앱 정리 — 연결할 것 / 제거할 것 구분
 - [ ] `portfolio.json`에 시작 메뉴 “최근 앱” 일부 이전 (선택)
 

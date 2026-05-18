@@ -2,8 +2,8 @@
 
 | 항목 | 내용 |
 |------|------|
-| 문서 버전 | 1.0 |
-| 제품 버전 | 1.0.0 (1차) |
+| 문서 버전 | 1.1 |
+| 제품 버전 | 1.0.0 (1차, 배포일 미정) |
 | 최종 수정 | 2026-05-18 |
 | 읽는 사람 | 본인, 채용 담당·면접관 |
 
@@ -110,14 +110,10 @@
 | DS Helper | `external` | — | `https://dshelper.kr/` 새 탭 |
 | Chrome | `chrome` | `chrome` | Google iframe 모달 |
 
-### 6.2 코드에 있으나 바탕화면에 없는 창 (1차)
+### 6.2 시작 메뉴·기타
 
-| `windowId` | 창 제목(의도) | `kind` | 상태 |
-|------------|---------------|--------|------|
-| `experience` | Excel | `experience` | 구현됨, 바탕화면·시작 메뉴 미연결 |
-| `projects` | PowerPoint | `projects` | 구현됨, 바탕화면·시작 메뉴 미연결 |
-
-시작 메뉴 **타임라인** → `timeline` 창 (학력·경력 연표).
+- 시작 메뉴 **타임라인** → `timeline` 창 (학력·경력 연표).
+- **Excel / PowerPoint 창은 사용하지 않음** (제거됨). 경력·프로젝트 상세는 JSON에 남을 수 있으나 전용 Office 창으로 노출하지 않음.
 
 ### 6.3 스코프 인 (1차)
 
@@ -132,7 +128,8 @@
 - 로그인·CMS 관리 화면
 - 모바일 전용 UX (데스크톱 메타포 유지)
 - 뚜레쥬르·탐앤탐스·KINNI 등 **제거된** 레거시 브랜드 아이콘
-- escapeFinal 등 별도 데스크톱 아이콘 (README에만 언급된 과거 정책; 현재 JSON에는 없음)
+- **Excel / PowerPoint** Office 메타포 창
+- **escapeFinal** 링크·아이콘
 
 ---
 
@@ -142,7 +139,7 @@
 |------|----------|
 | 스택 | Next.js 15, React 19, TypeScript, TanStack Query, Zustand, SCSS 모듈, Tailwind |
 | API | Express, `portfolio.json` 정적 제공 |
-| 배포 | web → Vercel 권장, API → 별도 호스팅 |
+| 배포 | **일정 미정** — [DEPLOY.md](./DEPLOY.md). web → Vercel, API → 별도 호스팅 예정 |
 | 접근성 | 아이콘·시작 메뉴 키보드 일부 지원; WCAG 완전 준수는 2차 |
 | 성능 | 단일 페이지, 이미지 webp 우선, API 1회 fetch |
 

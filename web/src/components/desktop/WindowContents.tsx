@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function WindowContents({ win, data }: Props) {
-  const { experienceSummary, jobs, skills, timeline, projects } = data;
+  const { skills, timeline } = data;
 
   switch (win.kind) {
     case "cursor":
@@ -22,53 +22,6 @@ export function WindowContents({ win, data }: Props) {
               https://cursor.com
             </a>
           </p>
-        </div>
-      );
-    case "experience":
-      return (
-        <div className="space-y-6">
-          <section>
-            <h3 className="mb-1 text-lg font-semibold">경력 요약</h3>
-            <p className="text-neutral-700">
-              총 <strong>{experienceSummary.totalMonths}</strong>개월 —{" "}
-              {experienceSummary.headline}
-            </p>
-          </section>
-          {jobs.map((job) => (
-            <article key={job.company} className="rounded-md border border-neutral-200 p-3">
-              <header className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-lg font-semibold">{job.company}</h3>
-                <span className="text-sm text-neutral-600">{job.periodLabel}</span>
-              </header>
-              <p className="text-sm text-neutral-600">
-                {job.role} · {job.focus} · {job.durationLabel}
-              </p>
-              <p className="mt-2 text-neutral-800">{job.summary}</p>
-              <div className="mt-3 grid gap-2 text-sm text-neutral-700 sm:grid-cols-2">
-                <div>
-                  <p className="font-medium text-neutral-900">프레임워크</p>
-                  <p>{job.stack.framework}</p>
-                </div>
-                <div>
-                  <p className="font-medium text-neutral-900">언어</p>
-                  <p>{job.stack.languages.join(", ")}</p>
-                </div>
-                <div>
-                  <p className="font-medium text-neutral-900">상태</p>
-                  <p>{job.stack.state.join(", ")}</p>
-                </div>
-                <div>
-                  <p className="font-medium text-neutral-900">배포</p>
-                  <p>{job.stack.deploy.join(", ")}</p>
-                </div>
-              </div>
-              <ul className="mt-3 list-disc space-y-1 pl-5 text-neutral-800">
-                {job.highlights.map((h) => (
-                  <li key={h}>{h}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
         </div>
       );
     case "skills":
@@ -112,39 +65,6 @@ export function WindowContents({ win, data }: Props) {
             </li>
           ))}
         </ol>
-      );
-    case "projects":
-      return (
-        <div className="space-y-5">
-          {projects.map((p) => (
-            <article key={p.slug} className="rounded-md border border-neutral-200 p-3">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-lg font-semibold">{p.name}</h3>
-                <span className="text-xs text-neutral-500">
-                  {p.team} · 기여 {p.contribution}
-                </span>
-              </div>
-              <p className="text-sm text-neutral-600">
-                {p.role} · {p.stackSummary}
-              </p>
-              <p className="mt-2 text-sm text-neutral-700">{p.description}</p>
-              <p className="mt-1 text-xs text-neutral-500">환경: {p.env}</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {p.links.map((l) => (
-                  <a
-                    key={l.url}
-                    href={l.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="rounded border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs text-winBlue underline"
-                  >
-                    {l.label}
-                  </a>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
       );
     case "github":
       return null;

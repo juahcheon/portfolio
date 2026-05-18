@@ -23,10 +23,6 @@ export function openWindowFromDesktopId(
       };
     case "cursor":
       return { id, title: "Cursor", kind: "cursor" };
-    case "experience":
-      return { id, title: "Excel", kind: "experience" };
-    case "projects":
-      return { id, title: "PowerPoint", kind: "projects" };
     case "chrome":
       return {
         id,

@@ -106,7 +106,7 @@ docs: PRD 바탕화면 매핑 표 추가
 ### 3.3 1차 마무리 전 권장 커밋 순서 (예시)
 
 1. `docs: add PRD, ARCHITECTURE, CONTENT, …`
-2. `feat(desktop): experience/projects 바탕화면 아이콘 연결` (ROADMAP 항목 시)
+2. `refactor(window): Excel/PowerPoint 창 제거` (해당 시)
 3. `fix(web): 프로덕션 API URL env 검증`
 4. `chore: bump portfolio.json version to 1`
 
@@ -154,7 +154,7 @@ docs: PRD 바탕화면 매핑 표 추가
 ## 5. 기술 부채·알려진 이슈 (연대기 메모)
 
 - 커밋 메시지 homogeneity → §3 규칙으로 개선 중.
-- `experience` / `projects` 창은 코드에 있으나 바탕화면 미연결.
+- Excel / PowerPoint 창 제거 — `jobs`·`projects` JSON은 GitHub 등에서만 사용.
 - 시작 메뉴 PlaceholderRow — 클릭 무동작 (의도적 장식).
 - Windows 전용 에셋 파일명 대소문자 — 배포 환경에서 주의 (README·CONTENT 참고).
 

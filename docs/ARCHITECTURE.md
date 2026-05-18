@@ -51,7 +51,7 @@
 
 ### 2.3 개발·운영 편의
 
-- 로컬: API `4000`, web `3000` — 각각 hot reload.
+- 로컬: API `4000`, web `3003` — 각각 hot reload.
 - web만 mock API로 UI 작업 가능.
 - 배포: Vercel(Serverless/Edge) + Railway·Render 등 **호스팅을 독립** 선택 (README 권장).
 
@@ -99,7 +99,7 @@ web/src/
 | `Lnb.tsx` | 작업 표시줄, 시작 메뉴, 시계, 트레이 |
 | `WindowsStartMenu.tsx` + `.module.scss` | 시작 메뉴 UI·스크롤 |
 | `WinWindow.tsx` | 창 크롬, kind별 분기(탐색기/Word/GitHub/Chrome) |
-| `WindowContents.tsx` | skills, experience, timeline, projects, cursor |
+| `WindowContents.tsx` | skills, timeline, cursor |
 | `ChromeLegacyModal.tsx` | Chrome/GitHub iframe 셸 |
 
 ### 3.3 windowId → kind 매핑
@@ -114,9 +114,9 @@ web/src/
 | about | Word | about |
 | github | GitHub | github |
 | cursor | Cursor | cursor |
-| experience | Excel | experience |
-| projects | PowerPoint | projects |
 | chrome | Chrome | chrome (+ iframeUrl) |
+
+> **Excel / PowerPoint** (`experience`, `projects`) 창 kind는 제거됨. `jobs`·`projects` JSON 필드는 GitHub pinned 등에서 계속 사용 가능.
 
 `desktopStore.ts`의 `OpenWindow.kind`가 라우팅 키입니다.
 
@@ -124,15 +124,23 @@ web/src/
 
 ## 4. 상태 관리
 
-### 4.1 서버 상태 — TanStack Query
+### 4.1 서버 상태 — TanStack Query (1단계)
 
 - **대상**: `PortfolioPayload` 전체 (한 번 fetch).
 - **캐시 키**: `['portfolio']`.
 - **정책**: `cache: 'no-store'` (fetch 시 항상 최신 JSON).
+- 컴포넌트마다 `fetchPortfolio()` 직접 호출 **금지** — Query 훅/프리페치만 사용.
 
-UI 텍스트를 바꿀 때는 JSON 수정 후 API 재시작·재배포만 하면 됩니다.
+### 4.2 포트폴리오 데이터 전달 (단순 우선)
 
-### 4.2 클라이언트 UI 상태 — Zustand (`desktopStore`)
+**1인·단일 페이지** 포트폴리오이므로 **props 전달이 기본**이다 ([AGENTS.md](../AGENTS.md) §3).
+
+- `page.tsx`: React Query → `PortfolioDesktop data={...}`
+- 컴포넌트마다 `fetch` 중복 금지
+
+**portfolio 전용 Zustand store**는 라우트가 늘거나 props drilling이 실제로 불편해질 때만 검토한다. 지금 단계에서 필수 아님.
+
+### 4.3 창 UI 상태 — Zustand (`desktopStore`)
 
 | 상태 | 설명 |
 |------|------|
@@ -144,7 +152,7 @@ UI 텍스트를 바꿀 때는 JSON 수정 후 API 재시작·재배포만 하면
 
 바탕화면 **아이콘 선택**은 `PortfolioDesktop` 로컬 `useState` (Zustand 밖).
 
-### 4.3 창 내부 로컬 상태
+### 4.4 창 내부 로컬 상태
 
 `WinWindow`: `maximized`, `minimized` — 창마다 독립.
 
@@ -205,13 +213,14 @@ cd web && npm run dev
 
 ---
 
-## 9. 배포 topology (권장)
+## 9. 배포 topology (예정)
+
+**URL·배포일 미정** — [DEPLOY.md](./DEPLOY.md)에 Vercel·API 주소를 확정 후 기록.
 
 ```
 [사용자]
-    → Vercel (web, Next.js)
-    → API 호스트 (Express, portfolio.json)
-         예: Railway, Render, Vercel Serverless(별도), Fly.io
+    → Vercel (web, Next.js)     ← _TBD_
+    → API 호스트                ← _TBD_
 ```
 
 CORS는 API에서 `origin: true`로 개발·분리 도메인을 허용합니다. 프로덕션에서는 필요 시 origin 화이트리스트로 좁힐 수 있습니다.

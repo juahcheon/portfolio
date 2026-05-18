@@ -1,0 +1,14 @@
+---
+description: Portfolio 1인 프로젝트 공통 규칙 — 세션마다 적용
+alwaysApply: true
+---
+
+작업 전 저장소 루트 **AGENTS.md**를 읽고 따른다.
+
+핵심만 요약:
+- 개인 포트폴리오, 1인 — **단순하게**, 요청 범위만
+- 디자인 **임의 수정 금지** (사용자 요청 시만)
+- 데이터: React Query 1회 fetch, 단일 페이지면 props OK
+- 콘텐츠: `api/data/portfolio.json`
+- 경력 UI(`jobs`)는 **1차 구현 후** 사용자 추가 예정 — 지금 만들지 말 것
+- Excel/PowerPoint/escapeFinal 금지

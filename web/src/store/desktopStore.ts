@@ -8,10 +8,8 @@ export type OpenWindow = {
   kind:
     | "thisPc"
     | "about"
-    | "experience"
     | "skills"
     | "timeline"
-    | "projects"
     | "github"
     | "chrome"
     | "recycle"

@@ -14,7 +14,9 @@ Vercel에 `web`을, API는 별도(Vercel Serverless / Railway 등)로 두는 구
 | [docs/CHANGELOG.md](docs/CHANGELOG.md) | 버전별 변경 목록 |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | 할 일·우선순위 |
 | [docs/WORKLOG.md](docs/WORKLOG.md) | 작업 일지 |
-| [docs/AGENTS.md](docs/AGENTS.md) | Cursor / Claude 협업 규칙 |
+| [docs/AGENTS.md](docs/AGENTS.md) | Cursor / Claude 협업 (상세) |
+| [docs/DEPLOY.md](docs/DEPLOY.md) | 배포 URL (**미정**) |
+| [AGENTS.md](AGENTS.md) | **AI 공통 규칙 (세션마다 먼저 읽기)** |
 
 ## 구조
 
@@ -63,6 +65,8 @@ copy .env.local.example .env.local
 npm run dev
 ```
 
+웹: http://localhost:3003 (기본 포트 3003, `web/package.json`의 `next dev -p 3003`)
+
 웹 `.env.local`의 `NEXT_PUBLIC_PORTFOLIO_API_URL`을 API 주소에 맞춥니다.
 
 ## 검증
@@ -77,5 +81,9 @@ npm run verify
 ## 데스크톱 아이콘
 
 - 뚜레쥬르·탐앤탐스·KINNI 제거
-- **escapeFinal** → `https://escapefinal.netlify.app/` (새 탭)
+- Excel / PowerPoint 전용 창 없음 (Office 메타포 미사용)
 - 나머지는 윈도우 스타일 창으로 섹션 표시 (데이터는 API)
+
+## 배포
+
+**배포일·프로덕션 URL은 미정** — 구현·검증 우선. URL 확정 시 [docs/DEPLOY.md](docs/DEPLOY.md)에 기록합니다.
