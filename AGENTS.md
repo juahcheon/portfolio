@@ -76,8 +76,8 @@
 | UX | 바탕화면 → **창 1단계**; 앱 안 다단계 탐색 추가 금지 |
 | 창 추가 | `portfolio.json` → `windows.ts` → `desktopStore` kind → `WinWindow` / `WindowContents` — **PRD·CONTENT 동시 확인** |
 | 검증 | 변경 후 `npm run verify` (가능하면) |
-| 커밋 | `type(scope): summary` — [docs/HISTORY.md](docs/HISTORY.md) |
-| 커밋 생성 | **사용자 요청 시만** |
+| 커밋 | `type(scope): summary` — [docs/HISTORY.md](docs/HISTORY.md). **「커밋해줘」 시** 묶음안 → 승인 → commit (§3.4) |
+| 커밋·push | 커밋만 에이전트(승인 후). **push·merge·tag는 사용자** |
 | 에셋 | `npm run sync:legacy` 또는 `web/public` **기존 경로** — 임의 placeholder 이미지 금지 |
 | 배포 경로 | Linux **대소문자** — webp·PNG 소문자 통일 |
 | 라이브러리 | 사용자 요청 없이 **새 패키지 추가 금지** |
@@ -109,10 +109,12 @@
 
 ---
 
-## 7. 브랜치
+## 7. 브랜치 (1인·단순)
 
-- 현재: `feature-cursor`
-- 추가 브랜치는 **사용자가 필요 시 정의** — AI가 임의로 늘리지 않음
+- **일상**: `feature-cursor` — 작업·커밋 기본
+- **안정**: `main` — verify·CHANGELOG 후 merge, tag·배포
+- **가끔**: `feat/...` — 며칠짜리 기능만. 끝나면 `feature-cursor`로 합침
+- 상세: [docs/HISTORY.md](docs/HISTORY.md) §2.2 — AI가 브랜치 체계를 늘리지 않음
 
 ---
 

@@ -51,9 +51,9 @@
 - **검증**: 변경 후 `npm run verify` (가능하면).
 - **불가·한계**: 요청이 구조·플랫폼·비용상 불가하면 **억지 구현하지 말고** 먼저 불가와 이유를 말한 뒤, 가능한 대안만 제안 — [AGENTS.md](../AGENTS.md) §5.
 
-### 3.3 커밋
+### 3.3 커밋 (Cursor — 사용자가 「커밋해줘」할 때만)
 
-[HISTORY.md](./HISTORY.md) §3 — Conventional Commits + scope:
+메시지 형식: [HISTORY.md](./HISTORY.md) §3 — Conventional Commits + scope.
 
 ```
 feat(start-menu): ...
@@ -62,6 +62,17 @@ docs: ...
 ```
 
 `feat: 1차 구현` 같은 메시지는 **더 이상 사용하지 않음**.
+
+#### 3단계 (승인 전 커밋 금지)
+
+1. **계획** — `git status`, `git diff`(staged/unstaged)로 미커밋 변경을 읽고, §3.2 기준으로 **커밋 묶음안**을 사용자에게 제시 ([HISTORY.md](./HISTORY.md) §3.4 형식).
+2. **승인** — 사용자가 OK·수정 지시할 때까지 `git commit` **하지 않음**.
+3. **실행** — 승인된 묶음만 순서대로 stage → commit.
+
+| Cursor가 함 | Cursor가 하지 않음 |
+|-------------|-------------------|
+| 묶음안 작성, 승인 후 commit | `git push`, `main` merge, tag |
+| hook 실패 시 수정 후 **새** commit | 승인 없이 commit, `git config` 변경, `--no-verify` |
 
 ### 3.4 세션 종료 시
 
@@ -122,9 +133,10 @@ Blocker는 **직접 수정 PR** 또는 Cursor에게 “이슈 #n 수정”으로
 
 ## 5. 브랜치·PR 워크플로
 
-- 현재: `feature-cursor`에서 1차 개발.
-- **추가 브랜치·review 브랜치는 필요할 때 사용자가 정의** — AI가 임의로 체계를 늘리지 않음.
-- merge·PR·tag는 배포 준비가 되었을 때 ([DEPLOY.md](./DEPLOY.md) URL 확정 후).
+- **일상**: `feature-cursor`만 사용 ([HISTORY.md](./HISTORY.md) §2.2).
+- **추가 브랜치**: 며칠짜리 기능·WIP와 분리 필요할 때만 `feat/...` 등 — 끝나면 `feature-cursor`로 merge 후 삭제.
+- AI가 **브랜치를 새로 만들거나 이름을 바꾸지 않음** (사용자 요청 시만).
+- merge·PR·tag·**push**는 사용자 — 배포 준비 시 ([DEPLOY.md](./DEPLOY.md)).
 
 ---
 
@@ -166,7 +178,7 @@ Windows PowerShell — `&&` 대신 `;` 사용.
 
 - 응답·문서: **한국어**.
 - 스타일: **SCSS**, `className`, camelCase, 모듈 격리.
-- 커밋: **사용자가 요청할 때만** (에이전트 임의 commit 금지).
+- 커밋: **「커밋해줘」 등 명시 요청 시만** — 묶음안 제시 → 승인 → commit ([HISTORY.md](./HISTORY.md) §3.4). push는 사람.
 - 코드 인용: `` `startLine:endLine:path` `` 형식.
 
 ---

@@ -34,15 +34,46 @@
 - **이후**: Next.js + TypeScript + API로 **콘텐츠와 UI 분리**.
 - **에셋**: `web/scripts/sync-legacy-assets.mjs`로 레거시 `img/webp`, 작업 표시줄 PNG 등 동기화.
 
-### 2.2 브랜치 전략 (현재)
+### 2.2 브랜치 전략 (1인 포트폴리오)
+
+팀 프로젝트처럼 `develop` + `release/*` + 티켓별 브랜치를 늘리지 **않습니다**.  
+오버헤드 대비 이득이 거의 없고, 문서·검수·배포만 복잡해집니다.
+
+#### 기본 2브랜치 (현재·권장 유지)
 
 | 브랜치 | 용도 |
 |--------|------|
-| `feature-cursor` | **1차 개발** — Cursor로 기능·UI 구현 (현재 작업 브랜치) |
-| `main` | 안정·배포용 (병합 후) |
-| (예정) `review/claude-*` 또는 PR | **2차** — Claude로 검수·리팩터 제안 |
+| `feature-cursor` | **일상 작업** — 기능·UI·JSON·docs 초안. Cursor 커밋·push 기본 위치 |
+| `main` | **안정·배포** — verify 통과·CHANGELOG 반영 후 merge. Git tag `v1.x.x`는 여기 |
 
-자세한 AI 워크플로는 [AGENTS.md](./AGENTS.md).
+**흐름**
+
+1. 평소: `feature-cursor`에서 작업 → 작은 커밋을 자주 (§3).
+2. 마일스톤: `npm run verify` → CHANGELOG 정리 → `main`에 merge (**push는 사람**).
+3. 공개: `main`에 tag → 호스팅 배포 ([DEPLOY.md](./DEPLOY.md)).
+
+`main`이 `feature-cursor`보다 뒤처져 있어도 정상입니다. 1차 구현이 끝날 때 한 번 merge하면 됩니다.
+
+#### 추가 브랜치는 “필요할 때만”
+
+| 상황 | 예시 이름 | 이유 |
+|------|-----------|------|
+| 며칠 걸리는 기능·verify가 깨질 수 있음 | `feat/recycle-bin-detail` | `feature-cursor`를 오래 망가뜨리지 않음 |
+| `main` 긴급 수정인데 작업 트리에 WIP가 많음 | `fix/desktop-icon-404` | WIP와 분리 (드묾) |
+| 2차 검수 | `review/claude-*` 또는 PR | Claude diff 리뷰 ([AGENTS.md](./AGENTS.md)) |
+
+작업이 끝나면 **해당 브랜치 → `feature-cursor` merge 후 삭제**.  
+`main`으로 바로 쌓지 않습니다 (검수·CHANGELOG 단계를 건너뜀).
+
+#### 하지 않을 것
+
+- AI 도구마다 브랜치 (`cursor-*`, `claude-*` …) — 지금은 `feature-cursor` 하나로 충분.
+- 사소한 수정마다 `feat/...` 브랜치 — 커밋 단위(§3)로 나누는 편이 가볍습니다.
+- `main`에 직접 일상 커밋 — 배포 스냅샷이 흐려짐.
+
+이름을 나중에 `develop`으로 바꿔도 되지만, **지금 구조를 바꿀 필요는 없습니다.**
+
+자세한 AI·커밋 워크플로는 [AGENTS.md](./AGENTS.md) §3.3·§5.
 
 ### 2.3 의도적으로 제거·단순화한 것
 
@@ -109,6 +140,48 @@ docs: PRD 바탕화면 매핑 표 추가
 2. `refactor(window): Excel/PowerPoint 창 제거` (해당 시)
 3. `fix(web): 프로덕션 API URL env 검증`
 4. `chore: bump portfolio.json version to 1`
+
+### 3.4 Cursor 커밋 워크플로 (사용자 요청 시)
+
+**push·merge·tag는 사람**이 합니다. Cursor(에이전트)는 **커밋만**, 그리고 **「커밋해줘」라고 말했을 때만** 합니다.
+
+#### 트리거
+
+- 사용자: 「커밋해줘」, 「커밋 계획 잡아줘」 등 **명시적 요청**
+- 그 외 세션 종료·기능 완료만으로는 **자동 커밋하지 않음**
+
+#### 3단계 (필수)
+
+| 단계 | 담당 | 내용 |
+|------|------|------|
+| **1. 묶음 계획** | Cursor | `git status` / `git diff`로 미커밋 변경 읽기 → 커밋 단위(§3.1·§3.2)로 **묶음안** 작성 |
+| **2. 승인** | 사람 | 묶음별 메시지·포함 파일 확인. 수정 요청 가능 |
+| **3. 실행** | Cursor | 승인된 묶음만 순서대로 `git add` → `git commit`. **push 금지** |
+
+#### 묶음안 형식 (제시용)
+
+```markdown
+## 커밋 계획 (N개)
+
+### 1. feat(explorer): 휴지통 빈 상태 문구
+- 파일: `web/src/components/explorer/RecycleBinExplorerView.tsx`
+- 메시지: `feat(explorer): 휴지통 빈 폴더 안내 문구 추가`
+
+### 2. docs: Git 브랜치·커밋 워크플로
+- 파일: `docs/HISTORY.md`, `docs/AGENTS.md`
+- 메시지: `docs: 1인 브랜치 전략 및 Cursor 커밋 3단계 정리`
+
+승인해 주시면 위 순서로 커밋합니다. (push는 하지 않습니다)
+```
+
+#### 묶는 기준
+
+- **한 묶음 = 한 의도** (scope·type이 같거나, 되돌리기 단위가 하나).
+- `docs`만 / `content`만 / UI 한 영역 — 가능하면 분리.
+- `.env`, credential, 대용량 바이너리 — 커밋 제외 후 사용자에게 알림.
+- pre-commit hook 실패 시: amend하지 않고 **원인 수정 후 새 커밋**.
+
+상세 에이전트 규칙: [AGENTS.md](./AGENTS.md) §3.3.
 
 ---
 
