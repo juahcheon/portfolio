@@ -3,6 +3,7 @@
 import {
   forwardRef,
   useCallback,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -22,6 +23,8 @@ import {
   SiGithub,
   SiGooglechrome,
   SiKakaotalk,
+  SiNodedotjs,
+  SiPython,
 } from "react-icons/si";
 import { IoMenuOutline } from "react-icons/io5";
 import { LiaUserSolid } from "react-icons/lia";
@@ -47,13 +50,25 @@ function stop(e: MouseEvent) {
   e.stopPropagation();
 }
 
+const EXPANDED_FOLDER_APPS: { title: string; icon: ReactNode }[] = [
+  { title: "Git Bash", icon: <SiGithub aria-hidden /> },
+  { title: "Node.js", icon: <SiNodedotjs aria-hidden /> },
+  { title: "Python 3.14 (64-bit)", icon: <SiPython aria-hidden /> },
+  { title: "Developer PowerShell for VS 2022", icon: <TbBrandVscode aria-hidden /> },
+  { title: "Docker Desktop", icon: <SiDocker aria-hidden /> },
+  { title: "Visual Studio Installer", icon: <TbBrandVscode aria-hidden /> },
+];
+
+const RAIL_EXPAND_HOVER_MS = 500;
+
 export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps>(
   function WindowsStartMenu(
     { onClose, onOpenGitHub, onOpenTimeline, onOpenWindowById, onOpenExternal, dsHelperUrl },
     ref
   ) {
-    const [recentExpanded, setRecentExpanded] = useState(true);
+    const [recentExpanded, setRecentExpanded] = useState(false);
     const [creativeOpen, setCreativeOpen] = useState(false);
+    const [railExpanded, setRailExpanded] = useState(false);
 
     const SCROLL_RAIL_LERP = 0.38;
     const SCROLL_WHEEL_LERP = 0.44;
@@ -244,6 +259,30 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
       [onClose]
     );
 
+    const railExpandTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const clearRailExpandTimer = useCallback(() => {
+      if (railExpandTimerRef.current !== null) {
+        clearTimeout(railExpandTimerRef.current);
+        railExpandTimerRef.current = null;
+      }
+    }, []);
+
+    const scheduleOpenRail = useCallback(() => {
+      clearRailExpandTimer();
+      railExpandTimerRef.current = setTimeout(() => {
+        railExpandTimerRef.current = null;
+        setRailExpanded(true);
+      }, RAIL_EXPAND_HOVER_MS);
+    }, [clearRailExpandTimer]);
+
+    const closeRail = useCallback(() => {
+      clearRailExpandTimer();
+      setRailExpanded(false);
+    }, [clearRailExpandTimer]);
+
+    useEffect(() => clearRailExpandTimer, [clearRailExpandTimer]);
+
     return (
       <div
         ref={ref}
@@ -254,27 +293,59 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
         onKeyDown={onKeyDown}
       >
         <nav className={styles.startMenuBody} aria-label="앱 및 고정">
-          <aside className={styles.startMenuRail}>
+          <aside
+            className={`${styles.startMenuRail} ${railExpanded ? styles.startMenuRailExpanded : ""}`}
+            onMouseEnter={scheduleOpenRail}
+            onMouseLeave={closeRail}
+          >
             <div className={styles.startMenuRailTop}>
-              <button type="button" className={styles.startMenuRailBtn} aria-label="메뉴" title="메뉴">
-                <IoMenuOutline size={18} strokeWidth={2.2} />
+              <button
+                type="button"
+                className={styles.startMenuRailBtn}
+                aria-label="시작"
+                title="시작"
+              >
+                <span className={styles.startMenuRailBtnIcon} aria-hidden>
+                  <IoMenuOutline size={18} strokeWidth={2.2} />
+                </span>
+                <span className={styles.startMenuRailLabel}>시작</span>
               </button>
             </div>
             <div className={styles.startMenuRailBottom}>
-              <button type="button" className={`${styles.startMenuRailBtn} ${styles.startMenuRailBtnUser}`} aria-label="사용자 계정" title="계정">
-                <LiaUserSolid size={14} />
+              <button
+                type="button"
+                className={`${styles.startMenuRailBtn} ${styles.startMenuRailBtnUser}`}
+                aria-label="사용자"
+                title="사용자"
+              >
+                <span className={styles.startMenuRailBtnIcon} aria-hidden>
+                  <LiaUserSolid size={14} />
+                </span>
+                <span className={styles.startMenuRailLabel}>사용자</span>
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="문서" title="문서">
-                <HiOutlineDocument size={16} />
+                <span className={styles.startMenuRailBtnIcon} aria-hidden>
+                  <HiOutlineDocument size={16} />
+                </span>
+                <span className={styles.startMenuRailLabel}>문서</span>
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="사진" title="사진">
-                <PiImage size={16} />
+                <span className={styles.startMenuRailBtnIcon} aria-hidden>
+                  <PiImage size={16} />
+                </span>
+                <span className={styles.startMenuRailLabel}>사진</span>
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="설정" title="설정">
-                <CiSettings size={20} />
+                <span className={styles.startMenuRailBtnIcon} aria-hidden>
+                  <CiSettings size={20} />
+                </span>
+                <span className={styles.startMenuRailLabel}>설정</span>
               </button>
               <button type="button" className={styles.startMenuRailBtn} aria-label="전원" title="전원">
-                <TfiPowerOff size={15} />
+                <span className={styles.startMenuRailBtnIcon} aria-hidden>
+                  <TfiPowerOff size={15} />
+                </span>
+                <span className={styles.startMenuRailLabel}>전원</span>
               </button>
             </div>
           </aside>
@@ -284,42 +355,38 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
               <div ref={listScrollRef} className={styles.startMenuListScroll}>
                 <p className={styles.startMenuSectionLabel}>최근에 추가한 앱</p>
 
-                {recentExpanded ? (
-                  <>
-                    <button
-                      type="button"
-                      className={styles.startMenuRow}
-                      onClick={() => run(() => onOpenExternal(dsHelperUrl))}
-                    >
-                      <span className={styles.startMenuIconWrap}>
-                        <SiGooglechrome aria-hidden />
-                      </span>
-                      <span className={styles.startMenuRowBody}>
-                        <span className={styles.startMenuRowTitle}>DS Helper</span>
-                      </span>
-                    </button>
-                    <button type="button" className={styles.startMenuRow} onClick={() => run(onOpenGitHub)}>
-                      <span className={styles.startMenuIconWrap}>
-                        <SiGithub aria-hidden />
-                      </span>
-                      <span className={styles.startMenuRowBody}>
-                        <span className={styles.startMenuRowTitle}>GitHub Desktop</span>
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.startMenuRow}
-                      onClick={() => run(() => onOpenWindowById("cursor"))}
-                    >
-                      <span className={styles.startMenuIconWrap}>
-                        <TbBrandVscode aria-hidden />
-                      </span>
-                      <span className={styles.startMenuRowBody}>
-                        <span className={styles.startMenuRowTitle}>Antigravity</span>
-                      </span>
-                    </button>
-                  </>
-                ) : null}
+                <button
+                  type="button"
+                  className={styles.startMenuRow}
+                  onClick={() => run(() => onOpenExternal(dsHelperUrl))}
+                >
+                  <span className={styles.startMenuIconWrap}>
+                    <SiGooglechrome aria-hidden />
+                  </span>
+                  <span className={styles.startMenuRowBody}>
+                    <span className={styles.startMenuRowTitle}>DS Helper</span>
+                  </span>
+                </button>
+                <button type="button" className={styles.startMenuRow} onClick={() => run(onOpenGitHub)}>
+                  <span className={styles.startMenuIconWrap}>
+                    <SiGithub aria-hidden />
+                  </span>
+                  <span className={styles.startMenuRowBody}>
+                    <span className={styles.startMenuRowTitle}>GitHub Desktop</span>
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  className={styles.startMenuRow}
+                  onClick={() => run(() => onOpenWindowById("cursor"))}
+                >
+                  <span className={styles.startMenuIconWrap}>
+                    <TbBrandVscode aria-hidden />
+                  </span>
+                  <span className={styles.startMenuRowBody}>
+                    <span className={styles.startMenuRowTitle}>Antigravity</span>
+                  </span>
+                </button>
 
                 <button
                   type="button"
@@ -334,7 +401,31 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                   />
                 </button>
 
-                <div className={styles.startMenuDivider} />
+                <div
+                  className={`${styles.startMenuReveal} ${styles.startMenuRevealExpand} ${recentExpanded ? styles.startMenuRevealOpen : ""}`}
+                  role="group"
+                  aria-label="확장된 앱"
+                  aria-hidden={!recentExpanded}
+                >
+                  <div className={styles.startMenuRevealInner}>
+                    <div className={styles.startMenuExpandList}>
+                      {EXPANDED_FOLDER_APPS.map((app) => (
+                        <button
+                          key={app.title}
+                          type="button"
+                          className={styles.startMenuRow}
+                          aria-label={app.title}
+                          tabIndex={recentExpanded ? 0 : -1}
+                        >
+                          <span className={styles.startMenuIconWrap}>{app.icon}</span>
+                          <span className={styles.startMenuRowBody}>
+                            <span className={styles.startMenuRowTitle}>{app.title}</span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
 
                 <p className={styles.startMenuLetter}>#</p>
                 <PlaceholderRow icon={<SiDiscord aria-hidden />} title="Discord" />
@@ -374,12 +465,17 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                     aria-hidden
                   />
                 </button>
-                {creativeOpen ? (
-                  <div className={styles.startMenuFolderChildren}>
-                    <DecorRow icon={<MdOutlineRocketLaunch />} title="After Effects 2025" sub="시스템" muted />
-                    <DecorRow icon={<MdOutlineRocketLaunch />} title="Photoshop 2025" sub="시스템" muted />
+                <div
+                  className={`${styles.startMenuReveal} ${styles.startMenuRevealFolder} ${creativeOpen ? styles.startMenuRevealOpen : ""}`}
+                  aria-hidden={!creativeOpen}
+                >
+                  <div className={styles.startMenuRevealInner}>
+                    <div className={styles.startMenuFolderChildren}>
+                      <DecorRow icon={<MdOutlineRocketLaunch />} title="After Effects 2025" sub="시스템" muted />
+                      <DecorRow icon={<MdOutlineRocketLaunch />} title="Photoshop 2025" sub="시스템" muted />
+                    </div>
                   </div>
-                ) : null}
+                </div>
 
                 <p className={styles.startMenuLetter}>D</p>
                 <PlaceholderRow icon={<SiDocker aria-hidden />} title="Docker Desktop" />
