@@ -158,9 +158,9 @@
             "size": "1KB"
           },
           {
-            "id": "scss",
-            "fileName": "html-css-scss.html",
-            "displayName": "HTML · CSS · SCSS",
+            "id": "responsive-web",
+            "fileName": "responsive-web.html",
+            "displayName": "반응형 웹앱",
             "modified": "2025-10-10 오전 11:05",
             "size": "2KB"
           },
@@ -183,6 +183,20 @@
             "fileName": "rest-api.html",
             "displayName": "REST API",
             "modified": "2025-09-18 오후 2:40",
+            "size": "1KB"
+          },
+          {
+            "id": "social-login",
+            "fileName": "social-login.html",
+            "displayName": "소셜 로그인 (카카오 · 구글 · 네이버)",
+            "modified": "2025-09-17 오후 4:12",
+            "size": "2KB"
+          },
+          {
+            "id": "postman",
+            "fileName": "postman.html",
+            "displayName": "Postman",
+            "modified": "2025-09-16 오전 11:28",
             "size": "1KB"
           }
         ]
@@ -308,6 +322,13 @@
             "size": "1KB"
           },
           {
+            "id": "github-organization",
+            "fileName": "github-organization.html",
+            "displayName": "GitHub Organization",
+            "modified": "2025-08-11 오후 3:20",
+            "size": "1KB"
+          },
+          {
             "id": "slack",
             "fileName": "slack.html",
             "displayName": "Slack",
@@ -317,7 +338,7 @@
           {
             "id": "monorepo",
             "fileName": "monorepo.html",
-            "displayName": "Monorepo",
+            "displayName": "Monorepo (Web · Mobile)",
             "modified": "2025-08-09 오후 2:05",
             "size": "1KB"
           }
