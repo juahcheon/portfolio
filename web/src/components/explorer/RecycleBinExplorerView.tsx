@@ -5,29 +5,20 @@ import {
   FaArrowRight,
   FaArrowRotateRight,
   FaArrowUp,
-  FaFileCode,
-  FaFileZipper,
   FaList,
   FaMagnifyingGlass,
-  FaMarkdown,
-  FaRegFileLines,
   FaRegSquare,
   FaTrashCan,
-  FaWindowMaximize,
 } from "react-icons/fa6";
 import { ExplorerFolderIcon } from "./ExplorerFolderIcon";
 import { ExplorerSidebar } from "./ExplorerSidebar";
 import {
   exAddressBox,
   exAddressCrumb,
-  exAppIcon,
   exCommandBar,
-  exFileIcon,
   exFolderImg,
-  exJsonColor,
   exListPane,
   exMainRow,
-  exMdColor,
   exNameCell,
   exNavBtn,
   exNavCluster,
@@ -42,11 +33,9 @@ import {
   exTable,
   exTableScroll,
   exTd,
-  exTextColor,
   exTh,
   exThRow,
   exTr,
-  exZipColor,
 } from "./explorerShellClasses";
 
 type Row = {
@@ -117,23 +106,23 @@ const rows: Row[] = [
   },
 ];
 
+const EMPTY_DOCUMENT_ICON = "/icons/explore/emptyDocumentIcon.png";
+
 function FileGlyph({ kind }: { kind: Row["icon"] }) {
-  switch (kind) {
-    case "folder":
-      return <ExplorerFolderIcon width={16} height={16} className={exFolderImg} />;
-    case "zip":
-      return <FaFileZipper className={`${exFileIcon} ${exZipColor}`} aria-hidden />;
-    case "text":
-      return <FaRegFileLines className={`${exFileIcon} ${exTextColor}`} aria-hidden />;
-    case "json":
-      return <FaFileCode className={`${exFileIcon} ${exJsonColor}`} aria-hidden />;
-    case "md":
-      return <FaMarkdown className={`${exFileIcon} ${exMdColor}`} aria-hidden />;
-    case "app":
-      return <FaWindowMaximize className={`${exFileIcon} ${exAppIcon}`} aria-hidden />;
-    default:
-      return null;
+  if (kind === "folder") {
+    return <ExplorerFolderIcon width={16} height={16} className={exFolderImg} />;
   }
+  return (
+    <img
+      src={EMPTY_DOCUMENT_ICON}
+      alt=""
+      width={16}
+      height={16}
+      className={exFolderImg}
+      draggable={false}
+      decoding="async"
+    />
+  );
 }
 
 export function RecycleBinExplorerView() {

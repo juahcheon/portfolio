@@ -47,16 +47,7 @@ export const exTd =
 
 export const exNameCell = "flex min-w-0 items-center gap-1.5";
 
-export const exFileIcon =
-  "flex h-4 w-4 shrink-0 items-center justify-center text-sm";
-
 export const exFolderImg = "shrink-0 object-contain";
-
-export const exTextColor = "text-[#0078d4]";
-export const exZipColor = "text-amber-800";
-export const exJsonColor = "text-[#c4a000]";
-export const exMdColor = "text-[#0969da]";
-export const exAppIcon = "text-xs text-[#6b3fa0]";
 
 export const exStatusBar =
   "flex h-[22px] shrink-0 items-center justify-between border-t border-[#d9d9d9] bg-[#f0f0f0] px-2.5 text-[11px] text-[#404040]";
