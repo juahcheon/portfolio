@@ -22,8 +22,8 @@
       {
         "column": 0,
         "id": "control",
-        "label": "제어판",
-        "imageUrl": "/icons/desktop/controlPanelIcon.png",
+        "label": "스킬",
+        "imageUrl": "/icons/desktop/folderIcon.png",
         "action": "window",
         "windowId": "skills"
       },
@@ -122,30 +122,207 @@
     }
   ],
   "skills": {
-    "frontend": [
-      "Next.js 14·15 (Pages / App Router)",
-      "React",
-      "TypeScript",
-      "JavaScript",
-      "HTML · CSS · SCSS",
-      "React Native"
-    ],
-    "stateData": ["TanStack Query (React Query)", "Zustand"],
-    "tools": [
-      "Figma",
-      "Git",
-      "GitHub",
-      "GitHub Organization",
-      "Vercel",
-      "Notion",
-      "Netlify",
-      "Swagger",
-      "Docker",
-      "Slack",
-      "Riido",
-      "PM2",
-      "Nginx",
-      "AWS EC2"
+    "folders": [
+      {
+        "id": "frontend",
+        "name": "프론트엔드",
+        "modified": "2025-10-28 오전 11:12",
+        "size": "",
+        "files": [
+          {
+            "id": "nextjs",
+            "fileName": "nextjs.html",
+            "displayName": "Next.js",
+            "modified": "2025-10-20 오후 3:14",
+            "size": "2KB"
+          },
+          {
+            "id": "react",
+            "fileName": "react.html",
+            "displayName": "React",
+            "modified": "2025-10-18 오후 1:02",
+            "size": "1KB"
+          },
+          {
+            "id": "typescript",
+            "fileName": "typescript.html",
+            "displayName": "TypeScript",
+            "modified": "2025-10-15 오전 9:40",
+            "size": "1KB"
+          },
+          {
+            "id": "javascript",
+            "fileName": "javascript.html",
+            "displayName": "JavaScript",
+            "modified": "2025-10-12 오후 4:22",
+            "size": "1KB"
+          },
+          {
+            "id": "scss",
+            "fileName": "html-css-scss.html",
+            "displayName": "HTML · CSS · SCSS",
+            "modified": "2025-10-10 오전 11:05",
+            "size": "2KB"
+          },
+          {
+            "id": "tanstack-query",
+            "fileName": "tanstack-query.html",
+            "displayName": "TanStack Query",
+            "modified": "2025-09-22 오후 2:33",
+            "size": "1KB"
+          },
+          {
+            "id": "zustand",
+            "fileName": "zustand.html",
+            "displayName": "Zustand",
+            "modified": "2025-09-20 오전 10:11",
+            "size": "1KB"
+          },
+          {
+            "id": "rest-api",
+            "fileName": "rest-api.html",
+            "displayName": "REST API",
+            "modified": "2025-09-18 오후 2:40",
+            "size": "1KB"
+          }
+        ]
+      },
+      {
+        "id": "backend",
+        "name": "백엔드",
+        "modified": "2025-09-15 오후 5:44",
+        "size": "",
+        "files": [
+          {
+            "id": "java",
+            "fileName": "java.html",
+            "displayName": "Java",
+            "modified": "2025-09-12 오후 3:08",
+            "size": "2KB"
+          },
+          {
+            "id": "springboot",
+            "fileName": "springboot.html",
+            "displayName": "Spring Boot",
+            "modified": "2025-09-10 오전 9:55",
+            "size": "2KB"
+          },
+          {
+            "id": "mysql",
+            "fileName": "mysql.html",
+            "displayName": "MySQL",
+            "modified": "2025-09-08 오후 1:27",
+            "size": "1KB"
+          }
+        ]
+      },
+      {
+        "id": "deploy",
+        "name": "배포",
+        "modified": "2025-08-22 오후 4:10",
+        "size": "",
+        "files": [
+          {
+            "id": "pm2",
+            "fileName": "pm2.html",
+            "displayName": "PM2",
+            "modified": "2025-08-25 오후 2:19",
+            "size": "1KB"
+          },
+          {
+            "id": "nginx",
+            "fileName": "nginx.html",
+            "displayName": "Nginx",
+            "modified": "2025-08-28 오전 11:40",
+            "size": "1KB"
+          },
+          {
+            "id": "vercel",
+            "fileName": "vercel.html",
+            "displayName": "Vercel",
+            "modified": "2025-08-08 오후 4:33",
+            "size": "1KB"
+          },
+          {
+            "id": "netlify",
+            "fileName": "netlify.html",
+            "displayName": "Netlify",
+            "modified": "2025-08-07 오전 10:15",
+            "size": "1KB"
+          },
+          {
+            "id": "aws-ec2",
+            "fileName": "aws-ec2.html",
+            "displayName": "AWS EC2",
+            "modified": "2025-08-06 오후 3:22",
+            "size": "1KB"
+          },
+          {
+            "id": "aws-s3",
+            "fileName": "aws-s3.html",
+            "displayName": "AWS S3",
+            "modified": "2025-08-05 오후 1:48",
+            "size": "1KB"
+          },
+          {
+            "id": "github-actions",
+            "fileName": "github-actions.html",
+            "displayName": "GitHub Actions",
+            "modified": "2025-08-04 오전 9:30",
+            "size": "1KB"
+          }
+        ]
+      },
+      {
+        "id": "collaboration",
+        "name": "협업",
+        "modified": "2025-08-20 오전 10:00",
+        "size": "",
+        "files": [
+          {
+            "id": "figma",
+            "fileName": "figma.html",
+            "displayName": "Figma",
+            "modified": "2025-08-18 오후 3:51",
+            "size": "1KB"
+          },
+          {
+            "id": "notion",
+            "fileName": "notion.html",
+            "displayName": "Notion",
+            "modified": "2025-08-16 오전 9:22",
+            "size": "1KB"
+          },
+          {
+            "id": "git",
+            "fileName": "git.html",
+            "displayName": "Git",
+            "modified": "2025-08-14 오후 5:07",
+            "size": "1KB"
+          },
+          {
+            "id": "github",
+            "fileName": "github.html",
+            "displayName": "GitHub",
+            "modified": "2025-08-12 오후 1:44",
+            "size": "1KB"
+          },
+          {
+            "id": "slack",
+            "fileName": "slack.html",
+            "displayName": "Slack",
+            "modified": "2025-08-10 오전 11:18",
+            "size": "1KB"
+          },
+          {
+            "id": "monorepo",
+            "fileName": "monorepo.html",
+            "displayName": "Monorepo",
+            "modified": "2025-08-09 오후 2:05",
+            "size": "1KB"
+          }
+        ]
+      }
     ]
   },
   "timeline": [

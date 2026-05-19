@@ -26,6 +26,10 @@ const ThisPcExplorerView = dynamic(
   () => import("@/components/explorer/ThisPcExplorerView").then((m) => m.ThisPcExplorerView),
   { ssr: false }
 );
+const SkillsExplorerView = dynamic(
+  () => import("@/components/explorer/SkillsExplorerView").then((m) => m.SkillsExplorerView),
+  { ssr: false }
+);
 
 function RecycleBinTitleIcon() {
   return (
@@ -62,7 +66,7 @@ type Props = {
 };
 
 function isExplorerShell(kind: OpenWindow["kind"]) {
-  return kind === "recycle" || kind === "thisPc";
+  return kind === "recycle" || kind === "thisPc" || kind === "skills";
 }
 
 function titleLeading(win: OpenWindow) {
@@ -216,6 +220,8 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
             <RecycleBinExplorerView />
           ) : win.kind === "thisPc" ? (
             <ThisPcExplorerView />
+          ) : win.kind === "skills" ? (
+            <SkillsExplorerView skills={data.skills} />
           ) : (
             <div className="min-h-0 flex-1 overflow-auto p-4 text-sm text-neutral-800">
               <WindowContents win={win} data={data} />

@@ -63,10 +63,24 @@ export type Job = {
   highlights: string[];
 };
 
+export type SkillFile = {
+  id: string;
+  fileName: string;
+  displayName: string;
+  modified: string;
+  size: string;
+};
+
+export type SkillFolder = {
+  id: string;
+  name: string;
+  modified: string;
+  size: string;
+  files: SkillFile[];
+};
+
 export type Skills = {
-  frontend: string[];
-  stateData: string[];
-  tools: string[];
+  folders: SkillFolder[];
 };
 
 export type TimelineItem = {

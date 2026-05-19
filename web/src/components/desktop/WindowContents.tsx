@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function WindowContents({ win, data }: Props) {
-  const { skills, timeline } = data;
+  const { timeline } = data;
 
   switch (win.kind) {
     case "cursor":
@@ -25,34 +25,7 @@ export function WindowContents({ win, data }: Props) {
         </div>
       );
     case "skills":
-      return (
-        <div className="grid gap-6 md:grid-cols-3">
-          <section>
-            <h3 className="mb-2 font-semibold text-neutral-900">프론트엔드</h3>
-            <ul className="list-disc space-y-1 pl-5 text-sm text-neutral-800">
-              {skills.frontend.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-          </section>
-          <section>
-            <h3 className="mb-2 font-semibold text-neutral-900">상태 · 데이터</h3>
-            <ul className="list-disc space-y-1 pl-5 text-sm text-neutral-800">
-              {skills.stateData.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-          </section>
-          <section>
-            <h3 className="mb-2 font-semibold text-neutral-900">도구</h3>
-            <ul className="list-disc space-y-1 pl-5 text-sm text-neutral-800">
-              {skills.tools.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-          </section>
-        </div>
-      );
+      return null;
     case "timeline":
       return (
         <ol className="space-y-4 border-l-2 border-winBlue pl-4">

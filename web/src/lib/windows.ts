@@ -12,7 +12,7 @@ export function openWindowFromDesktopId(
     case "hero":
       return { id, title: "내 PC", kind: "thisPc" };
     case "skills":
-      return { id, title: "제어판", kind: "skills" };
+      return { id, title: "스킬", kind: "skills" };
     case "about":
       return { id, title: "Word", kind: "about" };
     case "github":
