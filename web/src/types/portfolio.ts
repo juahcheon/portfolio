@@ -116,6 +116,8 @@ export type WindowsCopy = {
 
 export type PortfolioPayload = {
   version: number;
+  /** 배포·공유용 프로덕션 URL (UI에서 안 쓸 수 있음) */
+  siteUrl?: string;
   desktop: Desktop;
   profile: Profile;
   about: About;

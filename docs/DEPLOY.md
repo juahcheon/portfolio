@@ -7,12 +7,12 @@
 
 ---
 
-## URL (확정 시 기입)
+## URL
 
 | 항목 | 값 | 비고 |
 |------|-----|------|
-| **Web (Vercel)** | `_TBD_` | Root Directory: **`web`** |
-| **데이터 API** | `https://(your-domain)/api/v1/portfolio` | 같은 Vercel 프로젝트 |
+| **Web (Vercel)** | [https://portfolio-dusky-three-v0owey1kvg.vercel.app/](https://portfolio-dusky-three-v0owey1kvg.vercel.app/) | Root Directory: **`web`** |
+| **데이터 API** | `https://portfolio-dusky-three-v0owey1kvg.vercel.app/api/v1/portfolio` | 같은 Vercel 프로젝트 |
 | **환경 변수** | (보통 **불필요**) | 기본은 same-origin `/api/v1/portfolio` |
 
 ---
@@ -26,7 +26,7 @@
 5. Output: Next 기본
 6. **Environment Variables**: 기본 없음. 레거시 Express로만 테스트할 때 `NEXT_PUBLIC_PORTFOLIO_API_URL`
 
-배포 후 브라우저에서 `https://(your-domain)/api/v1/portfolio` 가 JSON이면 성공.
+배포 후 브라우저에서 `/api/v1/portfolio` 가 JSON이면 성공 (위 Web URL 기준 동일 오리진).
 
 ---
 
