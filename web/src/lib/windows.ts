@@ -14,7 +14,7 @@ export function openWindowFromDesktopId(
     case "skills":
       return { id, title: "스킬", kind: "skills" };
     case "about":
-      return { id, title: "Word", kind: "about" };
+      return { id, title: "자기소개", kind: "about" };
     case "github":
       return {
         id: "win-github",
@@ -23,13 +23,8 @@ export function openWindowFromDesktopId(
       };
     case "cursor":
       return { id, title: "Cursor", kind: "cursor" };
-    case "chrome":
-      return {
-        id,
-        title: "Chrome",
-        kind: "chrome",
-        iframeUrl: data.windowsCopy.chromeFrameUrl,
-      };
+    case "projects":
+      return { id, title: "프로젝트", kind: "projects" };
     default:
       return null;
   }

@@ -76,7 +76,7 @@ function WordTitleControls({
 }
 
 export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose }: Props) {
-  const docTitle = `소개.docx - Word`;
+  const docTitle = "자기소개.docx";
   const { about, profile } = data;
   const approxWords = Math.max(
     1,

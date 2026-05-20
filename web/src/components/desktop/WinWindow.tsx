@@ -30,6 +30,10 @@ const SkillsExplorerView = dynamic(
   () => import("@/components/explorer/SkillsExplorerView").then((m) => m.SkillsExplorerView),
   { ssr: false }
 );
+const ProjectsPanelView = dynamic(
+  () => import("@/components/explorer/ProjectsPanelView").then((m) => m.ProjectsPanelView),
+  { ssr: false }
+);
 
 function RecycleBinTitleIcon() {
   return (
@@ -83,6 +87,20 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
   const [maximized, setMaximized] = useState(false);
   const [minimized, setMinimized] = useState(false);
 
+  if (win.kind === "projects") {
+    return (
+      <ChromeLegacyModal
+        zIndex={zIndex}
+        stackIndex={stackIndex}
+        embeddedContent={<ProjectsPanelView projects={data.projects} />}
+        displayAddressUrl="portfolio://projects"
+        ariaLabel="프로젝트"
+        onClose={() => onClose(win.id)}
+        onFocus={() => onFocus(win.id)}
+      />
+    );
+  }
+
   if (win.kind === "github") {
     const gh = data.github;
     return (
@@ -101,18 +119,6 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
           pinnedRepos: pickGithubPinnedRepos(data.projects),
         }}
         ariaLabel="GitHub"
-        onClose={() => onClose(win.id)}
-        onFocus={() => onFocus(win.id)}
-      />
-    );
-  }
-
-  if (win.kind === "chrome" && win.iframeUrl) {
-    return (
-      <ChromeLegacyModal
-        zIndex={zIndex}
-        stackIndex={stackIndex}
-        iframeUrl={win.iframeUrl}
         onClose={() => onClose(win.id)}
         onFocus={() => onFocus(win.id)}
       />
@@ -175,7 +181,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
             ? "min(92vw, 700px)"
             : "min(92vw, 760px)",
         height: isWordDoc
-          ? "min(92vh, 780px)"
+          ? "min(92vh, 780px, calc(100vh - 100px))"
           : explorer
             ? "min(76vh, 520px)"
             : "min(78vh, min(640px, calc(100vh - 70px)))",
