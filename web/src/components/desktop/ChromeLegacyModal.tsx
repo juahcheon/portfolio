@@ -1,0 +1,206 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaArrowRotateRight,
+  FaChevronDown,
+  FaEllipsisVertical,
+  FaLock,
+  FaPlus,
+  FaRegSquare,
+  FaRegStar,
+  FaWindowMinimize,
+  FaXmark,
+} from "react-icons/fa6";
+import type { GithubPinnedRepo } from "./githubPinnedRepos";
+import { GitHubChromeContent } from "./GitHubChromeContent";
+
+type Props = {
+  zIndex: number;
+  stackIndex?: number;
+  iframeUrl: string;
+  /** 주소창에 표시할 문자열 (없으면 iframeUrl) */
+  displayAddressUrl?: string;
+  /** github.com 은 iframe 차단 → 기여도 차트로 대체 */
+  activityChartUrl?: string;
+  profileUrl?: string;
+  /** `github`: 본문·주소줄 다크 + GitHub UI. 기본 `chrome` */
+  variant?: "chrome" | "github";
+  /** `variant === "github"`일 때 프로필 영역 데이터 */
+  githubMeta?: {
+    username: string;
+    displayName: string;
+    tagline: string;
+    pinnedRepos: GithubPinnedRepo[];
+  };
+  /** 접근성 라벨 */
+  ariaLabel?: string;
+  onClose: () => void;
+  onFocus: () => void;
+};
+
+function isGitHubProfileEmbedBlocked(url: string): boolean {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    return host === "github.com";
+  } catch {
+    return false;
+  }
+}
+
+export function ChromeLegacyModal({
+  zIndex,
+  stackIndex = 0,
+  iframeUrl,
+  displayAddressUrl,
+  activityChartUrl,
+  profileUrl,
+  variant = "chrome",
+  githubMeta,
+  ariaLabel = "Chrome",
+  onClose,
+  onFocus,
+}: Props) {
+  const [maximized, setMaximized] = useState(false);
+
+  const useActivityFallback =
+    Boolean(activityChartUrl) && isGitHubProfileEmbedBlocked(iframeUrl);
+
+  const stackX = stackIndex * 14;
+  const stackY = stackIndex * 12;
+  const positionStyle = maximized
+    ? { zIndex }
+    : {
+        zIndex,
+        transform: `translate(calc(-50% + ${stackX}px), calc(-50% + ${stackY}px))`,
+      };
+
+  const modalClass =
+    variant === "github" ? "clmPageModal clmPageModal--github" : "clmPageModal";
+
+  return (
+    <div
+      className={`${modalClass} ${maximized ? "clmPageModalMax" : ""}`}
+      style={positionStyle}
+      role="dialog"
+      aria-label={ariaLabel}
+      onMouseDown={onFocus}
+    >
+      <div className="clmModalWrap">
+        <div className="clmModalHeader">
+          <div className="clmHeaderPage">
+            <div className="clmOpenPage">
+              <ul>
+                <li className={`clmActivePage clmHoverLight`}>
+                  <a href="#" onClick={(e) => e.preventDefault()} aria-hidden />
+                  <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
+                    <FaXmark aria-hidden />
+                  </button>
+                </li>
+                <li className="clmHoverLight">
+                  <a href="#" onClick={(e) => e.preventDefault()} aria-hidden />
+                  <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
+                    <FaXmark aria-hidden />
+                  </button>
+                </li>
+                <button type="button" className={`clmNewPage clmHoverDark`} aria-label="새 탭">
+                  <FaPlus aria-hidden />
+                </button>
+              </ul>
+            </div>
+            <div className="clmHeaderRight">
+              <button type="button" className="clmHoverDark" aria-label="메뉴">
+                <FaChevronDown aria-hidden />
+              </button>
+              <button type="button" className={`clmMinimize clmHoverDark`} aria-label="최소화">
+                <FaWindowMinimize aria-hidden />
+              </button>
+              <button
+                type="button"
+                className="clmHoverDark"
+                aria-label="최대화"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMaximized((m) => !m);
+                }}
+              >
+                <FaRegSquare aria-hidden />
+              </button>
+              <button
+                type="button"
+                className="clmHoverDark"
+                aria-label="닫기"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
+              >
+                <FaXmark aria-hidden />
+              </button>
+            </div>
+          </div>
+          <div className="clmHeaderAddress">
+            <div className="clmAddressMove">
+              <button type="button" aria-label="뒤로">
+                <FaArrowLeft aria-hidden />
+              </button>
+              <button type="button" aria-label="앞으로">
+                <FaArrowRight aria-hidden />
+              </button>
+              <button type="button" aria-label="새로고침">
+                <FaArrowRotateRight aria-hidden />
+              </button>
+            </div>
+            <div className="clmAddressDetail">
+              <button type="button" aria-label="보안">
+                <FaLock aria-hidden />
+              </button>
+              <p className="clmAddressUrl">{displayAddressUrl ?? iframeUrl}</p>
+              <button type="button" aria-label="북마크">
+                <FaRegStar aria-hidden />
+              </button>
+            </div>
+            <button type="button" className={`clmSettingChrome clmHoverDark`} aria-label="설정">
+              <FaEllipsisVertical aria-hidden />
+            </button>
+          </div>
+        </div>
+        <div className="clmModalBody">
+          {useActivityFallback && activityChartUrl ? (
+            variant === "github" && githubMeta && profileUrl ? (
+              <GitHubChromeContent
+                username={githubMeta.username}
+                displayName={githubMeta.displayName}
+                tagline={githubMeta.tagline}
+                profileUrl={profileUrl}
+                activityChartUrl={activityChartUrl}
+                pinnedRepos={githubMeta.pinnedRepos}
+              />
+            ) : (
+              <div className="clmActivityFallback">
+                <Image
+                  src={activityChartUrl}
+                  alt="GitHub contribution activity"
+                  width={800}
+                  height={128}
+                  className="clmActivityChart"
+                  unoptimized
+                />
+                {profileUrl ? (
+                  <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="clmActivityLink">
+                    GitHub에서 프로필·Activity 열기
+                  </a>
+                ) : null}
+              </div>
+            )
+          ) : (
+            <iframe title="Chrome" src={iframeUrl} className="clmIframe" />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

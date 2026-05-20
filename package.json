@@ -1,0 +1,9 @@
+{
+  "name": "portfolio-root",
+  "private": true,
+  "scripts": {
+    "verify:api": "npm run verify --prefix api",
+    "verify:web": "npm run verify --prefix web",
+    "verify": "npm run verify:api && npm run verify:web"
+  }
+}
