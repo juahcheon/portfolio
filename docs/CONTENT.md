@@ -26,6 +26,7 @@
 ```json
 {
   "version": 1,
+  "siteUrl": "https://…",
   "desktop": { ... },
   "profile": { ... },
   "about": { ... },
@@ -41,6 +42,7 @@
 
 | 필드 | UI에서 쓰이는 곳 |
 |------|------------------|
+| `siteUrl` | (선택) 배포 URL — 문서·공유와 맞출 때 사용. UI는 미사용 가능 |
 | `desktop` | 바탕화면 벽지·아이콘 |
 | `profile` | 자기소개(Word) 창 헤더, GitHub 모달 메타 |
 | `about` | 자기소개(Word) 창 본문 |

@@ -21,7 +21,7 @@
 ## 1. 제품·범위
 
 - Windows 데스크톱 **메타포** 포트폴리오 — [docs/PRD.md](docs/PRD.md)
-- **배포일·URL 미정** — 구현·검증 우선. 확정 시 [docs/DEPLOY.md](docs/DEPLOY.md)만 갱신.
+- **프로덕션 URL** — [docs/DEPLOY.md](docs/DEPLOY.md), `web/data/portfolio.json`의 `siteUrl` 참고. 변경 시 둘 다 갱신.
 - **명시 없으면 추가·복원 금지**
   - Excel / PowerPoint **창·메타포**
   - **escapeFinal** 링크·아이콘·문서

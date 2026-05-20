@@ -27,7 +27,7 @@
 - **콘텐츠**: `api/data/portfolio.json` ([CONTENT.md](./CONTENT.md)).
 - **지원 맥락**: 신입 지원 + 실무 약 8개월 (`jobs` JSON). **경력 전용 UI는 1차 구현 후 사용자가 추가 예정** — 지금 만들지 말 것.
 - **클릭 원칙**: 바탕화면 → 창 1단계.
-- **배포**: 미정 — [DEPLOY.md](./DEPLOY.md).
+- **배포**: Vercel — [DEPLOY.md](./DEPLOY.md).
 - **금지**: Excel/PowerPoint 창, escapeFinal.
 
 ---

@@ -15,7 +15,7 @@
 | [docs/ROADMAP.md](docs/ROADMAP.md) | 할 일·우선순위 |
 | [docs/WORKLOG.md](docs/WORKLOG.md) | 작업 일지 |
 | [docs/AGENTS.md](docs/AGENTS.md) | Cursor / Claude 협업 (상세) |
-| [docs/DEPLOY.md](docs/DEPLOY.md) | 배포 URL (**미정**) |
+| [docs/DEPLOY.md](docs/DEPLOY.md) | Vercel 배포·URL |
 | [AGENTS.md](AGENTS.md) | **AI 공통 규칙 (세션마다 먼저 읽기)** |
 
 ## 구조
@@ -64,6 +64,7 @@ npm run dev
 
 ## Vercel 배포
 
+- **프로덕션:** [https://portfolio-dusky-three-v0owey1kvg.vercel.app/](https://portfolio-dusky-three-v0owey1kvg.vercel.app/)
 - Root Directory: **`web`**
 - 상세: [docs/DEPLOY.md](docs/DEPLOY.md)
 
@@ -84,4 +85,4 @@ npm run verify
 
 ## 배포
 
-**배포일·프로덕션 URL은 미정** — 구현·검증 우선. URL 확정 시 [docs/DEPLOY.md](docs/DEPLOY.md)에 기록합니다.
+프로덕션 URL은 [docs/DEPLOY.md](docs/DEPLOY.md) 및 `web/data/portfolio.json`의 `siteUrl`과 동일하게 유지합니다.
