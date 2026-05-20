@@ -484,13 +484,13 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                 <button
                   type="button"
                   className={styles.startMenuRow}
-                  onClick={() => run(() => onOpenWindowById("chrome"))}
+                  onClick={() => run(() => onOpenWindowById("projects"))}
                 >
                   <span className={styles.startMenuIconWrap}>
                     <SiGooglechrome aria-hidden />
                   </span>
                   <span className={styles.startMenuRowBody}>
-                    <span className={styles.startMenuRowTitle}>Google Chrome</span>
+                    <span className={styles.startMenuRowTitle}>프로젝트</span>
                   </span>
                 </button>
 

@@ -98,9 +98,9 @@ web/src/
 | `PortfolioDesktop.tsx` | 벽지, 아이콘 열, 창 목록, Lnb |
 | `Lnb.tsx` | 작업 표시줄, 시작 메뉴, 시계, 트레이 |
 | `WindowsStartMenu.tsx` + `.module.scss` | 시작 메뉴 UI·스크롤 |
-| `WinWindow.tsx` | 창 크롬, kind별 분기(탐색기/Word/GitHub/Chrome) |
-| `WindowContents.tsx` | skills, timeline, cursor |
-| `ChromeLegacyModal.tsx` | Chrome/GitHub iframe 셸 |
+| `WinWindow.tsx` | 창 크롬, kind별 분기(탐색기/Word/GitHub/`projects`는 Chrome 모달+임베드) |
+| `WindowContents.tsx` | timeline, cursor |
+| `ChromeLegacyModal.tsx` | GitHub iframe 셸 |
 
 ### 3.3 windowId → kind 매핑
 
@@ -110,13 +110,13 @@ web/src/
 |----------|-------|------|
 | trash | 휴지통 | recycle |
 | hero | 내 PC | thisPc |
-| skills | 제어판 | skills |
-| about | Word | about |
+| skills | 스킬 | skills |
+| about | 자기소개 | about |
 | github | GitHub | github |
 | cursor | Cursor | cursor |
-| chrome | Chrome | chrome (+ iframeUrl) |
+| projects | 프로젝트 | projects |
 
-> **Excel / PowerPoint** (`experience`, `projects`) 창 kind는 제거됨. `jobs`·`projects` JSON 필드는 GitHub pinned 등에서 계속 사용 가능.
+> **Excel / PowerPoint** (`experience`, `projects`) 창 kind는 제거됨. `jobs`·`projects` JSON 필드는 GitHub pinned·프로젝트 창 등에서 계속 사용 가능.
 
 `desktopStore.ts`의 `OpenWindow.kind`가 라우팅 키입니다.
 

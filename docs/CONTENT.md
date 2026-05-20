@@ -42,14 +42,14 @@
 | 필드 | UI에서 쓰이는 곳 |
 |------|------------------|
 | `desktop` | 바탕화면 벽지·아이콘 |
-| `profile` | Word(About), GitHub 모달 메타 |
-| `about` | Word 창 본문 |
+| `profile` | 자기소개(Word) 창 헤더, GitHub 모달 메타 |
+| `about` | 자기소개(Word) 창 본문 |
 | `experienceSummary`, `jobs` | JSON 보관 (전용 창 없음 — 노출 위치는 추후 결정) |
-| `skills` | 제어판(`skills`) 창 |
+| `skills` | 스킬(`skills`) 창 |
 | `timeline` | 타임라인 창 (시작 메뉴 등) |
-| `projects` | GitHub pinned 등 (PowerPoint 창 **없음**) |
+| `projects` | 프로젝트 창 본문, GitHub pinned |
 | `github` | GitHub Chrome 모달 |
-| `windowsCopy` | 휴지통 문구, Chrome iframe URL |
+| `windowsCopy` | 휴지통 문구 등 (`chromeFrameUrl`은 레거시 필드) |
 
 `version`은 스키마/호환 표시용 숫자입니다. 필드를 크게 바꿀 때 증가시키고 CHANGELOG에 기록하세요.
 
@@ -79,13 +79,13 @@
 |----------|---------|------|-------------|
 | `trash` | 휴지통 | recycle | 탐색기 UI |
 | `hero` | 내 PC | thisPc | 탐색기 UI |
-| `skills` | 제어판 | skills | `skills` |
-| `about` | Word | about | `profile`, `about` |
+| `skills` | 스킬 | skills | `skills` |
+| `about` | 자기소개 | about | `profile`, `about` |
 | `github` | GitHub | github | `github`, `profile` |
-| `cursor` | Cursor | cursor | 하드코딩 소개 |
-| `chrome` | Chrome | chrome | `windowsCopy.chromeFrameUrl` |
+| `cursor` | Cursor | cursor | `WindowContents` (연락·GitHub·Cursor 안내) |
+| `projects` | 프로젝트 | projects | `projects` |
 
-`experience` / `projects` **windowId는 제거됨** (Excel·PowerPoint 창 없음).
+`experience` 등 **Excel·PowerPoint용 windowId는 제거됨** (Office 창 없음).
 
 ### 3.3 아이콘 추가 체크리스트
 
@@ -107,7 +107,7 @@
 
 **profile** — 이름, 직함, 헤드라인 줄, 이메일, GitHub, heroPlaceholder(그라데이션·이니셜).
 
-**about** — Word 창에 쓰는 `intro`, `philosophy`, `goals` (긴 문단).
+**about** — 자기소개(Word) 창에 쓰는 `intro`, `philosophy`, `goals` (긴 문단).
 
 ---
 
@@ -147,9 +147,7 @@
 
 ## 8. projects
 
-프로젝트 목록 JSON. **PowerPoint 창으로는 보여 주지 않음.**
-
-주 사용처: `pickGithubPinnedRepos(projects)` — GitHub Chrome 모달 pinned 영역.
+프로젝트 목록 JSON. **프로젝트** 창(`projects`)은 기존 Chrome 모달(`ChromeLegacyModal`) 안에 `ProjectsPanelView`로 표시. GitHub 모달 pinned(`pickGithubPinnedRepos`)에서도 사용.
 
 ---
 
@@ -166,6 +164,8 @@
   "chromeFrameUrl": "https://www.google.com"
 }
 ```
+
+`chromeFrameUrl`은 과거 Chrome 창용으로 남겨 둔 필드이며, 현재 기본 창 라우팅에서는 사용하지 않을 수 있습니다.
 
 ---
 

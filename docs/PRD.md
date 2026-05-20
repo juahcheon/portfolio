@@ -103,12 +103,12 @@
 |---------------|-------------------|-----------|--------|
 | 휴지통 | `trash` | `recycle` | 휴지통 탐색기 UI |
 | 내 PC | `hero` | `thisPc` | 탐색기 “내 PC” UI (장식) |
-| 제어판 | `skills` | `skills` | 스킬 목록 |
-| Word | `about` | `about` | Word 스타일 소개 문서 |
-| Cursor | `cursor` | `cursor` | Cursor 소개 |
+| 스킬 | `skills` | `skills` | 스킬 탐색기 목록 |
+| 자기소개 | `about` | `about` | Word 스타일 소개 문서 |
+| Cursor | `cursor` | `cursor` | 연락·GitHub 안내 + Cursor 제작 안내 |
 | GitHub | `github` | `github` | GitHub 프로필(Chrome 모달) |
+| 프로젝트 | `projects` | `projects` | **Chrome 창 UI** + `projects` JSON 본문(iframe 대신 임베드) |
 | DS Helper | `external` | — | `https://dshelper.kr/` 새 탭 |
-| Chrome | `chrome` | `chrome` | Google iframe 모달 |
 
 ### 6.2 시작 메뉴·기타
 

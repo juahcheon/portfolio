@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { useState } from "react";
 import {
   FaArrowLeft,
@@ -9,7 +10,6 @@ import {
   FaChevronDown,
   FaEllipsisVertical,
   FaLock,
-  FaPlus,
   FaRegSquare,
   FaRegStar,
   FaWindowMinimize,
@@ -21,7 +21,10 @@ import { GitHubChromeContent } from "./GitHubChromeContent";
 type Props = {
   zIndex: number;
   stackIndex?: number;
-  iframeUrl: string;
+  /** `embeddedContent`가 없을 때만 사용 (iframe) */
+  iframeUrl?: string;
+  /** Chrome 본문 대신 렌더 (프로젝트 등). 있으면 iframe·차트 폴백을 쓰지 않음 */
+  embeddedContent?: ReactNode;
   /** 주소창에 표시할 문자열 (없으면 iframeUrl) */
   displayAddressUrl?: string;
   /** github.com 은 iframe 차단 → 기여도 차트로 대체 */
@@ -55,6 +58,7 @@ export function ChromeLegacyModal({
   zIndex,
   stackIndex = 0,
   iframeUrl,
+  embeddedContent,
   displayAddressUrl,
   activityChartUrl,
   profileUrl,
@@ -66,8 +70,12 @@ export function ChromeLegacyModal({
 }: Props) {
   const [maximized, setMaximized] = useState(false);
 
+  const showEmbedded = Boolean(embeddedContent);
   const useActivityFallback =
-    Boolean(activityChartUrl) && isGitHubProfileEmbedBlocked(iframeUrl);
+    !showEmbedded &&
+    Boolean(activityChartUrl) &&
+    typeof iframeUrl === "string" &&
+    isGitHubProfileEmbedBlocked(iframeUrl);
 
   const stackX = stackIndex * 14;
   const stackY = stackIndex * 12;
@@ -94,21 +102,12 @@ export function ChromeLegacyModal({
           <div className="clmHeaderPage">
             <div className="clmOpenPage">
               <ul>
-                <li className={`clmActivePage clmHoverLight`}>
+                <li className="clmActivePage">
                   <a href="#" onClick={(e) => e.preventDefault()} aria-hidden />
                   <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
                     <FaXmark aria-hidden />
                   </button>
                 </li>
-                <li className="clmHoverLight">
-                  <a href="#" onClick={(e) => e.preventDefault()} aria-hidden />
-                  <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
-                    <FaXmark aria-hidden />
-                  </button>
-                </li>
-                <button type="button" className={`clmNewPage clmHoverDark`} aria-label="새 탭">
-                  <FaPlus aria-hidden />
-                </button>
               </ul>
             </div>
             <div className="clmHeaderRight">
@@ -158,7 +157,7 @@ export function ChromeLegacyModal({
               <button type="button" aria-label="보안">
                 <FaLock aria-hidden />
               </button>
-              <p className="clmAddressUrl">{displayAddressUrl ?? iframeUrl}</p>
+              <p className="clmAddressUrl">{displayAddressUrl ?? iframeUrl ?? ""}</p>
               <button type="button" aria-label="북마크">
                 <FaRegStar aria-hidden />
               </button>
@@ -169,7 +168,9 @@ export function ChromeLegacyModal({
           </div>
         </div>
         <div className="clmModalBody">
-          {useActivityFallback && activityChartUrl ? (
+          {showEmbedded ? (
+            <div className="clmEmbeddedBody">{embeddedContent}</div>
+          ) : useActivityFallback && activityChartUrl ? (
             variant === "github" && githubMeta && profileUrl ? (
               <GitHubChromeContent
                 username={githubMeta.username}
@@ -196,9 +197,9 @@ export function ChromeLegacyModal({
                 ) : null}
               </div>
             )
-          ) : (
+          ) : iframeUrl ? (
             <iframe title="Chrome" src={iframeUrl} className="clmIframe" />
-          )}
+          ) : null}
         </div>
       </div>
     </div>

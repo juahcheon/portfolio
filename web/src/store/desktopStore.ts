@@ -11,7 +11,7 @@ export type OpenWindow = {
     | "skills"
     | "timeline"
     | "github"
-    | "chrome"
+    | "projects"
     | "recycle"
     | "cursor";
   iframeUrl?: string;

@@ -16,6 +16,10 @@
 
 ### Changed
 
+- Chrome 레거시 모달: 단일 탭만 표시, 탭 hover 배경 제거, 주소줄 뒤로·앞으로·새로고침 가로 배치 및 자물쇠·별·더보기 정렬 조정
+- 바탕화면: Chrome → **프로젝트** 창(`projects`, 기존 **ChromeLegacyModal** 셸 + 본문만 `projects` JSON), Word 라벨 → **자기소개**, 아이콘 순서(자기소개↔스킬, 프로젝트↔DS Helper) 조정; `profile.title` 웹 프론트엔드 개발자
+- Cursor 창: 연락·GitHub 안내로 정리
+- 문서: PRD/CONTENT/ARCHITECTURE 창 매핑 갱신
 - 문서: 배포일 미정·구현 우선 명시
 - Excel/PowerPoint 창 제거 — 경력·프로젝트는 JSON·GitHub pinned 등으로만 활용 가능
 - [AGENTS.md](../AGENTS.md): 1인·단순함 원칙, 경력 UI 추후, Query+props 우선, 금지 제안 목록
