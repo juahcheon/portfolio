@@ -103,7 +103,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
         zIndex={zIndex}
         stackIndex={stackIndex}
         embeddedContent={<ProjectsPanelView projects={data.projects} />}
-        displayAddressUrl="portfolio://projects"
+        displayAddressUrl="https://portfolio/projects?q=portfolio"
         ariaLabel="프로젝트"
         titleBarTitle={win.title}
         titleBarIconUrl={win.taskbarIconUrl ?? "/icons/desktop/chromeIcon.svg"}

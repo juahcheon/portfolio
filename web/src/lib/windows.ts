@@ -8,13 +8,13 @@ export function openWindowFromDesktopId(
   const id = `win-${windowId}`;
   switch (windowId) {
     case "trash":
-      return { id, title: "휴지통", kind: "recycle" };
+      return { id, title: "\ud734\uc9c0\ud1b5", kind: "recycle" };
     case "hero":
-      return { id, title: "내 PC", kind: "thisPc" };
+      return { id, title: "\ub0b4 PC", kind: "thisPc" };
     case "skills":
-      return { id, title: "스킬", kind: "skills" };
+      return { id, title: "\uc2a4\ud0ac", kind: "skills" };
     case "about":
-      return { id, title: "자기소개", kind: "about" };
+      return { id, title: "\uc790\uae30\uc18c\uac1c", kind: "about" };
     case "github":
       return {
         id: "win-github",
@@ -24,7 +24,7 @@ export function openWindowFromDesktopId(
     case "cursor":
       return { id, title: "Cursor", kind: "cursor" };
     case "projects":
-      return { id, title: "프로젝트", kind: "projects" };
+      return { id, title: "\ud504\ub85c\uc81d\ud2b8", kind: "projects" };
     default:
       return null;
   }
@@ -42,7 +42,7 @@ export function githubWindow(): OpenWindow {
 export function timelineWindow(): OpenWindow {
   return {
     id: "win-timeline",
-    title: "타임라인",
+    title: "\ud0c0\uc784\ub77c\uc778",
     kind: "timeline",
     taskbarIconUrl: "/img/document.png",
   };

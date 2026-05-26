@@ -91,6 +91,22 @@ button {
     width: 100%;
     cursor: default;
     align-items: center;
+    min-width: 0;
+    padding: 0 32px 0 14px;
+    text-decoration: none;
+  }
+
+  .clmTabTitle {
+    position: relative;
+    z-index: 3;
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    color: #333;
+    font-size: 12px;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .clmOpenPage {
@@ -359,7 +375,7 @@ button {
     flex: 1;
     flex-direction: column;
     overflow: hidden;
-    background: #f3f3f3;
+    background: #fff;
   }
 
   .clmEmbeddedBody {
@@ -370,7 +386,7 @@ button {
     flex-direction: column;
     overflow: auto;
     padding: 16px;
-    background: #f3f3f3;
+    background: #fff;
   }
 
   .clmActivityFallback {

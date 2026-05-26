@@ -90,6 +90,7 @@ export type TimelineItem = {
 };
 
 export type ProjectLink = { label: string; url: string };
+export type ProjectDetail = { label: string; value: string };
 
 export type Project = {
   slug: string;
@@ -100,6 +101,9 @@ export type Project = {
   stackSummary: string;
   env: string;
   description: string;
+  details?: ProjectDetail[];
+  features?: string[];
+  troubleshooting?: string[];
   links: ProjectLink[];
 };
 
