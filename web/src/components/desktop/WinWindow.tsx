@@ -2,11 +2,12 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useWindowDragOffset } from "@/hooks/useWindowDragOffset";
 import { FaFolder } from "react-icons/fa6";
 import type { OpenWindow } from "@/store/desktopStore";
 import type { PortfolioPayload } from "@/types/portfolio";
-import { WinExplorerHeader } from "@/components/explorer/WinExplorerHeader";
+import { WinFrameTitleBar } from "@/components/desktop/WinFrameTitleBar";
 import { pickGithubPinnedRepos } from "./githubPinnedRepos";
 import { WindowContents } from "./WindowContents";
 
@@ -86,6 +87,15 @@ function minimizedLeading(win: OpenWindow) {
 export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, onFocus }: Props) {
   const [maximized, setMaximized] = useState(false);
   const [minimized, setMinimized] = useState(false);
+  const isChromeShell = win.kind === "projects" || win.kind === "github";
+  const drag = useWindowDragOffset({
+    disabled: minimized || (!isChromeShell && maximized),
+    onBegin: () => onFocus(win.id),
+  });
+
+  useEffect(() => {
+    if (!isChromeShell && maximized) drag.resetOffset();
+  }, [isChromeShell, maximized, drag.resetOffset]);
 
   if (win.kind === "projects") {
     return (
@@ -93,8 +103,10 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
         zIndex={zIndex}
         stackIndex={stackIndex}
         embeddedContent={<ProjectsPanelView projects={data.projects} />}
-        displayAddressUrl="portfolio://projects"
+        displayAddressUrl="https://portfolio/projects?q=portfolio"
         ariaLabel="프로젝트"
+        titleBarTitle={win.title}
+        titleBarIconUrl={win.taskbarIconUrl ?? "/icons/desktop/chromeIcon.svg"}
         onClose={() => onClose(win.id)}
         onFocus={() => onFocus(win.id)}
       />
@@ -119,6 +131,8 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
           pinnedRepos: pickGithubPinnedRepos(data.projects),
         }}
         ariaLabel="GitHub"
+        titleBarTitle={win.title}
+        titleBarIconUrl={win.taskbarIconUrl ?? "/img/webp/github.webp"}
         onClose={() => onClose(win.id)}
         onFocus={() => onFocus(win.id)}
       />
@@ -185,7 +199,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
           : explorer
             ? "min(76vh, 520px)"
             : "min(78vh, min(640px, calc(100vh - 70px)))",
-        transform: `translate(calc(-50% + ${stackX}px), calc(-50% + ${stackY}px))`,
+        transform: `translate(calc(-50% + ${stackX + drag.offsetX}px), calc(-50% + ${stackY + drag.offsetY}px))`,
       };
 
   return (
@@ -203,20 +217,26 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
       }}
     >
       {isWordDoc ? (
-        <WordAppWindow
-          data={data}
-          maximized={maximized}
-          onMinimize={() => setMinimized(true)}
-          onMaximize={() => setMaximized((m) => !m)}
-          onClose={() => onClose(win.id)}
-        />
+        <>
+          <WinFrameTitleBar
+            title={win.title}
+            titleIconUrl={win.taskbarIconUrl}
+            maximized={maximized}
+            onTitleBarPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
+            onMinimize={() => setMinimized(true)}
+            onMaximize={() => setMaximized((m) => !m)}
+            onClose={() => onClose(win.id)}
+          />
+          <WordAppWindow data={data} />
+        </>
       ) : (
         <>
-          <WinExplorerHeader
+          <WinFrameTitleBar
             title={win.title}
             titleIconUrl={win.taskbarIconUrl}
             leading={titleLeading(win)}
             maximized={maximized}
+            onTitleBarPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
             onMinimize={() => setMinimized(true)}
             onMaximize={() => setMaximized((m) => !m)}
             onClose={() => onClose(win.id)}

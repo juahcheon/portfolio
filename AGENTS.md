@@ -76,7 +76,7 @@
 | UX | 바탕화면 → **창 1단계**; 앱 안 다단계 탐색 추가 금지 |
 | 창 추가 | `portfolio.json` → `windows.ts` → `desktopStore` kind → `WinWindow` / `WindowContents` — **PRD·CONTENT 동시 확인** |
 | 검증 | 변경 후 `npm run verify` (가능하면) |
-| 커밋 | `type(scope): summary` — [docs/HISTORY.md](docs/HISTORY.md). **「커밋해줘」 시** 묶음안 → 승인 → commit (§3.4) |
+| 커밋 | `type(scope): summary` — [docs/HISTORY.md](docs/HISTORY.md). **「커밋해줘」 시** 묶음안 → 승인 → commit → PR 메시지 초안 (§3.4) |
 | 커밋·push | 커밋만 에이전트(승인 후). **push·merge·tag는 사용자** |
 | 에셋 | `npm run sync:legacy` 또는 `web/public` **기존 경로** — 임의 placeholder 이미지 금지 |
 | 배포 경로 | Linux **대소문자** — webp·PNG 소문자 통일 |

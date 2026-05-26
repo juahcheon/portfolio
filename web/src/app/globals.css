@@ -91,6 +91,22 @@ button {
     width: 100%;
     cursor: default;
     align-items: center;
+    min-width: 0;
+    padding: 0 32px 0 14px;
+    text-decoration: none;
+  }
+
+  .clmTabTitle {
+    position: relative;
+    z-index: 3;
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    color: #333;
+    font-size: 12px;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .clmOpenPage {
@@ -105,7 +121,7 @@ button {
   .clmOpenPage ul {
     display: flex;
     margin: 0;
-    margin-top: 8px;
+    margin-top: 10px;
     height: 80%;
     width: 100%;
     list-style: none;
@@ -119,10 +135,11 @@ button {
     z-index: 3;
     display: flex;
     height: 103%;
-    width: min(280px, 38vw);
+    width: min(200px, 38vw);
     max-width: 320px;
     flex: 0 0 auto;
     align-items: center;
+    background-color: #fff;
   }
 
   .clmActivePage {
@@ -178,7 +195,7 @@ button {
     border: none;
     border-radius: 50%;
     background-color: transparent;
-    padding: 0 3px;
+    padding: 3px;
     color: #fff;
     cursor: default;
   }
@@ -307,12 +324,15 @@ button {
 
   .clmAddressDetail button {
     height: 28px;
-    width: 33px;
+    width: 28px;
     border: none;
     border-radius: 20px;
     background-color: transparent;
     cursor: default;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .clmAddressDetail button:hover {
@@ -355,7 +375,7 @@ button {
     flex: 1;
     flex-direction: column;
     overflow: hidden;
-    background: #f3f3f3;
+    background: #fff;
   }
 
   .clmEmbeddedBody {
@@ -366,7 +386,7 @@ button {
     flex-direction: column;
     overflow: auto;
     padding: 16px;
-    background: #f3f3f3;
+    background: #fff;
   }
 
   .clmActivityFallback {

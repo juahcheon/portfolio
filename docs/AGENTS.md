@@ -63,15 +63,16 @@ docs: ...
 
 `feat: 1차 구현` 같은 메시지는 **더 이상 사용하지 않음**.
 
-#### 3단계 (승인 전 커밋 금지)
+#### 4단계 (승인 전 커밋 금지)
 
 1. **계획** — `git status`, `git diff`(staged/unstaged)로 미커밋 변경을 읽고, §3.2 기준으로 **커밋 묶음안**을 사용자에게 제시 ([HISTORY.md](./HISTORY.md) §3.4 형식).
 2. **승인** — 사용자가 OK·수정 지시할 때까지 `git commit` **하지 않음**.
 3. **실행** — 승인된 묶음만 순서대로 stage → commit.
+4. **PR 메시지 초안** — 커밋 후 `.github/pull_request_template.md` 형식에 맞춰 PR 제목·본문 초안을 작성해 사용자에게 제시. `git push`, PR 생성, merge는 하지 않음.
 
 | Cursor가 함 | Cursor가 하지 않음 |
 |-------------|-------------------|
-| 묶음안 작성, 승인 후 commit | `git push`, `main` merge, tag |
+| 묶음안 작성, 승인 후 commit, PR 메시지 초안 작성 | `git push`, GitHub PR 생성, `main` merge, tag |
 | hook 실패 시 수정 후 **새** commit | 승인 없이 commit, `git config` 변경, `--no-verify` |
 
 ### 3.4 세션 종료 시
