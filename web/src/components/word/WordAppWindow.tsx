@@ -18,10 +18,6 @@ import type { PortfolioPayload } from "@/types/portfolio";
 
 type Props = {
   data: PortfolioPayload;
-  maximized: boolean;
-  onMinimize: () => void;
-  onMaximize: () => void;
-  onClose: () => void;
 };
 
 const wordBlue = "bg-[#2b579a]";
@@ -37,45 +33,7 @@ function RibbonBtn({ children }: { children: React.ReactNode }) {
   );
 }
 
-function WordTitleControls({
-  maximized,
-  onMinimize,
-  onMaximize,
-  onClose,
-}: Pick<Props, "maximized" | "onMinimize" | "onMaximize" | "onClose">) {
-  const btn =
-    "flex h-[26px] w-[45px] items-center justify-center text-white hover:bg-white/15 active:bg-white/25";
-  return (
-    <div className="flex shrink-0 items-stretch">
-      <button type="button" className={btn} aria-label="최소화" onClick={onMinimize}>
-        <span className="mb-0.5 block h-px w-2.5 bg-white" />
-      </button>
-      <button type="button" className={btn} aria-label={maximized ? "이전 크기로" : "최대화"} onClick={onMaximize}>
-        {maximized ? (
-          <span className="relative block h-2.5 w-2.5">
-            <span className="absolute left-0 top-0.5 box-border h-1.5 w-[7px] border border-white" />
-            <span className="absolute bottom-0.5 right-0 box-border h-1.5 w-[7px] border border-white bg-[#2b579a]" />
-          </span>
-        ) : (
-          <span className="block h-2.5 w-2.5 border border-white" />
-        )}
-      </button>
-      <button
-        type="button"
-        className={`${btn} hover:bg-[#e81123] hover:text-white`}
-        aria-label="닫기"
-        onClick={onClose}
-      >
-        <span className="relative block h-2.5 w-2.5">
-          <span className="absolute left-1/2 top-1/2 h-px w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-current" />
-          <span className="absolute left-1/2 top-1/2 h-px w-2.5 -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-current" />
-        </span>
-      </button>
-    </div>
-  );
-}
-
-export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose }: Props) {
+export function WordAppWindow({ data }: Props) {
   const docTitle = "자기소개.docx";
   const { about, profile } = data;
   const approxWords = Math.max(
@@ -85,28 +43,18 @@ export function WordAppWindow({ data, maximized, onMinimize, onMaximize, onClose
 
   return (
     <div className="flex min-h-0 flex-1 flex-col font-[Calibri,Segoe_UI,system-ui,sans-serif]">
-      {/* Word title bar */}
-      <div className={`flex h-8 shrink-0 items-stretch text-white ${wordBlue}`}>
-        <div className="flex shrink-0 items-center gap-0.5 pl-1 pr-2">
-          <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="저장">
-            <FaFloppyDisk className="text-sm" aria-hidden />
-          </button>
-          <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="실행 취소">
-            <FaArrowRotateLeft className="text-xs" aria-hidden />
-          </button>
-          <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="다시 실행">
-            <FaArrowRotateRight className="text-xs" aria-hidden />
-          </button>
-        </div>
-        <div className="flex min-w-0 flex-1 items-center justify-center px-2 text-xs font-normal tracking-tight">
-          <span className="truncate">{docTitle}</span>
-        </div>
-        <div className="flex shrink-0 items-center gap-1 pr-1">
-          <button type="button" className="rounded px-2 py-0.5 text-[11px] hover:bg-white/10" aria-hidden tabIndex={-1}>
-            공유
-          </button>
-          <WordTitleControls maximized={maximized} onMinimize={onMinimize} onMaximize={onMaximize} onClose={onClose} />
-        </div>
+      {/* 빠른 실행 도구줄 — 창 제어는 바깥 `WinFrameTitleBar`와 동일 */}
+      <div className={`flex h-8 shrink-0 items-center gap-0.5 pl-1 pr-2 text-white ${wordBlue}`}>
+        <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="저장">
+          <FaFloppyDisk className="text-sm" aria-hidden />
+        </button>
+        <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="실행 취소">
+          <FaArrowRotateLeft className="text-xs" aria-hidden />
+        </button>
+        <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="다시 실행">
+          <FaArrowRotateRight className="text-xs" aria-hidden />
+        </button>
+        <span className="min-w-0 flex-1 truncate px-2 text-center text-xs font-normal tracking-tight">{docTitle}</span>
       </div>
 
       {/* Tabs + Tell me */}

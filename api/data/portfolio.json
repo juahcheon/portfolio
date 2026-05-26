@@ -39,7 +39,7 @@
       {
         "column": 0,
         "id": "cursor",
-        "label": "Cursor",
+        "label": "Codex",
         "imageUrl": "/icons/desktop/cursorIcon.png",
         "action": "window",
         "windowId": "cursor",

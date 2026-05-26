@@ -2,19 +2,18 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useWindowDragOffset } from "@/hooks/useWindowDragOffset";
 import {
   FaArrowLeft,
   FaArrowRight,
   FaArrowRotateRight,
-  FaChevronDown,
   FaEllipsisVertical,
   FaLock,
-  FaRegSquare,
   FaRegStar,
-  FaWindowMinimize,
   FaXmark,
 } from "react-icons/fa6";
+import { WinFrameTitleBar } from "@/components/desktop/WinFrameTitleBar";
 import type { GithubPinnedRepo } from "./githubPinnedRepos";
 import { GitHubChromeContent } from "./GitHubChromeContent";
 
@@ -41,6 +40,9 @@ type Props = {
   };
   /** 접근성 라벨 */
   ariaLabel?: string;
+  /** 공통 흰색 타이틀 바 제목·아이콘 */
+  titleBarTitle?: string;
+  titleBarIconUrl?: string;
   onClose: () => void;
   onFocus: () => void;
 };
@@ -65,10 +67,20 @@ export function ChromeLegacyModal({
   variant = "chrome",
   githubMeta,
   ariaLabel = "Chrome",
+  titleBarTitle,
+  titleBarIconUrl,
   onClose,
   onFocus,
 }: Props) {
   const [maximized, setMaximized] = useState(false);
+  const drag = useWindowDragOffset({
+    disabled: maximized,
+    onBegin: onFocus,
+  });
+
+  useEffect(() => {
+    if (maximized) drag.resetOffset();
+  }, [maximized, drag.resetOffset]);
 
   const showEmbedded = Boolean(embeddedContent);
   const useActivityFallback =
@@ -83,7 +95,7 @@ export function ChromeLegacyModal({
     ? { zIndex }
     : {
         zIndex,
-        transform: `translate(calc(-50% + ${stackX}px), calc(-50% + ${stackY}px))`,
+        transform: `translate(calc(-50% + ${stackX + drag.offsetX}px), calc(-50% + ${stackY + drag.offsetY}px))`,
       };
 
   const modalClass =
@@ -98,6 +110,15 @@ export function ChromeLegacyModal({
       onMouseDown={onFocus}
     >
       <div className="clmModalWrap">
+        <WinFrameTitleBar
+          title={titleBarTitle ?? ariaLabel}
+          titleIconUrl={titleBarIconUrl}
+          maximized={maximized}
+          onTitleBarPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
+          onMinimize={() => {}}
+          onMaximize={() => setMaximized((m) => !m)}
+          onClose={onClose}
+        />
         <div className="clmModalHeader">
           <div className="clmHeaderPage">
             <div className="clmOpenPage">
@@ -109,36 +130,6 @@ export function ChromeLegacyModal({
                   </button>
                 </li>
               </ul>
-            </div>
-            <div className="clmHeaderRight">
-              <button type="button" className="clmHoverDark" aria-label="메뉴">
-                <FaChevronDown aria-hidden />
-              </button>
-              <button type="button" className={`clmMinimize clmHoverDark`} aria-label="최소화">
-                <FaWindowMinimize aria-hidden />
-              </button>
-              <button
-                type="button"
-                className="clmHoverDark"
-                aria-label="최대화"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setMaximized((m) => !m);
-                }}
-              >
-                <FaRegSquare aria-hidden />
-              </button>
-              <button
-                type="button"
-                className="clmHoverDark"
-                aria-label="닫기"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClose();
-                }}
-              >
-                <FaXmark aria-hidden />
-              </button>
             </div>
           </div>
           <div className="clmHeaderAddress">
