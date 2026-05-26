@@ -124,7 +124,9 @@ export function ChromeLegacyModal({
             <div className="clmOpenPage">
               <ul>
                 <li className="clmActivePage">
-                  <a href="#" onClick={(e) => e.preventDefault()} aria-hidden />
+                  <a href="#" onClick={(e) => e.preventDefault()} tabIndex={-1}>
+                    <span className="clmTabTitle">{titleBarTitle ?? ariaLabel}</span>
+                  </a>
                   <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
                     <FaXmark aria-hidden />
                   </button>
