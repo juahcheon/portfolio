@@ -61,6 +61,9 @@ export type Job = {
   summary: string;
   stack: JobStack;
   highlights: string[];
+  serviceName?: string;
+  stackSummary?: string;
+  aboutHighlights?: string[];
 };
 
 export type SkillFile = {
@@ -105,6 +108,9 @@ export type Project = {
   features?: string[];
   troubleshooting?: string[];
   links: ProjectLink[];
+  subtitle?: string;
+  aboutBadge?: string;
+  aboutHighlights?: string[];
 };
 
 export type GithubSection = {
