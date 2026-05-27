@@ -10,7 +10,6 @@ import {
   FaBook,
   FaFloppyDisk,
   FaPaste,
-  FaQuoteLeft,
   FaRegCopy,
   FaScissors,
 } from "react-icons/fa6";
@@ -22,8 +21,10 @@ type Props = {
 
 const wordBlue = "bg-[#2b579a]";
 const ribbonBg = "bg-[#f3f3f3]";
-const tabInactive = "border border-transparent border-b-0 px-3 py-1.5 text-xs text-[#444] hover:bg-white/40";
-const tabActive = "border border-[#d4d4d4] border-b-0 bg-white px-3 py-1.5 text-xs font-medium text-[#222]";
+const tabInactive =
+  "border border-transparent border-b-0 px-3 py-1.5 text-xs text-[#444] hover:bg-white/40";
+const tabActive =
+  "border border-[#d4d4d4] border-b-0 bg-white px-3 py-1.5 text-xs font-medium text-[#222]";
 
 function RibbonBtn({ children }: { children: React.ReactNode }) {
   return (
@@ -33,41 +34,134 @@ function RibbonBtn({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function WordAppWindow({ data }: Props) {
-  const docTitle = "자기소개.docx";
-  const { about, profile } = data;
-  const approxWords = Math.max(
-    1,
-    Math.round((about.intro.length + about.philosophy.length + about.goals.length) / 3)
+function TimelineBlock({
+  heading,
+  children,
+  isLast = false,
+}: {
+  heading: string;
+  children: React.ReactNode;
+  isLast?: boolean;
+}) {
+  return (
+    <div className={`relative ${isLast ? "" : "mb-6"}`}>
+      <div
+        className="absolute -left-[26px] top-[1px] z-10 h-[9px] w-[9px] rounded-full bg-[#2b579a]"
+        style={{ boxShadow: "0 0 0 2px white, 0 0 0 3.5px #2b579a" }}
+      />
+      <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[.16em] text-[#2b579a]">
+        {heading}
+      </p>
+      {children}
+    </div>
   );
+}
+
+function ExpCard({
+  name,
+  badge,
+  sub,
+  stack,
+  bullets,
+}: {
+  name: string;
+  badge: string;
+  sub: string;
+  stack: string;
+  bullets: string[];
+}) {
+  return (
+    <div className="rounded border border-[#edf0f7] bg-[#fafbfd] px-4 py-3.5">
+      <div className="mb-0.5 flex flex-wrap items-baseline gap-2">
+        <span className="text-[11pt] font-bold text-[#111]">{name}</span>
+        <span className="rounded-[2px] bg-[#e8eef9] px-[7px] py-[2px] text-[8px] font-semibold text-[#2b579a]">
+          {badge}
+        </span>
+      </div>
+      <p className="mb-2 text-[9pt] leading-relaxed text-[#555]">{sub}</p>
+      <p className="mb-2.5 text-[8.5pt] leading-relaxed text-[#999]">{stack}</p>
+      <ul className="space-y-0.5">
+        {bullets.map((b, i) => (
+          <li key={i} className="relative pl-[10px] text-[9pt] leading-[1.65] text-[#333]">
+            <span className="absolute left-0 font-bold text-[#2b579a]">·</span>
+            {b}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function WordPage({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mx-auto w-full max-w-[640px] border border-[#e0e0e0] bg-white px-12 py-10 shadow-[0_1px_0_rgba(0,0,0,0.06),0_4px_24px_rgba(0,0,0,0.12)]">
+      {children}
+    </div>
+  );
+}
+
+function PageFooter({ page, total, name }: { page: number; total: number; name: string }) {
+  return (
+    <div className="mt-8 flex justify-between border-t border-[#f0f0f0] pt-2 text-[9px] text-[#ccc]">
+      <span>페이지 {page}/{total}</span>
+      <span>마지막 저장: {name}</span>
+    </div>
+  );
+}
+
+export function WordAppWindow({ data }: Props) {
+  const { profile, projects, jobs } = data;
+  const dsHelper = projects[0];
+  const job = jobs[0];
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col font-[Calibri,Segoe_UI,system-ui,sans-serif]">
-      {/* 빠른 실행 도구줄 — 창 제어는 바깥 `WinFrameTitleBar`와 동일 */}
+    <div className="flex min-h-0 flex-1 flex-col">
+      {/* 빠른 실행 도구줄 */}
       <div className={`flex h-8 shrink-0 items-center gap-0.5 pl-1 pr-2 text-white ${wordBlue}`}>
-        <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="저장">
+        <button
+          type="button"
+          className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10"
+          aria-label="저장"
+        >
           <FaFloppyDisk className="text-sm" aria-hidden />
         </button>
-        <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="실행 취소">
+        <button
+          type="button"
+          className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10"
+          aria-label="실행 취소"
+        >
           <FaArrowRotateLeft className="text-xs" aria-hidden />
         </button>
-        <button type="button" className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10" aria-label="다시 실행">
+        <button
+          type="button"
+          className="flex h-6 w-6 items-center justify-center rounded hover:bg-white/10"
+          aria-label="다시 실행"
+        >
           <FaArrowRotateRight className="text-xs" aria-hidden />
         </button>
-        <span className="min-w-0 flex-1 truncate px-2 text-center text-xs font-normal tracking-tight">{docTitle}</span>
+        <span className="min-w-0 flex-1 truncate px-2 text-center text-xs font-normal tracking-tight">
+          자기소개.docx
+        </span>
       </div>
 
-      {/* Tabs + Tell me */}
-      <div className={`flex h-8 shrink-0 items-center gap-1 border-b border-[#d4d4d4] px-1 ${ribbonBg}`}>
-        <button type="button" className="rounded-sm bg-[#2b579a] px-2 py-1 text-[11px] font-medium text-white">
+      {/* 탭 */}
+      <div
+        className={`flex h-8 shrink-0 items-center gap-1 border-b border-[#d4d4d4] px-1 ${ribbonBg}`}
+      >
+        <button
+          type="button"
+          className="rounded-sm bg-[#2b579a] px-2 py-1 text-[11px] font-medium text-white"
+        >
           파일
         </button>
         <div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto">
-          {(["홈", "삽입", "디자인", "레이아웃", "참조", "편지", "검토", "보기"] as const).map((t) => (
-            <button key={t} type="button" className={t === "홈" ? tabActive : tabInactive}>
-              {t}
-            </button>
-          ))}
+          {(["홈", "삽입", "디자인", "레이아웃", "참조", "편지", "검토", "보기"] as const).map(
+            (t) => (
+              <button key={t} type="button" className={t === "홈" ? tabActive : tabInactive}>
+                {t}
+              </button>
+            )
+          )}
         </div>
         <div className="hidden shrink-0 sm:block">
           <input
@@ -80,7 +174,7 @@ export function WordAppWindow({ data }: Props) {
         </div>
       </div>
 
-      {/* Ribbon */}
+      {/* 리본 */}
       <div className={`shrink-0 border-b border-[#d0d0d0] px-2 py-1.5 ${ribbonBg}`}>
         <div className="flex flex-wrap items-end gap-x-3 gap-y-2 text-[#333]">
           <div className="flex flex-col items-center border-r border-[#d8d8d8] pr-3">
@@ -99,8 +193,12 @@ export function WordAppWindow({ data }: Props) {
           </div>
           <div className="flex flex-col items-center border-r border-[#d8d8d8] pr-3">
             <div className="flex items-center gap-1">
-              <span className="rounded border border-[#c8c8c8] bg-white px-1.5 py-0.5 text-[11px]">Calibri</span>
-              <span className="rounded border border-[#c8c8c8] bg-white px-1.5 py-0.5 text-[11px]">11</span>
+              <span className="rounded border border-[#c8c8c8] bg-white px-1.5 py-0.5 text-[11px]">
+                Pretendard
+              </span>
+              <span className="rounded border border-[#c8c8c8] bg-white px-1.5 py-0.5 text-[11px]">
+                11
+              </span>
               <RibbonBtn>
                 <span className="font-bold">B</span>
               </RibbonBtn>
@@ -131,92 +229,123 @@ export function WordAppWindow({ data }: Props) {
             <span className="mt-0.5 text-[10px] text-[#666]">단락</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="flex gap-0.5">
-              <span className="rounded border border-[#c8c8c8] bg-white px-2 py-1 text-[10px] leading-tight">
-                일반
-                <br />
-                <span className="text-[9px] text-[#888]">+ 본문 1</span>
-              </span>
-            </div>
+            <span className="rounded border border-[#c8c8c8] bg-white px-2 py-1 text-[10px] leading-tight">
+              일반
+              <br />
+              <span className="text-[9px] text-[#888]">+ 본문 1</span>
+            </span>
             <span className="mt-0.5 text-[10px] text-[#666]">스타일</span>
           </div>
         </div>
       </div>
 
-      {/* Rulers + page */}
-      <div className="flex min-h-0 flex-1 flex-col bg-[#c6c6c6]">
-        <div className="flex h-5 shrink-0 border-b border-[#b0b0b0] bg-[#e8e8e8] pl-8 pr-2 text-[9px] text-[#555]">
-          <div className="flex flex-1 items-end border-l border-[#aaa] pl-1">
-            {Array.from({ length: 16 }, (_, i) => (
-              <span key={i} className="inline-block w-6 border-l border-[#ccc] text-center">
-                {i % 2 === 0 ? "|" : ""}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="min-h-0 flex-1 overflow-auto px-5 py-8 sm:px-10 sm:py-12">
-          <div
-            className="wordDocPage mx-auto min-h-[min(58vh,500px)] w-full max-w-[720px] border border-[#e0e0e0] bg-white px-12 py-14 shadow-[0_1px_0_rgba(0,0,0,0.06),0_4px_24px_rgba(0,0,0,0.12)] sm:px-16 sm:py-20 md:px-20 md:py-24"
-            style={{
-              backgroundImage:
-                "linear-gradient(180deg, #fff 0%, #fafafa 100%), repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(43,87,154,0.04) 24px)",
-            }}
-          >
-            <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#888]">
-              {profile.name} · 자기소개 초안
-            </p>
-            <h1 className="mb-1 border-b border-neutral-200 pb-3 text-[22px] font-light leading-tight tracking-tight text-[#2E5395]">
-              {profile.title}
-            </h1>
-            <p className="mb-8 text-[10px] text-neutral-500">
-              마지막으로 저장한 사용자: {profile.name} · 일반 · 한글
-            </p>
-
-            <section className="mb-10">
-              <h2 className="mb-3 flex items-center gap-2 text-[12px] font-semibold tracking-wide text-neutral-800">
-                <span className="inline-block h-2 w-2 rounded-sm bg-[#2b579a]" aria-hidden />
-                경험과 배경
-              </h2>
-              <p className="text-[11pt] leading-[1.85] text-neutral-900 [text-align:justify] first-letter:float-left first-letter:mr-2 first-letter:mt-0.5 first-letter:font-serif first-letter:text-[2.75rem] first-letter:font-semibold first-letter:leading-none first-letter:text-[#2b579a]">
-                {about.intro}
-              </p>
-            </section>
-
-            <section className="mb-10 rounded-sm border border-[#d6e4f7] bg-gradient-to-br from-[#f7fbff] to-[#eef4fc] px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-              <div className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#4a6fa5]">
-                <FaQuoteLeft className="text-[10px] opacity-70" aria-hidden />
-                개발 철학
-              </div>
-              <blockquote className="border-l-[3px] border-[#2b579a] pl-4 text-[11pt] italic leading-[1.8] text-neutral-800">
-                {about.philosophy}
-              </blockquote>
-            </section>
-
-            <section>
-              <h2 className="mb-3 flex items-center gap-2 text-[12px] font-semibold tracking-wide text-neutral-800">
-                <span className="inline-block h-2 w-2 rounded-sm bg-[#c4753b]" aria-hidden />
-                앞으로의 목표
-              </h2>
-              <p className="rounded-sm border border-[#f0d78a] bg-[#fff2cc] px-5 py-4 text-[11pt] leading-[1.85] text-neutral-900 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.5)] [text-align:justify]">
-                <span className="mr-1.5 inline-block rounded bg-[#f7b731]/35 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[#6b4e00]">
-                  중요
-                </span>
-                {about.goals}
-              </p>
-            </section>
-
-            <div className="mt-12 border-t border-dotted border-neutral-300 pt-3 text-center text-[9px] text-neutral-400">
-              — 페이지 끝 —
-            </div>
-          </div>
+      {/* 눈금자 */}
+      <div className="flex h-5 shrink-0 border-b border-[#b0b0b0] bg-[#e8e8e8] pl-8 pr-2 text-[9px] text-[#555]">
+        <div className="flex flex-1 items-end border-l border-[#aaa] pl-1">
+          {Array.from({ length: 16 }, (_, i) => (
+            <span key={i} className="inline-block w-6 border-l border-[#ccc] text-center">
+              {i % 2 === 0 ? "|" : ""}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Status bar */}
+      {/* 문서 영역 */}
+      <div className="min-h-0 flex-1 overflow-auto bg-[#c6c6c6] px-5 py-8 sm:px-10 sm:py-10">
+        {/* 1페이지 — 소개 */}
+        <WordPage>
+          {/* 헤더 */}
+          <div className="mb-7 border-b border-[#e8e8e8] pb-6">
+            <p className="mb-2.5 text-[9px] uppercase tracking-[.14em] text-[#aaa]">
+              자기소개 · {profile.name}
+            </p>
+            <p className="mb-1.5 text-[26px] font-extrabold leading-none tracking-[-1px] text-[#111]">
+              {profile.name}
+            </p>
+            <p className="text-[12px] font-medium text-[#2b579a]">{profile.title}</p>
+          </div>
+
+          {/* 타임라인 */}
+          <div className="relative pl-8">
+            <div className="absolute bottom-3 left-[10px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
+
+            <TimelineBlock heading="배경">
+              <p className="text-[10pt] leading-[1.78] text-[#222]">
+                국어국문학을 전공하고 풀스택 과정을 거쳐{" "}
+                <strong className="font-semibold text-[#111]">프론트엔드 개발자</strong>로
+                전향했습니다.
+                <br />
+                팀 프로젝트와 실무에서{" "}
+                <strong className="font-semibold text-[#111]">
+                  Next.js 기반 서비스를 설계·구현·배포
+                </strong>
+                까지 경험했습니다.
+              </p>
+            </TimelineBlock>
+
+            <TimelineBlock heading="개발 철학">
+              <p className="text-[10pt] leading-[1.78] text-[#222]">
+                <strong className="font-semibold text-[#111]">명확한 구조와 읽히는 코드</strong>가
+                좋은 협업의 출발점이라고 생각합니다.
+                <br />
+                컴포넌트 단위 설계와 타입 안전성을 바탕으로
+                <br />
+                팀과 함께 유지보수하기 좋은 프론트엔드를 만듭니다.
+              </p>
+            </TimelineBlock>
+
+            <TimelineBlock heading="목표" isLast>
+              <p className="text-[10pt] leading-[1.78] text-[#222]">
+                <strong className="font-semibold text-[#111]">사용자 경험과 코드 품질</strong> 모두를
+                놓치지 않는 개발자로 성장하고 싶습니다.
+                <br />
+                팀 안에서 빠르게 배우며 기술적으로 기여하고,
+                <br />
+                오래 함께하고 싶은 동료가 되는 것이 목표입니다.
+              </p>
+            </TimelineBlock>
+          </div>
+
+          <PageFooter page={1} total={2} name={profile.name} />
+        </WordPage>
+
+        {/* 페이지 간격 */}
+        <div className="h-6" />
+
+        {/* 2페이지 — 경험 */}
+        <WordPage>
+          <div className="relative pl-8">
+            <div className="absolute bottom-3 left-[10px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
+
+            <TimelineBlock heading="사이드 프로젝트">
+              <ExpCard
+                name={dsHelper.name}
+                badge={dsHelper.aboutBadge ?? `팀 프로젝트 · ${dsHelper.role}`}
+                sub={dsHelper.subtitle ?? dsHelper.description.split(".")[0] + "."}
+                stack={dsHelper.stackSummary}
+                bullets={dsHelper.aboutHighlights ?? dsHelper.features?.slice(0, 4) ?? []}
+              />
+            </TimelineBlock>
+
+            <TimelineBlock heading="근무 경험" isLast>
+              <ExpCard
+                name={job.serviceName ?? job.company}
+                badge={`${job.periodLabel} · ${job.durationLabel}`}
+                sub={`${job.company} · ${job.role}`}
+                stack={job.stackSummary ?? job.stack.framework}
+                bullets={job.aboutHighlights ?? job.highlights.slice(0, 3)}
+              />
+            </TimelineBlock>
+          </div>
+
+          <PageFooter page={2} total={2} name={profile.name} />
+        </WordPage>
+      </div>
+
+      {/* 상태 표시줄 */}
       <div className="flex h-6 shrink-0 items-center justify-between border-t border-[#b8b8b8] bg-[#f0f0f0] px-2 text-[11px] text-[#333]">
         <div className="flex items-center gap-3">
-          <span>페이지 1/1</span>
-          <span>단어 약 {approxWords}개</span>
+          <span>2페이지</span>
           <FaBook className="text-[#888]" aria-label="맞춤법" />
         </div>
         <div className="flex items-center gap-2">
