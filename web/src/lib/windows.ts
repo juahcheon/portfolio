@@ -21,8 +21,8 @@ export function openWindowFromDesktopId(
         title: "GitHub",
         kind: "github",
       };
-    case "cursor":
-      return { id, title: "Cursor", kind: "cursor" };
+    case "cmd":
+      return { id, title: "명령 프롬프트", kind: "cmd" };
     case "projects":
       return { id, title: "\ud504\ub85c\uc81d\ud2b8", kind: "projects" };
     default:

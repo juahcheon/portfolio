@@ -38,12 +38,11 @@
       },
       {
         "column": 0,
-        "id": "cursor",
-        "label": "Codex",
-        "imageUrl": "/icons/desktop/cursorIcon.png",
+        "id": "cmd",
+        "label": "명령 프롬프트",
+        "imageUrl": "/icons/desktop/cmdIcon.svg",
         "action": "window",
-        "windowId": "cursor",
-        "shape": "rounded10"
+        "windowId": "cmd"
       },
       {
         "column": 0,
