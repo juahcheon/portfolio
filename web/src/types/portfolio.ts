@@ -31,12 +31,6 @@ export type Profile = {
   };
 };
 
-export type About = {
-  intro: string;
-  philosophy: string;
-  goals: string;
-};
-
 export type ExperienceSummary = {
   totalMonths: number;
   headline: string;
@@ -130,7 +124,6 @@ export type PortfolioPayload = {
   siteUrl?: string;
   desktop: Desktop;
   profile: Profile;
-  about: About;
   experienceSummary: ExperienceSummary;
   jobs: Job[];
   skills: Skills;
