@@ -1,0 +1,7 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="31,16 23.5,3 8.5,3 1,16 8.5,29 23.5,29" fill="#5f9ea0"/>
+  <text x="7" y="14" dominant-baseline="central"
+        fill="white" stroke="white" stroke-width="0.8" paint-order="stroke"
+        font-family="Consolas,'Courier New',monospace"
+        font-size="13" font-weight="700">&gt;_</text>
+</svg>
