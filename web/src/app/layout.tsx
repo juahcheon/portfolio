@@ -59,6 +59,26 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans">
+        <div className="flex md:hidden fixed inset-0 z-[9999] flex-col items-center justify-center gap-5 bg-[#5f9ea0]">
+          <svg width="96" height="96" viewBox="0 0 32 32" aria-hidden="true">
+            <polygon points="31,16 23.5,3 8.5,3 1,16 8.5,29 23.5,29" fill="white" />
+            <text
+              x="7" y="14"
+              dominantBaseline="central"
+              fill="#5f9ea0"
+              fontFamily="Consolas,'Courier New',monospace"
+              fontSize="13"
+              fontWeight="700"
+            >{`>_`}</text>
+          </svg>
+          <div className="flex flex-col items-center gap-2 text-center px-8">
+            <p className="text-white text-2xl font-bold tracking-tight">데스크톱에서 접속해주세요</p>
+            <p className="text-white/75 text-sm leading-relaxed">
+              이 포트폴리오는 PC 환경에 최적화되어 있습니다
+            </p>
+          </div>
+          <p className="text-white/50 text-xs font-mono mt-2">portfolio-dusky-three-v0owey1kvg.vercel.app</p>
+        </div>
         <Providers>{children}</Providers>
       </body>
     </html>
