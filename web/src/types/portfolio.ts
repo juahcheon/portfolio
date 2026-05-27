@@ -31,12 +31,6 @@ export type Profile = {
   };
 };
 
-export type About = {
-  intro: string;
-  philosophy: string;
-  goals: string;
-};
-
 export type ExperienceSummary = {
   totalMonths: number;
   headline: string;
@@ -61,6 +55,9 @@ export type Job = {
   summary: string;
   stack: JobStack;
   highlights: string[];
+  serviceName?: string;
+  stackSummary?: string;
+  aboutHighlights?: string[];
 };
 
 export type SkillFile = {
@@ -105,6 +102,9 @@ export type Project = {
   features?: string[];
   troubleshooting?: string[];
   links: ProjectLink[];
+  subtitle?: string;
+  aboutBadge?: string;
+  aboutHighlights?: string[];
 };
 
 export type GithubSection = {
@@ -124,7 +124,6 @@ export type PortfolioPayload = {
   siteUrl?: string;
   desktop: Desktop;
   profile: Profile;
-  about: About;
   experienceSummary: ExperienceSummary;
   jobs: Job[];
   skills: Skills;

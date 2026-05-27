@@ -10,6 +10,7 @@ import type { PortfolioPayload } from "@/types/portfolio";
 import { WinFrameTitleBar } from "@/components/desktop/WinFrameTitleBar";
 import { pickGithubPinnedRepos } from "./githubPinnedRepos";
 import { WindowContents } from "./WindowContents";
+import { CmdTerminal } from "./CmdTerminal";
 
 const ChromeLegacyModal = dynamic(
   () => import("./ChromeLegacyModal").then((m) => m.ChromeLegacyModal),
@@ -174,7 +175,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
 
   const explorer = isExplorerShell(win.kind);
   const isWordDoc = win.kind === "about";
-  const isCursorWin = win.kind === "cursor";
+  const isCmdWin = win.kind === "cmd";
   const stackX = stackIndex * 14;
   const stackY = stackIndex * 12;
 
@@ -209,7 +210,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
       aria-label={win.title}
       onMouseDown={() => onFocus(win.id)}
       className={`fixed flex flex-col overflow-hidden border border-[#a0a0a0] bg-white shadow-win ${
-        isCursorWin && !maximized ? "rounded-[10px]" : ""
+        isCmdWin ? "rounded-none" : ""
       } ${isActive ? "outline outline-2 outline-[rgba(0,120,212,0.55)] outline-offset-0" : ""}`}
       style={{
         zIndex,
@@ -248,6 +249,8 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
             <ThisPcExplorerView />
           ) : win.kind === "skills" ? (
             <SkillsExplorerView skills={data.skills} />
+          ) : win.kind === "cmd" ? (
+            <CmdTerminal jobs={data.jobs} profile={data.profile} />
           ) : (
             <div className="min-h-0 flex-1 overflow-auto p-4 text-sm text-neutral-800">
               <WindowContents win={win} data={data} />

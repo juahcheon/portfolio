@@ -6,7 +6,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-noto)", "system-ui", "sans-serif"],
+        sans: ["Pretendard Variable", "Pretendard", "Malgun Gothic", "system-ui", "sans-serif"],
       },
       colors: {
         ...tailwindPalette,

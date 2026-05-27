@@ -13,7 +13,7 @@ export type OpenWindow = {
     | "github"
     | "projects"
     | "recycle"
-    | "cursor";
+    | "cmd";
   iframeUrl?: string;
 };
 

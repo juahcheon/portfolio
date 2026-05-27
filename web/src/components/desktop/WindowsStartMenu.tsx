@@ -378,13 +378,13 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                 <button
                   type="button"
                   className={styles.startMenuRow}
-                  onClick={() => run(() => onOpenWindowById("cursor"))}
+                  onClick={() => run(() => onOpenWindowById("cmd"))}
                 >
                   <span className={styles.startMenuIconWrap}>
                     <TbBrandVscode aria-hidden />
                   </span>
                   <span className={styles.startMenuRowBody}>
-                    <span className={styles.startMenuRowTitle}>Antigravity</span>
+                    <span className={styles.startMenuRowTitle}>명령 프롬프트</span>
                   </span>
                 </button>
 
@@ -428,26 +428,12 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                 </div>
 
                 <p className={styles.startMenuLetter}>#</p>
-                <PlaceholderRow icon={<SiDiscord aria-hidden />} title="Discord" />
+                <DecorRow icon={<SiDiscord aria-hidden />} title="Discord" sub="" />
 
                 <p className={styles.startMenuLetter}>A</p>
-                <PlaceholderRow icon={<SiAndroidstudio aria-hidden />} title="Android Studio" />
+                <DecorRow icon={<SiAndroidstudio aria-hidden />} title="Android Studio" sub="" />
 
                 <p className={styles.startMenuLetter}>C</p>
-                <button
-                  type="button"
-                  className={styles.startMenuRow}
-                  onClick={() => run(() => onOpenWindowById("cursor"))}
-                >
-                  <span className={styles.startMenuIconWrap}>
-                    <TbBrandVscode aria-hidden />
-                  </span>
-                  <span className={styles.startMenuRowBody}>
-                    <span className={styles.startMenuRowTitle}>Cursor</span>
-                    <span className={styles.startMenuRowSub}>새로 설치됨</span>
-                  </span>
-                </button>
-
                 <button
                   type="button"
                   className={`${styles.startMenuRow} ${styles.startMenuRowFolder}`}
@@ -478,7 +464,7 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                 </div>
 
                 <p className={styles.startMenuLetter}>D</p>
-                <PlaceholderRow icon={<SiDocker aria-hidden />} title="Docker Desktop" />
+                <DecorRow icon={<SiDocker aria-hidden />} title="Docker Desktop" sub="" />
 
                 <p className={styles.startMenuLetter}>G</p>
                 <button
@@ -495,7 +481,21 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                 </button>
 
                 <p className={styles.startMenuLetter}>K</p>
-                <PlaceholderRow icon={<SiKakaotalk aria-hidden />} title="KakaoTalk" />
+                <DecorRow icon={<SiKakaotalk aria-hidden />} title="KakaoTalk" sub="" />
+
+                <p className={styles.startMenuLetter}>ㅁ</p>
+                <button
+                  type="button"
+                  className={styles.startMenuRow}
+                  onClick={() => run(() => onOpenWindowById("cmd"))}
+                >
+                  <span className={styles.startMenuIconWrap}>
+                    <TbBrandVscode aria-hidden />
+                  </span>
+                  <span className={styles.startMenuRowBody}>
+                    <span className={styles.startMenuRowTitle}>명령 프롬프트</span>
+                  </span>
+                </button>
 
                 <p className={styles.startMenuLetter}>T</p>
                 <button type="button" className={styles.startMenuRow} onClick={() => run(onOpenTimeline)}>
@@ -525,17 +525,6 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
     );
   }
 );
-
-function PlaceholderRow({ icon, title }: { icon: ReactNode; title: string }) {
-  return (
-    <button type="button" className={styles.startMenuRow} aria-label={title}>
-      <span className={styles.startMenuIconWrap}>{icon}</span>
-      <span className={styles.startMenuRowBody}>
-        <span className={styles.startMenuRowTitle}>{title}</span>
-      </span>
-    </button>
-  );
-}
 
 function DecorRow({ icon, title, sub, muted }: { icon: ReactNode; title: string; sub: string; muted?: boolean }) {
   return (
