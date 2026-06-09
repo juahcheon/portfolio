@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>천주아 | Cover Letter</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
+  />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-main: #5f9ea0;
+      --color-accent: #3d7578;
+      --color-text: #111827;
+      --color-sub: #6b7280;
+      --color-border: #e5e7eb;
+    }
+
+    body {
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: #dde1e7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px;
+      gap: 32px;
+    }
+
+    /* A4: 794px × 1123px */
+    .page {
+      width: 794px;
+      min-height: 1123px;
+      background: #fff;
+      box-shadow: 0 10px 48px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    /* ── 상단 바 ── */
+    .cl-bar {
+      background: var(--color-main);
+      padding: 14px 44px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .cl-bar-name { color: #fff; font-size: 16px; font-weight: 700; }
+    .cl-bar-sep  { color: rgba(255,255,255,0.45); font-size: 16px; }
+    .cl-bar-title { color: rgba(255,255,255,0.75); font-size: 13.5px; }
+    .cl-bar-section {
+      margin-left: auto;
+      color: rgba(255,255,255,0.55);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── 본문 ── */
+    .cl-body {
+      flex: 1;
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .cl-section { display: flex; flex-direction: column; }
+    .cl-section-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 7px;
+      border-bottom: 2px solid var(--color-accent);
+    }
+    .cl-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-accent);
+      letter-spacing: 0.5px;
+    }
+    .cl-badge {
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 30px;
+    }
+    .cl-badge-user { background: #edf5f5; color: #2e6b6e; }
+    .cl-badge-ai   { background: #f3f0ff; color: #6d4fc7; }
+
+    .cl-content {
+      font-size: 13.5px;
+      color: #374151;
+      line-height: 2;
+    }
+    .cl-content-empty {
+      font-size: 13px;
+      color: #c4c4c4;
+      line-height: 1.9;
+      padding: 14px 16px;
+      border-radius: 5px;
+      border: 1.5px dashed #e0e0e0;
+      font-style: italic;
+    }
+
+    /* ── 지원 회사 표시 ── */
+    .cl-company-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f3f0ff;
+      color: #6d4fc7;
+      border-radius: 30px;
+      padding: 3px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      align-self: flex-start;
+    }
+
+    /* ════ Print ════ */
+    @media print {
+      body { background: none; padding: 0; gap: 0; }
+      .page { box-shadow: none; min-height: 100vh; }
+      @page { size: A4; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="cl-bar">
+    <span class="cl-bar-name">천주아</span>
+    <span class="cl-bar-sep">·</span>
+    <span class="cl-bar-title">웹 프론트엔드 개발자</span>
+    <span class="cl-bar-section">Cover Letter</span>
+  </div>
+
+  <div class="cl-body">
+
+    <!-- 개발자가 된 이유 -->
+    <div class="cl-section">
+      <div class="cl-section-head">
+        <span class="cl-section-title">개발자가 된 이유</span>
+        <span class="cl-badge cl-badge-user">직접 작성</span>
+      </div>
+      <div class="cl-content-empty">자기소개서.md 의 [사용자 작성] 항목을 작성하면 여기에 반영됩니다.</div>
+    </div>
+
+    <!-- 나의 강점 -->
+    <div class="cl-section">
+      <div class="cl-section-head">
+        <span class="cl-section-title">나의 강점</span>
+        <span class="cl-badge cl-badge-user">직접 작성</span>
+      </div>
+      <div class="cl-content-empty">자기소개서.md 의 [사용자 작성] 항목을 작성하면 여기에 반영됩니다.</div>
+    </div>
+
+    <!-- 성장 과정 -->
+    <div class="cl-section">
+      <div class="cl-section-head">
+        <span class="cl-section-title">성장 과정</span>
+        <span class="cl-badge cl-badge-user">직접 작성</span>
+      </div>
+      <div class="cl-content-empty">자기소개서.md 의 [사용자 작성] 항목을 작성하면 여기에 반영됩니다.</div>
+    </div>
+
+    <!-- 지원 동기 -->
+    <div class="cl-section">
+      <div class="cl-section-head">
+        <span class="cl-section-title">지원 동기</span>
+        <span class="cl-badge cl-badge-ai">AI 자동완성</span>
+      </div>
+      <div class="cl-content-empty">"회사에서 원하는 인재상은 ___이야." 라고 Claude에게 말하면 자동으로 작성됩니다.</div>
+    </div>
+
+    <!-- 입사 후 포부 -->
+    <div class="cl-section">
+      <div class="cl-section-head">
+        <span class="cl-section-title">입사 후 포부</span>
+        <span class="cl-badge cl-badge-ai">AI 자동완성</span>
+      </div>
+      <div class="cl-content-empty">"회사에서 원하는 인재상은 ___이야." 라고 Claude에게 말하면 자동으로 작성됩니다.</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
