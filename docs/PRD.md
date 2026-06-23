@@ -29,8 +29,8 @@
 
 | 구분 | `juahcheon.github.io` | `portfolio` (본 repo) |
 |------|------------------------|------------------------|
-| 형태 | 정적 페이지 + 레거시 데스크톱 스크립트 | Next.js 15 + API 분리 |
-| 콘텐츠 | HTML/JS에 박혀 있음 | `api/data/portfolio.json` |
+| 형태 | 정적 페이지 + 레거시 데스크톱 스크립트 | Next.js 15 (Route Handler) |
+| 콘텐츠 | HTML/JS에 박혀 있음 | `web/data/portfolio.json` |
 | 목표 | 온라인 이력서 | 동일 콘텐츠 + 구조 개선 + 유지보수 |
 
 ---
@@ -47,7 +47,7 @@
 - 배포 URL에서 데스크톱·작업 표시줄·시작 메뉴가 “Windows처럼” 느껴진다.
 - 바탕화면 아이콘 더블클릭 → 해당 섹션 창이 **1클릭 이내**로 열린다.
 - 면접에서 **3분 안에** “왜 Windows인지 / 어떤 창이 무엇인지” 설명할 수 있다.
-- `npm run verify`로 web·api 빌드가 통과한다.
+- `npm run verify`로 web 빌드가 통과한다.
 
 ---
 
@@ -138,8 +138,8 @@
 | 항목 | 1차 목표 |
 |------|----------|
 | 스택 | Next.js 15, React 19, TypeScript, TanStack Query, Zustand, SCSS 모듈, Tailwind |
-| API | Express, `portfolio.json` 정적 제공 |
-| 배포 | **일정 미정** — [DEPLOY.md](./DEPLOY.md). web → Vercel, API → 별도 호스팅 예정 |
+| API | Next.js Route Handler, `web/data/portfolio.json` 정적 제공 |
+| 배포 | Vercel (web/) — [DEPLOY.md](./DEPLOY.md) |
 | 접근성 | 아이콘·시작 메뉴 키보드 일부 지원; WCAG 완전 준수는 2차 |
 | 성능 | 단일 페이지, 이미지 webp 우선, API 1회 fetch |
 
