@@ -621,15 +621,15 @@
               <div class="ts-block">
                 <div class="ts-row">
                   <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">이전 프로젝트에서는 배포할 때마다 SSH로 서버에 직접 접속해 명령어를 실행했습니다. DS Helper에서 운영 서버를 EC2로 이전하면서 GitHub Actions를 활용한 자동 배포를 도입했습니다.</p>
+                  <p class="ts-text">EC2 서버에 GitHub Actions로 자동 배포를 처음 도입했습니다. 이전 프로젝트까지는 배포할 때마다 SSH로 직접 접속해 명령어를 실행하고 있었습니다.</p>
                 </div>
                 <div class="ts-row">
                   <span class="ts-label ts-problem">문제<br>사항</span>
-                  <p class="ts-text">deploy.yml을 온라인 예제에서 복붙했더니 파싱 오류가 계속 발생했고, 원인 파악에만 하루가 걸렸습니다. 오류를 해결하고 나니 이번엔 설정한 도메인으로 접속이 되지 않았습니다.</p>
+                  <p class="ts-text">온라인 예제를 복붙한 deploy.yml에서 파싱 오류가 계속 발생했고, 배포 성공 후에도 설정한 도메인으로 접속이 되지 않았습니다.</p>
                 </div>
                 <div class="ts-row">
                   <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">오류 원인은 복붙 과정에서 섞여 들어온 invisible character였고, 직접 손으로 타이핑해 해결했습니다. 도메인 문제는 백엔드 개발자와 새벽 3시까지 함께 디버깅해 당일 배포를 완료했고, 이후 .env도 GitHub Secrets에서 자동 생성되도록 개선해 서버에 직접 접속할 일이 없어졌습니다.</p>
+                  <p class="ts-text">파싱 오류는 복붙 과정에서 섞인 invisible character가 원인이었고, 직접 타이핑해 해결했습니다. 도메인 문제는 백엔드 개발자와 함께 Nginx 설정을 디버깅해 당일 배포를 완료했습니다. 이후 .env도 GitHub Secrets로 자동 주입되도록 개선해 서버에 직접 접속할 일이 없어졌습니다.</p>
                 </div>
               </div>
             </div>
@@ -688,7 +688,7 @@
               <div class="ts-block">
                 <div class="ts-row">
                   <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">판결 결과 조회 API에서 DB 쿼리가 3번 발생했고, 전체 API 라우트에서 getServerSession을 사용해 인증 처리 비용이 높았습니다.</p>
+                  <p class="ts-text">크롬 네트워크 탭 Timing으로 API 응답을 측정하던 중 2초 이상 걸리는 요청을 발견했습니다. Initiator를 따라가 보니 판결 결과 조회 API에서 DB 쿼리가 3번 발생하고, 전체 라우트에 getServerSession이 붙어 인증 비용이 과했습니다.</p>
                 </div>
                 <div class="ts-row">
                   <span class="ts-label ts-problem">문제<br>사항</span>
@@ -696,7 +696,7 @@
                 </div>
                 <div class="ts-row">
                   <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">쿼리를 1번으로 통합하고, getServerSession을 경량 헬퍼 getRequestUserId로 교체했습니다. TanStack Query에 staleTime을 적용해 재요청을 줄이고, reload() 대신 invalidateQueries로 교체했습니다. 최대 9초, 평균 2~5초였던 API 응답 시간을 1초 이하로 개선했습니다.</p>
+                  <p class="ts-text">쿼리를 1번으로 통합하고 getServerSession을 경량 헬퍼 getRequestUserId로 교체했습니다. TanStack Query에 staleTime을 적용해 재요청을 없애고, reload() 대신 invalidateQueries로 교체해 전체 리로드를 제거했습니다. 배포 환경 기준 최대 9초, 평균 2~5초였던 응답 시간을 1초 이하로 개선했습니다.</p>
                 </div>
               </div>
             </div>
@@ -707,15 +707,15 @@
               <div class="ts-block">
                 <div class="ts-row">
                   <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">비용 절감을 위해 gemini-2.0-flash-lite를 사용했으나 미지원 오류가 발생했습니다. 또한 프롬프트에 실명을 넣으면 AI 응답에 개인정보가 그대로 노출됐습니다.</p>
+                  <p class="ts-text">비용 절감을 위해 경량 모델을 선택했으나 해당 시점에 지원되지 않는 모델이었습니다. 또한 프롬프트에 실명을 넣으면 AI 응답에 개인정보가 그대로 노출됐습니다.</p>
                 </div>
                 <div class="ts-row">
                   <span class="ts-label ts-problem">문제<br>사항</span>
-                  <p class="ts-text">모델을 교체한 후에도 메타 추출·모더레이션까지 동일 모델을 사용해 비용이 높았고, 갈등 유형 선택 시 포괄적 유형만 반복 선택되는 정확도 문제도 있었습니다.</p>
+                  <p class="ts-text">모델 교체 후에도 메타 추출·모더레이션까지 동일 모델을 사용해 비용이 높았고, 갈등 유형 선택 시 포괄적 유형만 반복 선택되는 정확도 문제도 있었습니다.</p>
                 </div>
                 <div class="ts-row">
                   <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">판결은 gemini-2.5-flash, 경량 작업은 lite 모델로 분리했습니다. 프롬프트 내부는 A/B 레이블로 고정하고 표시 시 실명으로 치환했으며, 포괄적 유형을 최후 수단으로 제한해 정확도를 높였습니다.</p>
+                  <p class="ts-text">판결처럼 품질이 중요한 작업은 고성능 모델로, 메타 추출·모더레이션 같은 단순 작업은 경량 모델로 분리해 비용과 속도를 함께 잡았습니다. 프롬프트 내부는 A/B 레이블로 고정하고 표시 시 실명으로 치환했으며, 포괄적 유형을 최후 수단으로 제한해 정확도를 높였습니다.</p>
                 </div>
               </div>
             </div>
@@ -734,88 +734,6 @@
 </div><!-- /page-4 -->
 
 
-<!-- ══════════════ PAGE 4: Portfolio ══════════════ -->
-<div class="page page-3">
-
-  <div class="page2-bar">
-    <span class="page2-bar-name">천주아</span>
-    <span class="page2-bar-sep">·</span>
-    <span class="page2-bar-title">웹 프론트엔드 개발자</span>
-    <span class="page2-bar-section">Projects</span>
-  </div>
-
-  <main class="main-2">
-    <div class="proj-card">
-      <div class="proj-head">
-        <div class="proj-name">Portfolio</div>
-      </div>
-      <div class="proj-links">
-        <a class="proj-link-item" href="https://portfolio-dusky-three-v0owey1kvg.vercel.app/" target="_blank">포트폴리오 ↗</a>
-        <a class="proj-link-item" href="https://github.com/juahcheon/portfolio" target="_blank">GitHub ↗</a>
-      </div>
-      <div class="proj-meta">개인 프로젝트</div>
-      <div class="proj-desc">Windows 10 데스크톱 메타포 기반 개인 포트폴리오 · 창 포커스·작업 표시줄 상태 관리 및 창 종류별 UI 분기 구현</div>
-      <div class="proj-stack">
-        <span class="stag">Next.js 15</span>
-        <span class="stag">React</span>
-        <span class="stag">TypeScript</span>
-        <span class="stag">Tailwind CSS</span>
-        <span class="stag">TanStack Query</span>
-        <span class="stag">Zustand</span>
-        <span class="stag">Vercel</span>
-      </div>
-      <div class="proj-ts">
-        <div class="ts-list">
-          <div>
-            <div class="ts-num">01</div>
-            <div class="ts-wrap">
-              <div class="ts-block">
-                <div class="ts-row">
-                  <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">이전 Baro 프로젝트에서 사수 없이 혼자 개발하며, Zustand 하나로 서버 데이터까지 전부 관리하고 있었습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-problem">문제<br>사항</span>
-                  <p class="ts-text">Detail 페이지에서 새로고침하면 Zustand에 저장된 데이터가 초기화됐고, 정치인 정보처럼 대용량 데이터를 매번 재요청하다 보니 로딩이 느리다는 피드백도 받았습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">서칭을 통해 React Query를 도입했습니다. 서버 데이터는 React Query가 캐싱하고 Zustand는 UI 상태만 담당하게 하니 새로고침 문제도 해결되고 중복 요청도 줄었습니다. Portfolio에서는 이 경험을 바탕으로 처음부터 창 열림·포커스는 Zustand, 프로젝트·스킬 데이터는 React Query로 역할을 나눴습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="ts-num">02</div>
-            <div class="ts-wrap">
-              <div class="ts-block">
-                <div class="ts-row">
-                  <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">Windows 10 UI를 웹으로 그대로 구현하는 것이 컨셉인 만큼, 단순히 비슷한 느낌이 아니라 실제에 가까운 수준을 목표로 했습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-problem">문제<br>사항</span>
-                  <p class="ts-text">실제 Windows 10 화면과 나란히 놓고 비교하면 타이틀바 버튼 크기, 태스크바 간격, 아이콘 그림자, 창 테두리 색상 등 CSS 디테일이 계속 어긋났습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">실제 Windows 10 화면을 직접 참고하며 CSS를 수십 번 수정했습니다. Chrome 탭 구조, 태스크바 아이콘 활성 상태, 창 버튼 배치 등을 하나씩 맞춰나가며 실제와 가까운 수준으로 완성했습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="proj-screenshots">
-        <div class="proj-screenshot-item"><img src="img/portfolio-desktop.png" alt="포트폴리오 데스크톱" /></div>
-        <div class="proj-screenshot-item"><img src="img/portfolio-projects.png" alt="포트폴리오 프로젝트 창" /></div>
-        <div class="proj-screenshot-item"><img src="img/portfolio-cmd.png" alt="포트폴리오 명령 프롬프트" /></div>
-        <div class="proj-screenshot-item"><img src="img/portfolio-word.png" alt="포트폴리오 Word 자기소개" /></div>
-      </div>
-    </div>
-  </main>
-
-</div><!-- /page-5 -->
 
 </body>
 </html>
