@@ -413,7 +413,7 @@
       "contribution": "",
       "stackSummary": "Next.js, React, TypeScript, Tailwind CSS, TanStack Query, Zustand, Vercel",
       "env": "Codex, Cursor, docs/PRD.md, docs/ARCHITECTURE.md, docs/HISTORY.md, docs/CONTENT.md, Vercel",
-      "description": "Windows 10 데스크톱 메타포로 구성한 개인 포트폴리오입니다. 창 포커스·작업 표시줄 상태 관리, 창 종류별 UI 분기 구현에 집중하고, 데이터 흐름과 상태 관리를 명확히 분리했습니다."
+      "description": "Windows 10 데스크톱 메타포로 구성한 개인 포트폴리오입니다. 창 포커스·작업 표시줄 상태 관리, 창 종류별 UI 분기 구현에 집중하고, 데이터 흐름과 상태 관리를 명확히 분리했습니다.",
       "troubleshooting": [
         "Chrome, Explorer, Word 창이 서로 다른 레이아웃 구조를 가져 WinWindow에서 kind별로 분기했습니다. 열린 창/포커스 상태는 Zustand, 서버 데이터는 React Query로 분리해 역할을 명확히 했습니다.",
         "콘텐츠가 UI에 흩어지지 않도록 portfolio.json을 단일 출처로 두고 Route Handler에서 제공하도록 구성했습니다. Vercel 배포에서 web/data만 포함되는 제약을 파악하고 prebuild 흐름에서 sync하도록 맞췄습니다.",
