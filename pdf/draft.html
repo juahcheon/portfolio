@@ -345,7 +345,7 @@
     @media print {
       body { background: none; padding: 0; gap: 0; }
       .page { box-shadow: none; }
-      .page-1, .page-2 { page-break-after: always; }
+      .page-1, .page-2, .page-3 { page-break-after: always; }
       @page { size: A4; margin: 0; }
     }
   </style>
@@ -647,7 +647,7 @@
         <a class="proj-link-item" href="https://github.com/juahcheon/portfolio" target="_blank">GitHub ↗</a>
       </div>
       <div class="proj-meta">개인 프로젝트</div>
-      <div class="proj-desc">Windows 10 데스크톱 메타포로 구성한 개인 포트폴리오</div>
+      <div class="proj-desc">Windows 10 데스크톱 메타포 기반 개인 포트폴리오 · 창 포커스·작업 표시줄 상태 관리 및 창 종류별 UI 분기 구현</div>
       <div class="proj-stack">
         <span class="stag">Next.js 15</span>
         <span class="stag">React</span>
@@ -709,6 +709,105 @@
   </main>
 
 </div><!-- /page-3 -->
+
+
+<!-- ══════════════ PAGE 4: 말해부엉 ══════════════ -->
+<div class="page page-3">
+
+  <div class="page2-bar">
+    <span class="page2-bar-name">천주아</span>
+    <span class="page2-bar-sep">·</span>
+    <span class="page2-bar-title">웹 프론트엔드 개발자</span>
+    <span class="page2-bar-section">Projects</span>
+  </div>
+
+  <main class="main-2">
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-name">말해부엉</div>
+      </div>
+      <div class="proj-links">
+        <a class="proj-link-item" href="https://talky-owl-iota.vercel.app/" target="_blank">서비스 ↗</a>
+        <a class="proj-link-item" href="https://github.com/I5-Project/TALKY-OWL" target="_blank">GitHub ↗</a>
+      </div>
+      <div class="proj-meta">팀 프로젝트 5명 &nbsp;·&nbsp; 프론트엔드 기여 20% · 진술 생성-작성-판결 플로우 담당</div>
+      <div class="proj-desc">AI 갈등 조정 판결 서비스 · 단독 판결 및 1:1 판결 두 가지 흐름 지원</div>
+      <div class="proj-stack">
+        <span class="stag">Next.js 15</span>
+        <span class="stag">TypeScript</span>
+        <span class="stag">Prisma</span>
+        <span class="stag">Gemini API</span>
+        <span class="stag">NextAuth</span>
+        <span class="stag">TanStack Query</span>
+        <span class="stag">Zustand</span>
+        <span class="stag">SCSS</span>
+        <span class="stag">Vercel</span>
+      </div>
+      <div class="proj-ts">
+        <div class="ts-list">
+          <div>
+            <div class="ts-num">01</div>
+            <div class="ts-wrap">
+              <div class="ts-block">
+                <div class="ts-row">
+                  <span class="ts-label ts-cause">발단</span>
+                  <p class="ts-text">판결 결과 조회 API에서 DB 쿼리가 3번 발생했고, 전체 API 라우트에서 getServerSession을 사용해 인증 처리 비용이 높았습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-problem">문제<br>사항</span>
+                  <p class="ts-text">페이지 이동 시마다 불필요한 재요청이 발생했고, 판결 생성 후 window.location.reload()로 전체 페이지를 리로드하고 있었습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-solve">해결</span>
+                  <p class="ts-text">쿼리를 1번으로 통합하고, getServerSession을 경량 헬퍼 getRequestUserId로 교체했습니다. TanStack Query에 staleTime을 적용해 재요청을 줄이고, reload() 대신 invalidateQueries로 교체했습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="ts-num">02</div>
+            <div class="ts-wrap">
+              <div class="ts-block">
+                <div class="ts-row">
+                  <span class="ts-label ts-cause">발단</span>
+                  <p class="ts-text">비용 절감을 위해 gemini-2.0-flash-lite를 사용했으나 미지원 오류가 발생했습니다. 또한 프롬프트에 실명을 넣으면 AI 응답에 개인정보가 그대로 노출됐습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-problem">문제<br>사항</span>
+                  <p class="ts-text">모델을 교체한 후에도 메타 추출·모더레이션까지 동일 모델을 사용해 비용이 높았고, 갈등 유형 선택 시 포괄적 유형만 반복 선택되는 정확도 문제도 있었습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-solve">해결</span>
+                  <p class="ts-text">판결은 gemini-2.5-flash, 경량 작업은 lite 모델로 분리했습니다. 프롬프트 내부는 A/B 레이블로 고정하고 표시 시 실명으로 치환했으며, 포괄적 유형을 최후 수단으로 제한해 정확도를 높였습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="ts-num">03</div>
+            <div class="ts-wrap">
+              <div class="ts-block">
+                <div class="ts-row">
+                  <span class="ts-label ts-cause">발단</span>
+                  <p class="ts-text">NextAuth 미들웨어가 페이지 라우트뿐 아니라 /api/* 라우트에도 적용되어 있었습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-problem">문제<br>사항</span>
+                  <p class="ts-text">배포 환경에서 인증되지 않은 API 요청이 미들웨어에 의해 307로 리다이렉트되어, 클라이언트에서 JSON 대신 HTML이 반환되는 문제가 발생했습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-solve">해결</span>
+                  <p class="ts-text">API 라우트는 getRequestUserId로 자체 인증을 처리하므로 미들웨어 매처에서 api/*를 전체 제외했습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div><!-- /page-4 -->
 
 </body>
 </html>
