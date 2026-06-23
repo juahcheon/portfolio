@@ -250,7 +250,7 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
           ) : win.kind === "skills" ? (
             <SkillsExplorerView skills={data.skills} />
           ) : win.kind === "cmd" ? (
-            <CmdTerminal jobs={data.jobs} profile={data.profile} />
+            <CmdTerminal profile={data.profile} />
           ) : (
             <div className="min-h-0 flex-1 overflow-auto p-4 text-sm text-neutral-800">
               <WindowContents win={win} data={data} />
