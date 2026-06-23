@@ -269,39 +269,25 @@ export function WordAppWindow({ data }: Props) {
           <div className="relative pl-8">
             <div className="absolute bottom-3 left-[10px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
 
-            <TimelineBlock heading="배경">
+            <TimelineBlock heading="소개">
               <p className="text-[10pt] leading-[1.78] text-[#222]">
-                국어국문학을 전공하고 풀스택 과정을 거쳐{" "}
-                <strong className="font-semibold text-[#111]">프론트엔드 개발자</strong>로
-                전향했습니다.
-                <br />
-                팀 프로젝트와 실무에서{" "}
-                <strong className="font-semibold text-[#111]">
-                  Next.js 기반 서비스를 설계·구현·배포
-                </strong>
-                까지 경험했습니다.
+                새로운 기술과 환경을 빠르게 익히고, 이해한 내용을 실제 기능으로 완성하는{" "}
+                <strong className="font-semibold text-[#111]">프론트엔드 개발자</strong>입니다.
               </p>
             </TimelineBlock>
 
-            <TimelineBlock heading="개발 철학">
+            <TimelineBlock heading="문제 해결 방식">
               <p className="text-[10pt] leading-[1.78] text-[#222]">
-                <strong className="font-semibold text-[#111]">명확한 구조와 읽히는 코드</strong>가
-                좋은 협업의 출발점이라고 생각합니다.
+                문제를 마주하면 임시로 우회하기보다 원인을 끝까지 확인하고 해결한 뒤 다음 작업으로 넘어가는 편이라{" "}
+                <strong className="font-semibold text-[#111]">트러블슈팅에 강점</strong>이 있습니다.
                 <br />
-                컴포넌트 단위 설계와 타입 안전성을 바탕으로
-                <br />
-                팀과 함께 유지보수하기 좋은 프론트엔드를 만듭니다.
+                서비스 개발 과정에서 환경별 API 분기, 로그인 흐름, 데이터 캐싱과 이미지 로딩 문제를 직접 해결하며 안정적인 사용자 경험을 만들어 왔습니다.
               </p>
             </TimelineBlock>
 
-            <TimelineBlock heading="목표" isLast>
+            <TimelineBlock heading="지향점" isLast>
               <p className="text-[10pt] leading-[1.78] text-[#222]">
-                <strong className="font-semibold text-[#111]">사용자 경험과 코드 품질</strong> 모두를
-                놓치지 않는 개발자로 성장하고 싶습니다.
-                <br />
-                팀 안에서 빠르게 배우며 기술적으로 기여하고,
-                <br />
-                오래 함께하고 싶은 동료가 되는 것이 목표입니다.
+                사용자 의도를 정확히 이해하고, 문제를 끝까지 해결하는 개발자로 기여하겠습니다.
               </p>
             </TimelineBlock>
           </div>
