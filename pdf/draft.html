@@ -12,12 +12,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --color-main: #5f9ea0;
+      --color-main: #b2d8d8;
       --color-accent: #3d7578;
       --color-text: #111827;
       --color-sub: #6b7280;
       --color-muted: #9ca3af;
       --color-border: #e5e7eb;
+      --color-sidebar-text: #1a4a4d;
     }
 
     body {
@@ -48,7 +49,8 @@
       width: 200px;
       min-width: 200px;
       background: var(--color-main);
-      color: #fff;
+      color: var(--color-sidebar-text);
+      border-right: 1px solid #8fbfbf;
       padding: 44px 22px;
       display: flex;
       flex-direction: column;
@@ -57,33 +59,33 @@
 
     .photo-wrap { display: flex; justify-content: center; }
     .photo-circle {
-      width: 90px;
-      height: 90px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.14);
-      border: 2px solid rgba(255,255,255,0.38);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.5);
-      text-align: center;
-      line-height: 1.5;
+      border: 2px solid rgba(26,74,77,0.25);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .photo-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
     }
 
     .identity { text-align: center; }
     .name { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
     .job-title { margin-top: 5px; font-size: 13.5px; opacity: 0.82; line-height: 1.5; }
 
-    .sb-div { border: none; border-top: 1px solid rgba(255,255,255,0.22); }
+    .sb-div { border: none; border-top: 1px solid rgba(26,74,77,0.2); }
 
     .sb-label {
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 2.5px;
       text-transform: uppercase;
-      opacity: 0.58;
+      opacity: 0.85;
       margin-bottom: 12px;
     }
 
@@ -92,14 +94,14 @@
       display: flex;
       align-items: flex-start;
       gap: 9px;
-      font-size: 12.5px;
+      font-size: 13px;
       line-height: 1.5;
-      opacity: 0.9;
+      opacity: 1;
       word-break: break-all;
     }
     .c-icon { flex-shrink: 0; margin-top: 2px; }
     .c-link { color: inherit; text-decoration: none; transition: color 0.15s; }
-    .c-link:hover { color: #d4eced; }
+    .c-link:hover { color: #2e6b6e; }
 
     /* ── Page 1 Main ── */
     .main-1 {
@@ -133,7 +135,7 @@
       align-items: start;
     }
     .skills-row-label {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--color-accent);
       padding-top: 3px;
@@ -144,7 +146,7 @@
       color: #2e6b6e;
       border-radius: 30px;
       padding: 3px 11px;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
     }
 
@@ -173,9 +175,9 @@
     .tl-line { width: 1px; flex: 1; margin-top: 5px; background: var(--color-border); }
 
     .tl-body { flex: 1; min-width: 0; padding-bottom: 4px; }
-    .tl-period { font-size: 13px; color: var(--color-muted); font-weight: 500; margin-bottom: 4px; }
-    .tl-org { font-size: 18px; font-weight: 700; color: var(--color-text); margin-bottom: 5px; }
-    .tl-role { font-size: 14px; color: var(--color-sub); margin-bottom: 8px; }
+    .tl-period { font-size: 14px; color: var(--color-muted); font-weight: 500; margin-bottom: 4px; }
+    .tl-org { font-size: 20px; font-weight: 700; color: var(--color-text); margin-bottom: 5px; }
+    .tl-role { font-size: 15px; color: var(--color-sub); margin-bottom: 8px; }
     .tl-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
     .tl-tag {
       border: 1.5px solid var(--color-accent);
@@ -183,12 +185,12 @@
       color: var(--color-accent);
       border-radius: 30px;
       padding: 4px 10px;
-      font-size: 12.5px;
+      font-size: 14px;
       font-weight: 600;
     }
     .tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
     .tl-bullets li {
-      font-size: 14.5px;
+      font-size: 16px;
       color: #4b5563;
       padding-left: 13px;
       position: relative;
@@ -213,12 +215,12 @@
       gap: 10px;
       flex-shrink: 0;
     }
-    .page2-bar-name { color: #fff; font-size: 17px; font-weight: 700; }
-    .page2-bar-sep { color: rgba(255,255,255,0.45); font-size: 17px; }
-    .page2-bar-title { color: rgba(255,255,255,0.75); font-size: 14.5px; }
+    .page2-bar-name { color: #1a4a4d; font-size: 17px; font-weight: 700; }
+    .page2-bar-sep { color: rgba(26,74,77,0.45); font-size: 17px; }
+    .page2-bar-title { color: rgba(26,74,77,0.75); font-size: 14.5px; }
     .page2-bar-section {
       margin-left: auto;
-      color: rgba(255,255,255,0.55);
+      color: rgba(26,74,77,0.65);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 2.5px;
@@ -227,7 +229,7 @@
 
     .main-2 {
       flex: 1;
-      padding: 18px 36px 32px;
+      padding: 8px 36px 32px;
       display: flex;
       flex-direction: column;
       gap: 0;
@@ -249,7 +251,7 @@
       opacity: 0.82;
     }
     .proj-meta { font-size: 13.5px; color: var(--color-muted); margin-bottom: 6px; }
-    .proj-desc { font-size: 14.5px; color: var(--color-sub); margin-bottom: 9px; line-height: 1.55; }
+    .proj-desc { font-size: 14.5px; color: var(--color-sub); margin-bottom: 9px; line-height: 1.4; }
     .proj-stack { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
     .stag {
       background: #edf5f5;
@@ -276,6 +278,25 @@
     .proj-screenshot-item img {
       width: 100%;
       height: auto;
+      display: block;
+    }
+
+    .proj-screenshots-small {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 6px;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+    .proj-screenshots-small .proj-screenshot-item {
+      height: 380px;
+    }
+    .proj-screenshots-small .proj-screenshot-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+      background: #fff;
       display: block;
     }
 
@@ -322,7 +343,7 @@
       padding: 5px 0;
       background: transparent;
       border-right: 1px solid #000;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 700;
       text-align: center;
       display: flex;
@@ -335,9 +356,9 @@
     .ts-solve   { color: #111827; }
 
     .ts-text {
-      font-size: 14px;
+      font-size: 15px;
       color: #4b5563;
-      line-height: 1.7;
+      line-height: 1.5;
       padding: 5px 10px;
     }
 
@@ -358,7 +379,7 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="photo-wrap">
-      <div class="photo-circle">사진<br>추가 예정</div>
+      <div class="photo-circle"><img src="img/photo.jpg" alt="증명사진" /></div>
     </div>
 
     <div class="identity">
@@ -627,7 +648,93 @@
 </div><!-- /page-2 -->
 
 
-<!-- ══════════════ PAGE 3: Portfolio ══════════════ -->
+<!-- ══════════════ PAGE 3: 말해부엉 ══════════════ -->
+<div class="page page-3">
+
+  <div class="page2-bar">
+    <span class="page2-bar-name">천주아</span>
+    <span class="page2-bar-sep">·</span>
+    <span class="page2-bar-title">웹 프론트엔드 개발자</span>
+    <span class="page2-bar-section">Projects</span>
+  </div>
+
+  <main class="main-2">
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-name">말해부엉</div>
+      </div>
+      <div class="proj-links">
+        <a class="proj-link-item" href="https://talky-owl-iota.vercel.app/" target="_blank">서비스 ↗</a>
+        <a class="proj-link-item" href="https://github.com/I5-Project/TALKY-OWL" target="_blank">GitHub ↗</a>
+      </div>
+      <div class="proj-meta">팀 프로젝트 5명 &nbsp;·&nbsp; 프론트엔드 기여 20% · 진술 생성-작성-판결 플로우 담당</div>
+      <div class="proj-desc">AI 갈등 조정 판결 서비스 · 단독 판결 및 1:1 판결 두 가지 흐름 지원</div>
+      <div class="proj-stack">
+        <span class="stag">Next.js 15</span>
+        <span class="stag">TypeScript</span>
+        <span class="stag">Prisma</span>
+        <span class="stag">Gemini API</span>
+        <span class="stag">NextAuth</span>
+        <span class="stag">TanStack Query</span>
+        <span class="stag">Zustand</span>
+        <span class="stag">SCSS</span>
+        <span class="stag">Vercel</span>
+      </div>
+      <div class="proj-ts">
+        <div class="ts-list">
+          <div>
+            <div class="ts-num">01</div>
+            <div class="ts-wrap">
+              <div class="ts-block">
+                <div class="ts-row">
+                  <span class="ts-label ts-cause">발단</span>
+                  <p class="ts-text">판결 결과 조회 API에서 DB 쿼리가 3번 발생했고, 전체 API 라우트에서 getServerSession을 사용해 인증 처리 비용이 높았습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-problem">문제<br>사항</span>
+                  <p class="ts-text">페이지 이동 시마다 불필요한 재요청이 발생했고, 판결 생성 후 window.location.reload()로 전체 페이지를 리로드하고 있었습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-solve">해결</span>
+                  <p class="ts-text">쿼리를 1번으로 통합하고, getServerSession을 경량 헬퍼 getRequestUserId로 교체했습니다. TanStack Query에 staleTime을 적용해 재요청을 줄이고, reload() 대신 invalidateQueries로 교체했습니다. 최대 9초, 평균 2~5초였던 API 응답 시간을 1초 이하로 개선했습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="ts-num">02</div>
+            <div class="ts-wrap">
+              <div class="ts-block">
+                <div class="ts-row">
+                  <span class="ts-label ts-cause">발단</span>
+                  <p class="ts-text">비용 절감을 위해 gemini-2.0-flash-lite를 사용했으나 미지원 오류가 발생했습니다. 또한 프롬프트에 실명을 넣으면 AI 응답에 개인정보가 그대로 노출됐습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-problem">문제<br>사항</span>
+                  <p class="ts-text">모델을 교체한 후에도 메타 추출·모더레이션까지 동일 모델을 사용해 비용이 높았고, 갈등 유형 선택 시 포괄적 유형만 반복 선택되는 정확도 문제도 있었습니다.</p>
+                </div>
+                <div class="ts-row">
+                  <span class="ts-label ts-solve">해결</span>
+                  <p class="ts-text">판결은 gemini-2.5-flash, 경량 작업은 lite 모델로 분리했습니다. 프롬프트 내부는 A/B 레이블로 고정하고 표시 시 실명으로 치환했으며, 포괄적 유형을 최후 수단으로 제한해 정확도를 높였습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-screenshots-small">
+        <div class="proj-screenshot-item"><img src="img/talky-main.png" alt="말해부엉 메인" /></div>
+        <div class="proj-screenshot-item"><img src="img/talky-statement.png" alt="진술 작성" /></div>
+        <div class="proj-screenshot-item"><img src="img/talky-verdict.png" alt="판결 결과" /></div>
+        <div class="proj-screenshot-item"><img src="img/talky-verdict2.png" alt="판결 결과 상세" /></div>
+      </div>
+    </div>
+  </main>
+
+</div><!-- /page-4 -->
+
+
+<!-- ══════════════ PAGE 4: Portfolio ══════════════ -->
 <div class="page page-3">
 
   <div class="page2-bar">
@@ -708,106 +815,7 @@
     </div>
   </main>
 
-</div><!-- /page-3 -->
-
-
-<!-- ══════════════ PAGE 4: 말해부엉 ══════════════ -->
-<div class="page page-3">
-
-  <div class="page2-bar">
-    <span class="page2-bar-name">천주아</span>
-    <span class="page2-bar-sep">·</span>
-    <span class="page2-bar-title">웹 프론트엔드 개발자</span>
-    <span class="page2-bar-section">Projects</span>
-  </div>
-
-  <main class="main-2">
-    <div class="proj-card">
-      <div class="proj-head">
-        <div class="proj-name">말해부엉</div>
-      </div>
-      <div class="proj-links">
-        <a class="proj-link-item" href="https://talky-owl-iota.vercel.app/" target="_blank">서비스 ↗</a>
-        <a class="proj-link-item" href="https://github.com/I5-Project/TALKY-OWL" target="_blank">GitHub ↗</a>
-      </div>
-      <div class="proj-meta">팀 프로젝트 5명 &nbsp;·&nbsp; 프론트엔드 기여 20% · 진술 생성-작성-판결 플로우 담당</div>
-      <div class="proj-desc">AI 갈등 조정 판결 서비스 · 단독 판결 및 1:1 판결 두 가지 흐름 지원</div>
-      <div class="proj-stack">
-        <span class="stag">Next.js 15</span>
-        <span class="stag">TypeScript</span>
-        <span class="stag">Prisma</span>
-        <span class="stag">Gemini API</span>
-        <span class="stag">NextAuth</span>
-        <span class="stag">TanStack Query</span>
-        <span class="stag">Zustand</span>
-        <span class="stag">SCSS</span>
-        <span class="stag">Vercel</span>
-      </div>
-      <div class="proj-ts">
-        <div class="ts-list">
-          <div>
-            <div class="ts-num">01</div>
-            <div class="ts-wrap">
-              <div class="ts-block">
-                <div class="ts-row">
-                  <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">판결 결과 조회 API에서 DB 쿼리가 3번 발생했고, 전체 API 라우트에서 getServerSession을 사용해 인증 처리 비용이 높았습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-problem">문제<br>사항</span>
-                  <p class="ts-text">페이지 이동 시마다 불필요한 재요청이 발생했고, 판결 생성 후 window.location.reload()로 전체 페이지를 리로드하고 있었습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">쿼리를 1번으로 통합하고, getServerSession을 경량 헬퍼 getRequestUserId로 교체했습니다. TanStack Query에 staleTime을 적용해 재요청을 줄이고, reload() 대신 invalidateQueries로 교체했습니다. 최대 9초, 평균 2~5초였던 API 응답 시간을 1초 이하로 개선했습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="ts-num">02</div>
-            <div class="ts-wrap">
-              <div class="ts-block">
-                <div class="ts-row">
-                  <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">비용 절감을 위해 gemini-2.0-flash-lite를 사용했으나 미지원 오류가 발생했습니다. 또한 프롬프트에 실명을 넣으면 AI 응답에 개인정보가 그대로 노출됐습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-problem">문제<br>사항</span>
-                  <p class="ts-text">모델을 교체한 후에도 메타 추출·모더레이션까지 동일 모델을 사용해 비용이 높았고, 갈등 유형 선택 시 포괄적 유형만 반복 선택되는 정확도 문제도 있었습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">판결은 gemini-2.5-flash, 경량 작업은 lite 모델로 분리했습니다. 프롬프트 내부는 A/B 레이블로 고정하고 표시 시 실명으로 치환했으며, 포괄적 유형을 최후 수단으로 제한해 정확도를 높였습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="ts-num">03</div>
-            <div class="ts-wrap">
-              <div class="ts-block">
-                <div class="ts-row">
-                  <span class="ts-label ts-cause">발단</span>
-                  <p class="ts-text">NextAuth 미들웨어가 페이지 라우트뿐 아니라 /api/* 라우트에도 적용되어 있었습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-problem">문제<br>사항</span>
-                  <p class="ts-text">배포 환경에서 인증되지 않은 API 요청이 미들웨어에 의해 307로 리다이렉트되어, 클라이언트에서 JSON 대신 HTML이 반환되는 문제가 발생했습니다.</p>
-                </div>
-                <div class="ts-row">
-                  <span class="ts-label ts-solve">해결</span>
-                  <p class="ts-text">API 라우트는 getRequestUserId로 자체 인증을 처리하므로 미들웨어 매처에서 api/*를 전체 제외했습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-</div><!-- /page-4 -->
+</div><!-- /page-5 -->
 
 </body>
 </html>

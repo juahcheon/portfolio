@@ -68,6 +68,15 @@
         "action": "external",
         "url": "https://dshelper.kr/",
         "shape": "circle"
+      },
+      {
+        "column": 1,
+        "id": "talky-owl",
+        "label": "말해부엉",
+        "imageUrl": "/icons/desktop/talkyOwlIcon.svg",
+        "action": "external",
+        "url": "https://talky-owl-iota.vercel.app/",
+        "shape": "circle"
       }
     ]
   },
