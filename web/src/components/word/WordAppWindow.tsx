@@ -265,7 +265,7 @@ export function WordAppWindow({ data }: Props) {
           </div>
 
           {/* 타임라인 */}
-          <div className="relative pl-8">
+          <div className="flex-1 relative pl-8">
             <div className="absolute bottom-3 left-[10px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
 
             <TimelineBlock heading="소개">
@@ -296,18 +296,19 @@ export function WordAppWindow({ data }: Props) {
 
         {/* 2페이지 — 경험 */}
         <WordPage>
-          <div className="relative flex-1 pl-8">
-            <div className="absolute bottom-3 left-[10px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
-
-            <TimelineBlock heading="근무 경험" isLast>
-              <ExpCard
-                name={job.serviceName ?? job.company}
-                badge={`${job.periodLabel} · ${job.durationLabel}`}
-                sub={`${job.company} · ${job.role}`}
-                stack={job.stackSummary ?? job.stack.framework}
-                bullets={job.aboutHighlights ?? job.highlights.slice(0, 3)}
-              />
-            </TimelineBlock>
+          <div className="flex-1 pl-8">
+            <div className="relative">
+              <div className="absolute bottom-0 left-[-22px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
+              <TimelineBlock heading="근무 경험" isLast>
+                <ExpCard
+                  name={job.serviceName ?? job.company}
+                  badge={`${job.periodLabel} · ${job.durationLabel}`}
+                  sub={`${job.company} · ${job.role}`}
+                  stack={job.stackSummary ?? job.stack.framework}
+                  bullets={job.aboutHighlights ?? job.highlights.slice(0, 3)}
+                />
+              </TimelineBlock>
+            </div>
           </div>
 
           <PageFooter page={2} total={2} name={profile.name} />
