@@ -90,7 +90,7 @@ export function ProjectsPanelView({ projects }: Props) {
           </div>
           <div className="flex items-center gap-2 rounded-full border border-[#dadce0] bg-[#f8fafd] px-3 py-1.5 text-xs text-[#3c4043]">
             <FaShieldHalved aria-hidden className="text-[#5f6368]" />
-            <span>{projects.length} audits</span>
+            <span>프로젝트 {projects.length}개</span>
           </div>
         </div>
       </header>

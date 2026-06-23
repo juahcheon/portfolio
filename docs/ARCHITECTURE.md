@@ -24,42 +24,32 @@
 │  (Vercel 배포 시 web/ 만 포함)                               │
 └─────────────────────────────────────────────────────────────┘
 
-레거시: `api/` Express + `api/data/portfolio.json` — 로컬 참고·sync:content 용.
+※ `api/` Express 서버는 제거됨. `web/data/portfolio.json`이 단일 원본.
 ```
 
 | 패키지 | 역할 | 주요 기술 |
 |--------|------|-----------|
-| `web/` | UI, 라우팅, 클라이언트 상태 | Next 15, React 19, TS, Tailwind (+ `globals.css` 예외), Zustand, TanStack Query |
-| `api/` | 포트폴리오 JSON HTTP 제공 | Express, Node ESM |
-| 루트 | 검증 스크립트 | `npm run verify` → api + web 각각 verify |
+| `web/` | UI, 라우팅, 클라이언트 상태, Route Handler | Next 15, React 19, TS, Tailwind, Zustand, TanStack Query |
+| 루트 | 검증 스크립트 | `npm run verify` → web tsc + next build |
 
 ---
 
-## 2. API를 분리한 이유
+## 2. 콘텐츠 분리 설계
 
-면접·문서에서 자주 묻는 결정이므로, 의도를 명확히 적어 둡니다.
+### 2.1 단일 소스
 
-### 2.1 콘텐츠와 UI 배포 주기 분리
-
-이력·프로젝트 문구는 `api/data/portfolio.json`에만 있습니다.  
-문구만 고칠 때 **Next.js 전체를 다시 빌드·배포하지 않아도** API만 갱신할 수 있습니다. (실무에서 CMS·BFF를 나누는 것과 같은 방향)
-
-### 2.2 단일 소스 + 타입 계약
-
-- JSON이 **진실의 원천(Single Source of Truth)**.
+- `web/data/portfolio.json`이 **진실의 원천(Single Source of Truth)**.
 - `web/src/types/portfolio.ts`의 `PortfolioPayload`가 프론트 계약.
-- 나중에 Headless CMS·Notion API로 바꿀 때 **web 컴포넌트는 fetch 경로만** 바꾸면 됨.
+- Route Handler(`app/api/v1/portfolio/route.ts`)가 이 파일을 읽어 반환.
 
-### 2.3 개발·운영 편의
+### 2.2 개발·운영 편의
 
 - 로컬: **`cd web && npm run dev`** (3003) — JSON은 `/api/v1/portfolio`.
 - 배포: **Vercel Root `web`만** — [DEPLOY.md](./DEPLOY.md).
 
-### 2.4 포트폴리오로서의 설명 포인트
+### 2.3 포트폴리오로서의 설명 포인트
 
-> “정적 HTML에 박혀 있던 데이터를 API로 빼서, 프론트는 **소비자** 역할만 하게 했다.”
-
-과도한 분리는 아님 — 현재 API는 파일 read 1엔드포인트 수준이며, **1차 목표는 구조 연습 + 유지보수**에 가깝습니다.
+> “콘텐츠는 `portfolio.json` 단일 파일에서 관리하고, 프론트는 Route Handler를 통해 소비하는 구조로 분리했다.”
 
 ---
 
@@ -158,30 +148,13 @@ web/src/
 
 ---
 
-## 5. api 디렉터리
-
-```
-api/
-├── src/server.ts       # Express app
-└── data/portfolio.json # 콘텐츠
-```
-
-| 엔드포인트 | 응답 |
-|------------|------|
-| `GET /health` | `{ ok: true }` |
-| `GET /v1/portfolio` | portfolio.json raw |
-
-환경 변수: `PORT` (기본 4000).
-
----
-
-## 6. 에셋·정적 파일
+## 5. 에셋·정적 파일
 
 | 경로 | 용도 |
 |------|------|
 | `web/public/img/` | 레거시 작업 표시줄·webp (sync:legacy) |
 | `web/public/icons/` | 바탕화면·탐색기 아이콘 |
-| `web/scripts/sync-legacy-assets.mjs` | juahcheon.github.io → public 복사 |
+| `web/public/img/` | 레거시 작업 표시줄·webp |
 
 이미지 URL은 JSON·컴포넌트에서 `/img/...`, `/icons/...` 형태로 참조합니다.
 
@@ -192,7 +165,6 @@ api/
 | 변수 | 위치 | 설명 |
 |------|------|------|
 | `NEXT_PUBLIC_PORTFOLIO_API_URL` | `web/.env.local` | API 베이스 URL (끝 `/` 제거됨) |
-| `PORT` | api | API 포트 |
 
 예시: `web/.env.local.example`
 
@@ -202,10 +174,9 @@ api/
 
 ```powershell
 # 루트
-npm run verify          # api tsc + web tsc + next build
+npm run verify          # web tsc + next build
 
-# 개별
-cd api && npm run dev
+# 개발 서버
 cd web && npm run dev
 ```
 
@@ -213,17 +184,14 @@ cd web && npm run dev
 
 ---
 
-## 9. 배포 topology (예정)
-
-**URL·배포일 미정** — [DEPLOY.md](./DEPLOY.md)에 Vercel·API 주소를 확정 후 기록.
+## 9. 배포 topology
 
 ```
 [사용자]
-    → Vercel (web, Next.js)     ← _TBD_
-    → API 호스트                ← _TBD_
+    → Vercel (web/, Next.js)
 ```
 
-CORS는 API에서 `origin: true`로 개발·분리 도메인을 허용합니다. 프로덕션에서는 필요 시 origin 화이트리스트로 좁힐 수 있습니다.
+`web/`만 Vercel에 배포. Route Handler가 `web/data/portfolio.json`을 읽어 반환.
 
 ---
 
