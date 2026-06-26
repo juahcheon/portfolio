@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { FaBolt, FaCodeBranch, FaLink, FaShieldHalved, FaTriangleExclamation } from "react-icons/fa6";
+import { FaBolt, FaChevronLeft, FaChevronRight, FaCodeBranch, FaLink, FaShieldHalved, FaTriangleExclamation } from "react-icons/fa6";
 import type { Project, PortfolioPayload, StructuredTroubleshootingItem } from "@/types/portfolio";
 
 function isStructured(item: unknown): item is StructuredTroubleshootingItem {
@@ -78,6 +78,7 @@ export function ProjectsPanelView({ projects }: Props) {
     return null;
   }
 
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const accent = projectColor(selectedProject);
   const selectedTags = uniqueTags([
     ...stackTags(selectedProject.stackSummary),
@@ -95,9 +96,13 @@ export function ProjectsPanelView({ projects }: Props) {
         </div>
       </header>
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[20fr_80fr]">
-        <aside className="border-b border-[#e8eaed] bg-[#f8fafd] p-2 lg:border-b-0 lg:border-r" aria-label={COPY.projectList}>
-          <div className="space-y-2">
+      <div className="relative grid min-h-0 flex-1" style={{ gridTemplateColumns: sidebarOpen ? "20fr 80fr" : "0fr 1fr" }}>
+        <aside
+          className="overflow-hidden border-r border-[#e8eaed] bg-[#f8fafd] transition-all duration-200"
+          aria-label={COPY.projectList}
+          style={{ minWidth: sidebarOpen ? 120 : 0 }}
+        >
+          <div className={`space-y-2 p-2 transition-opacity duration-200 ${sidebarOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}>
             {projects.map((project) => {
               const active = project.slug === selectedProject.slug;
               const color = projectColor(project);
@@ -122,7 +127,15 @@ export function ProjectsPanelView({ projects }: Props) {
           </div>
         </aside>
 
-        <main className="min-h-0 overflow-auto p-7 pb-10">
+        <main className="relative min-h-0 overflow-auto p-7 pb-10">
+          <button
+            type="button"
+            onClick={() => setSidebarOpen((o) => !o)}
+            className="absolute left-0 top-6 z-10 flex h-6 w-5 items-center justify-center rounded-r border border-l-0 border-[#e8eaed] bg-[#f8fafd] text-[10px] text-[#5f6368] hover:bg-[#e8eaed]"
+            aria-label={sidebarOpen ? "목록 접기" : "목록 펼치기"}
+          >
+            {sidebarOpen ? <FaChevronLeft aria-hidden /> : <FaChevronRight aria-hidden />}
+          </button>
           <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_270px]">
             <div>
               <div className="flex flex-wrap items-center gap-2">
