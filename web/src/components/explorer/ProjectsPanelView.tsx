@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { FaBolt, FaCodeBranch, FaLink, FaShieldHalved, FaTriangleExclamation } from "react-icons/fa6";
+import { FaBolt, FaChevronLeft, FaChevronRight, FaCodeBranch, FaLink, FaShieldHalved, FaTriangleExclamation } from "react-icons/fa6";
 import type { Project, PortfolioPayload, StructuredTroubleshootingItem } from "@/types/portfolio";
 
 function isStructured(item: unknown): item is StructuredTroubleshootingItem {
@@ -78,6 +78,7 @@ export function ProjectsPanelView({ projects }: Props) {
     return null;
   }
 
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const accent = projectColor(selectedProject);
   const selectedTags = uniqueTags([
     ...stackTags(selectedProject.stackSummary),
@@ -92,16 +93,16 @@ export function ProjectsPanelView({ projects }: Props) {
             <h2 className="m-0 text-[28px] font-semibold leading-tight text-[#202124]">{COPY.title}</h2>
             <p className="m-0 mt-1 text-sm text-[#5f6368]">{COPY.auditSummary}</p>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-[#dadce0] bg-[#f8fafd] px-3 py-1.5 text-xs text-[#3c4043]">
-            <FaShieldHalved aria-hidden className="text-[#5f6368]" />
-            <span>프로젝트 {projects.length}개</span>
-          </div>
         </div>
       </header>
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[20fr_80fr]">
-        <aside className="border-b border-[#e8eaed] bg-[#f8fafd] p-2 lg:border-b-0 lg:border-r" aria-label={COPY.projectList}>
-          <div className="space-y-2">
+      <div className="relative grid min-h-0 flex-1" style={{ gridTemplateColumns: sidebarOpen ? "20fr 80fr" : "0fr 1fr" }}>
+        <aside
+          className="overflow-hidden border-r border-[#e8eaed] bg-[#f8fafd] transition-all duration-200"
+          aria-label={COPY.projectList}
+          style={{ minWidth: sidebarOpen ? 120 : 0 }}
+        >
+          <div className={`space-y-2 p-2 transition-opacity duration-200 ${sidebarOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}>
             {projects.map((project) => {
               const active = project.slug === selectedProject.slug;
               const color = projectColor(project);
@@ -126,7 +127,15 @@ export function ProjectsPanelView({ projects }: Props) {
           </div>
         </aside>
 
-        <main className="min-h-0 overflow-auto p-7 pb-10">
+        <main className="relative min-h-0 overflow-auto p-7 pb-10">
+          <button
+            type="button"
+            onClick={() => setSidebarOpen((o) => !o)}
+            className="absolute left-0 top-6 z-10 flex h-6 w-5 items-center justify-center rounded-r border border-l-0 border-[#e8eaed] bg-[#f8fafd] text-[10px] text-[#5f6368] hover:bg-[#e8eaed]"
+            aria-label={sidebarOpen ? "목록 접기" : "목록 펼치기"}
+          >
+            {sidebarOpen ? <FaChevronLeft aria-hidden /> : <FaChevronRight aria-hidden />}
+          </button>
           <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_270px]">
             <div>
               <div className="flex flex-wrap items-center gap-2">
@@ -174,37 +183,40 @@ export function ProjectsPanelView({ projects }: Props) {
                 </section>
               ) : null}
 
-              <section className="mb-5 mt-5 rounded border bg-[#fbfcfd] p-4" style={{ borderColor: accent }}>
+              <section className="mb-5 mt-5 p-4">
                 <div className="flex items-center gap-2">
                   <FaTriangleExclamation aria-hidden style={{ color: accent }} />
                   <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.troubleshooting}</h4>
                 </div>
                 <ol className="m-0 mt-3 list-none space-y-4 p-0">
                   {(selectedProject.troubleshooting ?? []).map((item, index) => (
-                    <li key={index} className="grid grid-cols-[22px_minmax(0,1fr)] gap-2">
-                      <span
-                        className="mt-[3px] flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold text-white"
-                        style={{ backgroundColor: accent }}
-                        aria-hidden
+                    <li key={index}>
+                      <p
+                        className="mb-1.5 text-xs font-bold tracking-widest"
+                        style={{ color: accent }}
                       >
-                        {index + 1}
-                      </span>
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
                       {isStructured(item) ? (
-                        <div className="space-y-2 text-sm leading-relaxed text-[#4d5156]">
-                          {(["발단", "전개", "해결"] as const).map((label) => (
-                            <div key={label} className="rounded-lg border px-3 py-2" style={{ borderColor: accent }}>
-                              <span
-                                className="mb-1 inline-block text-[11px] font-semibold"
-                                style={{ color: accent }}
-                              >
+                        <div className="overflow-hidden border border-[#111827]">
+                          {(["발단", "전개", "해결"] as const).map((label, i) => (
+                            <div
+                              key={label}
+                              className="grid text-sm"
+                              style={{
+                                gridTemplateColumns: "62px 1fr",
+                                borderTop: i === 0 ? "none" : "1px solid #111827",
+                              }}
+                            >
+                              <span className="flex items-center justify-center border-r border-[#111827] py-1.5 text-center text-[13px] font-bold text-[#111827]">
                                 {label}
                               </span>
-                              <p className="m-0">{item[label]}</p>
+                              <p className="m-0 px-2.5 py-1.5 text-[13px] leading-relaxed text-[#4b5563]">{item[label]}</p>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <span className="text-base leading-relaxed text-[#4d5156]">{item}</span>
+                        <p className="m-0 text-sm leading-relaxed text-[#4d5156]">{item}</p>
                       )}
                     </li>
                   ))}

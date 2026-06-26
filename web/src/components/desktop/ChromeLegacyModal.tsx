@@ -10,10 +10,11 @@ import {
   FaArrowRotateRight,
   FaEllipsisVertical,
   FaLock,
+  FaMinus,
+  FaRegSquare,
   FaRegStar,
   FaXmark,
 } from "react-icons/fa6";
-import { WinFrameTitleBar } from "@/components/desktop/WinFrameTitleBar";
 import type { GithubPinnedRepo } from "./githubPinnedRepos";
 import { GitHubChromeContent } from "./GitHubChromeContent";
 
@@ -109,17 +110,11 @@ export function ChromeLegacyModal({
       aria-label={ariaLabel}
       onMouseDown={onFocus}
     >
-      <WinFrameTitleBar
-          title={titleBarTitle ?? ariaLabel}
-          titleIconUrl={titleBarIconUrl}
-          maximized={maximized}
-          onTitleBarPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
-          onMinimize={() => {}}
-          onMaximize={() => setMaximized((m) => !m)}
-          onClose={onClose}
-        />
         <div className="clmModalHeader">
-          <div className="clmHeaderPage">
+          <div
+            className="clmHeaderPage"
+            onPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
+          >
             <div className="clmOpenPage">
               <ul>
                 <li className="clmActivePage">
@@ -141,6 +136,17 @@ export function ChromeLegacyModal({
                   </button>
                 </li>
               </ul>
+            </div>
+            <div className="clmHeaderRight" onPointerDown={(e) => e.stopPropagation()}>
+              <button type="button" className="clmMinimize" aria-label="최소화" onClick={() => {}}>
+                <FaMinus aria-hidden />
+              </button>
+              <button type="button" aria-label={maximized ? "이전 크기로" : "최대화"} onClick={() => setMaximized((m) => !m)}>
+                <FaRegSquare aria-hidden />
+              </button>
+              <button type="button" aria-label="닫기" onClick={onClose}>
+                <FaXmark aria-hidden />
+              </button>
             </div>
           </div>
           <div className="clmHeaderAddress">

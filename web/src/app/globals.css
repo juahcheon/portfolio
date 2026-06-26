@@ -216,31 +216,24 @@ button {
 
   .clmHeaderRight {
     position: absolute;
-    top: 1px;
+    top: 0;
+    bottom: 0;
     right: 0;
     display: flex;
+    align-items: center;
   }
 
   .clmHeaderRight button {
     display: flex;
     width: 40px;
-    height: 30px;
-    flex-direction: column;
+    height: 100%;
     align-items: center;
+    justify-content: center;
     border: none;
     background-color: transparent;
     color: #555;
     cursor: default;
     transition: 0.3s;
-  }
-
-  .clmHeaderRight button:not(.clmMinimize) {
-    justify-content: center;
-  }
-
-  .clmMinimize {
-    box-sizing: border-box;
-    padding-top: 5px;
   }
 
   .clmHeaderRight button svg {
