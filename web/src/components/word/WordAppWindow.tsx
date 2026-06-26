@@ -94,7 +94,7 @@ function ExpCard({
 
 function WordPage({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-[640px] border border-[#e0e0e0] bg-white px-12 py-10 shadow-[0_1px_0_rgba(0,0,0,0.06),0_4px_24px_rgba(0,0,0,0.12)]">
+    <div className="mx-auto flex min-h-[900px] w-full max-w-[640px] flex-col border border-[#e0e0e0] bg-white px-12 py-10 shadow-[0_1px_0_rgba(0,0,0,0.06),0_4px_24px_rgba(0,0,0,0.12)]">
       {children}
     </div>
   );
@@ -110,8 +110,7 @@ function PageFooter({ page, total, name }: { page: number; total: number; name: 
 }
 
 export function WordAppWindow({ data }: Props) {
-  const { profile, projects, jobs } = data;
-  const dsHelper = projects[0];
+  const { profile, jobs } = data;
   const job = jobs[0];
 
   return (
@@ -266,7 +265,7 @@ export function WordAppWindow({ data }: Props) {
           </div>
 
           {/* 타임라인 */}
-          <div className="relative pl-8">
+          <div className="flex-1 relative pl-8">
             <div className="absolute bottom-3 left-[10px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
 
             <TimelineBlock heading="소개">
@@ -297,28 +296,19 @@ export function WordAppWindow({ data }: Props) {
 
         {/* 2페이지 — 경험 */}
         <WordPage>
-          <div className="relative pl-8">
-            <div className="absolute bottom-3 left-[10px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
-
-            <TimelineBlock heading="사이드 프로젝트">
-              <ExpCard
-                name={dsHelper.name}
-                badge={dsHelper.aboutBadge ?? `팀 프로젝트 · ${dsHelper.role}`}
-                sub={dsHelper.subtitle ?? dsHelper.description.split(".")[0] + "."}
-                stack={dsHelper.stackSummary}
-                bullets={dsHelper.aboutHighlights ?? dsHelper.features?.slice(0, 4) ?? []}
-              />
-            </TimelineBlock>
-
-            <TimelineBlock heading="근무 경험" isLast>
-              <ExpCard
-                name={job.serviceName ?? job.company}
-                badge={`${job.periodLabel} · ${job.durationLabel}`}
-                sub={`${job.company} · ${job.role}`}
-                stack={job.stackSummary ?? job.stack.framework}
-                bullets={job.aboutHighlights ?? job.highlights.slice(0, 3)}
-              />
-            </TimelineBlock>
+          <div className="flex-1 pl-8">
+            <div className="relative">
+              <div className="absolute bottom-0 left-[-22px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
+              <TimelineBlock heading="근무 경험" isLast>
+                <ExpCard
+                  name={job.serviceName ?? job.company}
+                  badge={`${job.periodLabel} · ${job.durationLabel}`}
+                  sub={`${job.company} · ${job.role}`}
+                  stack={job.stackSummary ?? job.stack.framework}
+                  bullets={job.aboutHighlights ?? job.highlights.slice(0, 3)}
+                />
+              </TimelineBlock>
+            </div>
           </div>
 
           <PageFooter page={2} total={2} name={profile.name} />
