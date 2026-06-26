@@ -2,7 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { FaBolt, FaCodeBranch, FaLink, FaShieldHalved, FaTriangleExclamation } from "react-icons/fa6";
-import type { Project, PortfolioPayload } from "@/types/portfolio";
+import type { Project, PortfolioPayload, StructuredTroubleshootingItem } from "@/types/portfolio";
+
+function isStructured(item: unknown): item is StructuredTroubleshootingItem {
+  return typeof item === "object" && item !== null && "발단" in item;
+}
 
 type Props = {
   projects: PortfolioPayload["projects"];
@@ -170,22 +174,38 @@ export function ProjectsPanelView({ projects }: Props) {
                 </section>
               ) : null}
 
-              <section className="mt-5 rounded border bg-[#fbfcfd] p-4" style={{ borderColor: accent }}>
+              <section className="mb-5 mt-5 rounded border bg-[#fbfcfd] p-4" style={{ borderColor: accent }}>
                 <div className="flex items-center gap-2">
                   <FaTriangleExclamation aria-hidden style={{ color: accent }} />
                   <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.troubleshooting}</h4>
                 </div>
-                <ol className="m-0 mt-3 list-none space-y-3 p-0">
+                <ol className="m-0 mt-3 list-none space-y-4 p-0">
                   {(selectedProject.troubleshooting ?? []).map((item, index) => (
-                    <li key={item} className="grid grid-cols-[22px_minmax(0,1fr)] gap-2 text-base leading-relaxed text-[#4d5156]">
+                    <li key={index} className="grid grid-cols-[22px_minmax(0,1fr)] gap-2">
                       <span
-                        className="flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold text-white"
+                        className="mt-[3px] flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold text-white"
                         style={{ backgroundColor: accent }}
                         aria-hidden
                       >
                         {index + 1}
                       </span>
-                      <span>{item}</span>
+                      {isStructured(item) ? (
+                        <div className="space-y-1 text-sm leading-relaxed text-[#4d5156]">
+                          {(["발단", "전개", "해결"] as const).map((label) => (
+                            <div key={label} className="flex gap-2">
+                              <span
+                                className="shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold text-white"
+                                style={{ backgroundColor: accent }}
+                              >
+                                {label}
+                              </span>
+                              <span>{item[label]}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-base leading-relaxed text-[#4d5156]">{item}</span>
+                      )}
                     </li>
                   ))}
                 </ol>
