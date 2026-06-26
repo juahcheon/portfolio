@@ -92,10 +92,6 @@ export function ProjectsPanelView({ projects }: Props) {
             <h2 className="m-0 text-[28px] font-semibold leading-tight text-[#202124]">{COPY.title}</h2>
             <p className="m-0 mt-1 text-sm text-[#5f6368]">{COPY.auditSummary}</p>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-[#dadce0] bg-[#f8fafd] px-3 py-1.5 text-xs text-[#3c4043]">
-            <FaShieldHalved aria-hidden className="text-[#5f6368]" />
-            <span>프로젝트 {projects.length}개</span>
-          </div>
         </div>
       </header>
 
