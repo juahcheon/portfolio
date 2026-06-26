@@ -192,10 +192,10 @@ export function ProjectsPanelView({ projects }: Props) {
                       {isStructured(item) ? (
                         <div className="space-y-2 text-sm leading-relaxed text-[#4d5156]">
                           {(["발단", "전개", "해결"] as const).map((label) => (
-                            <div key={label} className="rounded-lg border px-3 py-2" style={{ borderColor: accent }}>
+                            <div key={label} className="flex gap-2">
                               <span
-                                className="mb-1 inline-block text-[11px] font-semibold"
-                                style={{ color: accent }}
+                                className="mt-0.5 shrink-0 rounded-xl border px-2 py-0.5 text-[11px] font-semibold"
+                                style={{ borderColor: accent, color: accent }}
                               >
                                 {label}
                               </span>
