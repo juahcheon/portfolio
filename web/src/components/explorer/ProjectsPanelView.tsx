@@ -183,7 +183,7 @@ export function ProjectsPanelView({ projects }: Props) {
                 </section>
               ) : null}
 
-              <section className="mb-5 mt-5 rounded border border-[#e8eaed] bg-[#fbfcfd] p-4">
+              <section className="mb-5 mt-5 p-4">
                 <div className="flex items-center gap-2">
                   <FaTriangleExclamation aria-hidden style={{ color: accent }} />
                   <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.troubleshooting}</h4>
