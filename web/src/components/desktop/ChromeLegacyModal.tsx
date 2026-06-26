@@ -109,8 +109,7 @@ export function ChromeLegacyModal({
       aria-label={ariaLabel}
       onMouseDown={onFocus}
     >
-      <div className="clmModalWrap">
-        <WinFrameTitleBar
+      <WinFrameTitleBar
           title={titleBarTitle ?? ariaLabel}
           titleIconUrl={titleBarIconUrl}
           maximized={maximized}
@@ -125,6 +124,16 @@ export function ChromeLegacyModal({
               <ul>
                 <li className="clmActivePage">
                   <a href="#" onClick={(e) => e.preventDefault()} tabIndex={-1}>
+                    {titleBarIconUrl ? (
+                      <Image
+                        src={titleBarIconUrl}
+                        alt=""
+                        width={16}
+                        height={16}
+                        className="shrink-0 object-contain"
+                        unoptimized
+                      />
+                    ) : null}
                     <span className="clmTabTitle">{titleBarTitle ?? ariaLabel}</span>
                   </a>
                   <button type="button" className={`clmExitPage clmHoverDark`} aria-label="탭 닫기">
@@ -194,7 +203,6 @@ export function ChromeLegacyModal({
             <iframe title="Chrome" src={iframeUrl} className="clmIframe" />
           ) : null}
         </div>
-      </div>
     </div>
   );
 }
