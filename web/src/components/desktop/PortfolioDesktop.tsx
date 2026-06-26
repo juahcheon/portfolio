@@ -140,7 +140,7 @@ export function PortfolioDesktop({ data }: { data: PortfolioPayload }) {
       onClick={() => setSelectedIconId(null)}
     >
       <div
-        className="relative flex h-full w-full flex-row items-start"
+        className="relative flex h-full w-full flex-row items-start pb-[50px]"
         onClick={() => setSelectedIconId(null)}
       >
         {columns.map((col, colIdx) =>

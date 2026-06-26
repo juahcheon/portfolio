@@ -415,6 +415,68 @@
       ]
     },
     {
+      "slug": "talky-owl",
+      "name": "말해부엉",
+      "role": "프론트엔드",
+      "team": "팀 프로젝트 5명",
+      "contribution": "프론트엔드 기여 20% · 진술 생성-작성-판결 플로우 담당",
+      "stackSummary": "Next.js 15, TypeScript, Prisma, Gemini API, NextAuth, TanStack Query, Zustand, SCSS",
+      "subtitle": "AI 갈등 조정 판결 서비스",
+      "aboutBadge": "팀 프로젝트 5명 · 프론트엔드 20%",
+      "aboutHighlights": [
+        "진술 생성 · 작성 · 판결 결과 플로우 전담 구현",
+        "Gemini API 연동 및 프롬프트 설계 · 개선",
+        "API 트래픽 최적화 — DB 쿼리 통합, TanStack Query staleTime 적용",
+        "NextAuth 미들웨어 매처 이슈 디버깅 및 수정"
+      ],
+      "env": "Supabase Postgres, Vercel, GitHub Organization, Figma, Notion",
+      "description": "사용자가 갈등 상황을 입력하면 AI가 판결과 관계 회복 제안을 제공하는 서비스입니다. 단독 판결과 상대방을 초대한 1:1 판결 두 가지 흐름을 지원하며, 진술 생성부터 판결 결과까지의 플로우를 담당했습니다.",
+      "troubleshooting": [
+        {
+          "발단": "배포 환경 기준 판결 결과 응답 시간이 최대 9초, 평균 2~5초에 달하는 성능 문제가 발견됐습니다.",
+          "전개": "크롬 네트워크 탭 Timing으로 원인을 추적한 결과, 판결 결과 조회 API에서 동일한 DB 쿼리가 3회 중복 호출되고 매 요청마다 getServerSession 인증 비용이 발생하고 있었습니다.",
+          "해결": "쿼리를 1회로 통합하고 경량 인증 헬퍼로 교체했습니다. TanStack Query staleTime 적용으로 불필요한 재요청을 제거하고, reload() 대신 invalidateQueries로 전체 리로드를 없앴습니다. 결과적으로 응답 시간을 1초 이하로 개선했습니다."
+        },
+        {
+          "발단": "비용 절감을 위해 경량 Gemini 모델을 선택했으나, 해당 시점에 지원되지 않아 급히 교체해야 했습니다.",
+          "전개": "단일 모델로 모든 작업을 처리하던 구조였기 때문에, 모델 변경 시 품질과 비용이 함께 영향을 받는 구조적 문제가 있었습니다.",
+          "해결": "판결처럼 품질이 중요한 작업은 고성능 모델로, 메타 추출·모더레이션 같은 단순 작업은 경량 모델로 분리했습니다. 프롬프트 내부는 A/B 레이블로 고정해 실명 노출을 방지하고, 포괄적 유형을 최후 수단으로 제한해 판결 정확도를 높였습니다."
+        },
+        {
+          "발단": "배포 환경에서 /api/* 라우트 요청이 307로 리다이렉트되며 클라이언트 요청이 실패하는 문제가 발생했습니다.",
+          "전개": "NextAuth 미들웨어가 /api/* 전체에 적용되면서, 자체 인증(getRequestUserId)을 사용하는 API 라우트까지 인증 미들웨어가 개입해 충돌이 발생했습니다.",
+          "해결": "미들웨어 매처에서 /api/* 경로를 전체 제외하도록 수정했습니다. API 라우트는 자체 인증을 사용하므로 미들웨어 개입이 불필요했습니다."
+        }
+      ],
+      "links": [
+        {
+          "label": "서비스",
+          "url": "https://talky-owl-iota.vercel.app/"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/I5-Project/TALKY-OWL"
+        }
+      ],
+      "details": [
+        {
+          "label": "팀 구성",
+          "value": "프론트엔드 5명"
+        },
+        {
+          "label": "배포 환경",
+          "value": "Vercel, Supabase, Postgres"
+        }
+      ],
+      "features": [
+        "진술 생성 · 작성 · 판결 결과 플로우 구현",
+        "단독 판결 / 1:1 판결 분기 UI 처리",
+        "Gemini API 연동 및 SOLO/DUO 판결 프롬프트 설계",
+        "판결 결과 점수 그래프 및 참여자 실명 치환 UI 구현",
+        "API 쿼리 통합 및 TanStack Query staleTime 최적화"
+      ]
+    },
+    {
       "slug": "portfolio",
       "name": "Portfolio",
       "role": "개인 프로젝트",

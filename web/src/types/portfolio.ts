@@ -89,6 +89,14 @@ export type TimelineItem = {
 export type ProjectLink = { label: string; url: string };
 export type ProjectDetail = { label: string; value: string };
 
+export type StructuredTroubleshootingItem = {
+  발단: string;
+  전개: string;
+  해결: string;
+};
+
+export type TroubleshootingItem = string | StructuredTroubleshootingItem;
+
 export type Project = {
   slug: string;
   name: string;
@@ -100,7 +108,7 @@ export type Project = {
   description: string;
   details?: ProjectDetail[];
   features?: string[];
-  troubleshooting?: string[];
+  troubleshooting?: TroubleshootingItem[];
   links: ProjectLink[];
   subtitle?: string;
   aboutBadge?: string;
