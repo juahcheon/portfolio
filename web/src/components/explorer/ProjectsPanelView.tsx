@@ -183,37 +183,40 @@ export function ProjectsPanelView({ projects }: Props) {
                 </section>
               ) : null}
 
-              <section className="mb-5 mt-5 rounded border bg-[#fbfcfd] p-4" style={{ borderColor: accent }}>
+              <section className="mb-5 mt-5 rounded border border-[#e8eaed] bg-[#fbfcfd] p-4">
                 <div className="flex items-center gap-2">
                   <FaTriangleExclamation aria-hidden style={{ color: accent }} />
                   <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.troubleshooting}</h4>
                 </div>
                 <ol className="m-0 mt-3 list-none space-y-4 p-0">
                   {(selectedProject.troubleshooting ?? []).map((item, index) => (
-                    <li key={index} className="grid grid-cols-[22px_minmax(0,1fr)] gap-2">
-                      <span
-                        className="mt-[3px] flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold text-white"
-                        style={{ backgroundColor: accent }}
-                        aria-hidden
+                    <li key={index}>
+                      <p
+                        className="mb-1.5 text-xs font-bold tracking-widest"
+                        style={{ color: accent }}
                       >
-                        {index + 1}
-                      </span>
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
                       {isStructured(item) ? (
-                        <div className="space-y-2 text-sm leading-relaxed text-[#4d5156]">
-                          {(["발단", "전개", "해결"] as const).map((label) => (
-                            <div key={label} className="flex gap-2">
-                              <span
-                                className="mt-0.5 shrink-0 rounded-xl border px-2 py-0.5 text-[11px] font-semibold"
-                                style={{ borderColor: accent, color: accent }}
-                              >
+                        <div className="overflow-hidden border border-[#111827]">
+                          {(["발단", "전개", "해결"] as const).map((label, i) => (
+                            <div
+                              key={label}
+                              className="grid text-sm"
+                              style={{
+                                gridTemplateColumns: "62px 1fr",
+                                borderTop: i === 0 ? "none" : "1px solid #111827",
+                              }}
+                            >
+                              <span className="flex items-center justify-center border-r border-[#111827] py-1.5 text-center text-[13px] font-bold text-[#111827]">
                                 {label}
                               </span>
-                              <p className="m-0">{item[label]}</p>
+                              <p className="m-0 px-2.5 py-1.5 text-[13px] leading-relaxed text-[#4b5563]">{item[label]}</p>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <span className="text-base leading-relaxed text-[#4d5156]">{item}</span>
+                        <p className="m-0 text-sm leading-relaxed text-[#4d5156]">{item}</p>
                       )}
                     </li>
                   ))}
