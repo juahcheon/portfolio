@@ -45,8 +45,8 @@ button {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    width: 70%;
-    height: 70%;
+    width: 82%;
+    height: 82%;
     overflow: hidden;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);

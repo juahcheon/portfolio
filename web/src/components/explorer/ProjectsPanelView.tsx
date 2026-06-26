@@ -190,16 +190,16 @@ export function ProjectsPanelView({ projects }: Props) {
                         {index + 1}
                       </span>
                       {isStructured(item) ? (
-                        <div className="space-y-1 text-sm leading-relaxed text-[#4d5156]">
+                        <div className="space-y-2 text-sm leading-relaxed text-[#4d5156]">
                           {(["발단", "전개", "해결"] as const).map((label) => (
-                            <div key={label} className="flex gap-2">
+                            <div key={label} className="rounded-lg border px-3 py-2" style={{ borderColor: accent }}>
                               <span
-                                className="shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold text-white"
-                                style={{ backgroundColor: accent }}
+                                className="mb-1 inline-block text-[11px] font-semibold"
+                                style={{ color: accent }}
                               >
                                 {label}
                               </span>
-                              <span>{item[label]}</span>
+                              <p className="m-0">{item[label]}</p>
                             </div>
                           ))}
                         </div>
