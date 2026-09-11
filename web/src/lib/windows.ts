@@ -25,6 +25,8 @@ export function openWindowFromDesktopId(
       return { id, title: "명령 프롬프트", kind: "cmd" };
     case "projects":
       return { id, title: "\ud504\ub85c\uc81d\ud2b8", kind: "projects" };
+    case "ai-switch":
+      return { id, title: "AI Switch", kind: "projects", projectSlug: "ai-switch" };
     default:
       return null;
   }

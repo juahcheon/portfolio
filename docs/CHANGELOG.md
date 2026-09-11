@@ -11,11 +11,14 @@
 
 ### Added
 
+- AI Switch 바탕화면 아이콘과 프로젝트 소개: 공식 아이콘 사용, 로그인 없이 볼 수 있는 실제 화면 캡처와 원본 이미지 링크 제공
 - 루트 [AGENTS.md](../AGENTS.md) — AI 공통 규칙 (디자인 임의 수정 금지, 데이터 로딩 순서)
 - [docs/DEPLOY.md](./DEPLOY.md) — 배포 URL placeholder (미정)
 
 ### Changed
 
+- 상상력집단 경력과 AI Switch 프로젝트: 본인 커밋·PR를 근거로 디자인 토큰화, 이미지 처리, 회의록·콘솔·공지·다국어 업무 보완
+- `ai-switch-web` 본인 커밋·PR를 근거로 다국어 문서 사이트·튜토리얼·랜딩 내비게이션·스크린샷 검수 자동화·AI 모델 동향 통합·검색 및 배포 개선을 추가하고 공개 Docs 링크 연결
 - Chrome 레거시 모달: 단일 탭만 표시, 탭 hover 배경 제거, 주소줄 뒤로·앞으로·새로고침 가로 배치 및 자물쇠·별·더보기 정렬 조정
 - 바탕화면: Chrome → **프로젝트** 창(`projects`, 기존 **ChromeLegacyModal** 셸 + 본문만 `projects` JSON), Word 라벨 → **자기소개**, 아이콘 순서(자기소개↔스킬, 프로젝트↔DS Helper) 조정; `profile.title` 웹 프론트엔드 개발자
 - Cursor 창: 연락·GitHub 안내로 정리

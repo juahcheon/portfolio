@@ -10,6 +10,7 @@ function isStructured(item: unknown): item is StructuredTroubleshootingItem {
 
 type Props = {
   projects: PortfolioPayload["projects"];
+  initialProjectSlug?: string;
 };
 
 const COPY = {
@@ -67,8 +68,8 @@ function sidebarStatus(project: Project) {
   return projectStatus(project);
 }
 
-export function ProjectsPanelView({ projects }: Props) {
-  const [selectedSlug, setSelectedSlug] = useState(() => projects[0]?.slug ?? "");
+export function ProjectsPanelView({ projects, initialProjectSlug }: Props) {
+  const [selectedSlug, setSelectedSlug] = useState(() => initialProjectSlug ?? projects[0]?.slug ?? "");
   const selectedProject = useMemo(
     () => projects.find((project) => project.slug === selectedSlug) ?? projects[0],
     [projects, selectedSlug]
@@ -165,6 +166,42 @@ export function ProjectsPanelView({ projects }: Props) {
                   </div>
                 ))}
               </div>
+
+              {selectedProject.screenshots && selectedProject.screenshots.length > 0 ? (
+                <section className="mt-5" aria-label="작업 화면">
+                  <h4 className="m-0 text-sm font-semibold text-[#202124]">작업 화면</h4>
+                  <p className="m-0 mt-1 text-sm text-[#5f6368]">
+                    로그인 없이 볼 수 있는 실제 서비스 화면입니다. 이미지를 누르면 원본을 볼 수 있습니다.
+                  </p>
+                  <div className="mt-3 space-y-4">
+                    {selectedProject.screenshots.map((screenshot) => (
+                      <figure key={screenshot.imageUrl} className="m-0 overflow-hidden rounded border border-[#e8eaed] bg-white">
+                        <a
+                          href={screenshot.imageUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${screenshot.title} 원본 이미지 보기`}
+                          className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#1a0dab]"
+                        >
+                          <img
+                            src={screenshot.imageUrl}
+                            alt={`${screenshot.title}: ${screenshot.description}`}
+                            width={screenshot.width}
+                            height={screenshot.height}
+                            loading="lazy"
+                            decoding="async"
+                            className="block h-auto w-full"
+                          />
+                        </a>
+                        <figcaption className="border-t border-[#e8eaed] p-3">
+                          <p className="m-0 text-sm font-semibold text-[#202124]">{screenshot.title}</p>
+                          <p className="m-0 mt-1 text-sm leading-relaxed text-[#5f6368]">{screenshot.description}</p>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
 
               {selectedProject.features && selectedProject.features.length > 0 ? (
                 <section className="mt-5 rounded border border-[#e8eaed] bg-white p-4 shadow-[0_1px_2px_rgba(60,64,67,0.08)]">

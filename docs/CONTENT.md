@@ -86,6 +86,7 @@
 | `github` | GitHub | github | `github`, `profile` |
 | `cursor` | Cursor | cursor | `WindowContents` (연락·GitHub·Cursor 안내) |
 | `projects` | 프로젝트 | projects | `projects` |
+| `ai-switch` | AI Switch | projects | `projects` 중 `slug: "ai-switch"`를 처음 선택 |
 
 `experience` 등 **Excel·PowerPoint용 windowId는 제거됨** (Office 창 없음).
 
@@ -150,6 +151,8 @@
 ## 8. projects
 
 프로젝트 목록 JSON. **프로젝트** 창(`projects`)은 기존 Chrome 모달(`ChromeLegacyModal`) 안에 `ProjectsPanelView`로 표시. GitHub 모달 pinned(`pickGithubPinnedRepos`)에서도 사용.
+
+`screenshots`(선택)는 `title`, `imageUrl`, `description`, `width`, `height`로 구성합니다. 이미지는 `web/public/img/ai-switch/`처럼 로컬 공개 경로에 저장하며, 프로젝트 창에서 서비스 로그인 없이 열람하고 원본 이미지도 열 수 있습니다. AI Switch 바탕화면 아이콘은 같은 프로젝트 창을 재사용해 해당 항목을 바로 선택합니다.
 
 ---
 

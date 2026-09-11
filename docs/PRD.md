@@ -109,6 +109,7 @@
 | GitHub | `github` | `github` | GitHub 프로필(Chrome 모달) |
 | 프로젝트 | `projects` | `projects` | **Chrome 창 UI** + `projects` JSON 본문(iframe 대신 임베드) |
 | DS Helper | `external` | — | `https://dshelper.kr/` 새 탭 |
+| AI Switch | `ai-switch` | `projects` | 기존 Chrome 창에서 AI Switch 담당 업무·스크린샷 바로 표시 |
 
 ### 6.2 시작 메뉴·기타
 

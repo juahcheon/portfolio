@@ -88,6 +88,13 @@ export type TimelineItem = {
 
 export type ProjectLink = { label: string; url: string };
 export type ProjectDetail = { label: string; value: string };
+export type ProjectScreenshot = {
+  title: string;
+  imageUrl: string;
+  description: string;
+  width: number;
+  height: number;
+};
 
 export type StructuredTroubleshootingItem = {
   발단: string;
@@ -113,6 +120,7 @@ export type Project = {
   subtitle?: string;
   aboutBadge?: string;
   aboutHighlights?: string[];
+  screenshots?: ProjectScreenshot[];
 };
 
 export type GithubSection = {

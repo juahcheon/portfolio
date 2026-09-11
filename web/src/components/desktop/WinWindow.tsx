@@ -103,9 +103,9 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
       <ChromeLegacyModal
         zIndex={zIndex}
         stackIndex={stackIndex}
-        embeddedContent={<ProjectsPanelView projects={data.projects} />}
-        displayAddressUrl="https://portfolio/projects?q=portfolio"
-        ariaLabel="프로젝트"
+        embeddedContent={<ProjectsPanelView projects={data.projects} initialProjectSlug={win.projectSlug} />}
+        displayAddressUrl={`https://portfolio/projects?q=${win.projectSlug ?? "portfolio"}`}
+        ariaLabel={win.title}
         titleBarTitle={win.title}
         titleBarIconUrl={win.taskbarIconUrl ?? "/icons/desktop/chromeIcon.svg"}
         onClose={() => onClose(win.id)}

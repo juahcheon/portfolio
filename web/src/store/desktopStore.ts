@@ -5,6 +5,7 @@ export type OpenWindow = {
   title: string;
   /** 작업 표시줄에 데스크톱과 동일한 아이콘을 표시할 때 사용 */
   taskbarIconUrl?: string;
+  projectSlug?: string;
   kind:
     | "thisPc"
     | "about"
