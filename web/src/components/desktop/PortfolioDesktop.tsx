@@ -133,6 +133,15 @@ export function PortfolioDesktop({ data }: { data: PortfolioPayload }) {
     [data.desktop.icons]
   );
 
+  useEffect(() => {
+    const w = openWindowFromDesktopId("about", data);
+    if (w) {
+      const icon = data.desktop.icons.find((i) => i.windowId === "about");
+      openWindow({ ...w, taskbarIconUrl: icon?.imageUrl });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
       className="relative h-screen w-full"

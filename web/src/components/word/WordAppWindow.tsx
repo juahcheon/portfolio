@@ -111,7 +111,6 @@ function PageFooter({ page, total, name }: { page: number; total: number; name: 
 
 export function WordAppWindow({ data }: Props) {
   const { profile, jobs } = data;
-  const job = jobs[0];
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -300,13 +299,18 @@ export function WordAppWindow({ data }: Props) {
             <div className="relative">
               <div className="absolute bottom-0 left-[-22px] top-[5px] z-0 w-px bg-gradient-to-b from-[#2b579a] to-[#2b579a]/10" />
               <TimelineBlock heading="근무 경험" isLast>
-                <ExpCard
-                  name={job.serviceName ?? job.company}
-                  badge={`${job.periodLabel} · ${job.durationLabel}`}
-                  sub={`${job.company} · ${job.role}`}
-                  stack={job.stackSummary ?? job.stack.framework}
-                  bullets={job.aboutHighlights ?? job.highlights.slice(0, 3)}
-                />
+                <div className="space-y-3">
+                  {jobs.map((job) => (
+                    <ExpCard
+                      key={job.company}
+                      name={job.serviceName ?? job.company}
+                      badge={`${job.periodLabel} · ${job.durationLabel}`}
+                      sub={`${job.company} · ${job.role}`}
+                      stack={job.stackSummary ?? job.stack.framework}
+                      bullets={job.aboutHighlights ?? job.highlights.slice(0, 3)}
+                    />
+                  ))}
+                </div>
               </TimelineBlock>
             </div>
           </div>
