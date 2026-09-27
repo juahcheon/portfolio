@@ -2,23 +2,29 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useWindowDragOffset } from "@/hooks/useWindowDragOffset";
+import { useWindowMinimize } from "@/hooks/useWindowMinimize";
 import {
   FaArrowLeft,
   FaArrowRight,
   FaArrowRotateRight,
   FaEllipsisVertical,
   FaLock,
-  FaMinus,
-  FaRegSquare,
   FaRegStar,
   FaXmark,
 } from "react-icons/fa6";
 import type { GithubPinnedRepo } from "./githubPinnedRepos";
 import { GitHubChromeContent } from "./GitHubChromeContent";
+import { WinFrameTitleBar } from "./WinFrameTitleBar";
+import { MobileChromeNavigation, type MobileProjectTabs } from "./MobileChromeNavigation";
+import mobileStyles from "./MobileChrome.module.scss";
 
 type Props = {
+  projectTabs?: MobileProjectTabs;
+  mobile?: boolean;
+  compact?: boolean;
+  windowId: string;
   zIndex: number;
   stackIndex?: number;
   /** `embeddedContent`가 없을 때만 사용 (iframe) */
@@ -30,11 +36,12 @@ type Props = {
   /** github.com 은 iframe 차단 → 기여도 차트로 대체 */
   activityChartUrl?: string;
   profileUrl?: string;
-  /** `github`: 본문·주소줄 다크 + GitHub UI. 기본 `chrome` */
+  /** `github`: 라이트 테마 GitHub 프로필 UI. 기본 `chrome` */
   variant?: "chrome" | "github";
   /** `variant === "github"`일 때 프로필 영역 데이터 */
   githubMeta?: {
     username: string;
+    avatarUrl: string;
     displayName: string;
     tagline: string;
     pinnedRepos: GithubPinnedRepo[];
@@ -46,6 +53,8 @@ type Props = {
   titleBarIconUrl?: string;
   onClose: () => void;
   onFocus: () => void;
+  minimized?: boolean;
+  onMinimize: () => void;
 };
 
 function isGitHubProfileEmbedBlocked(url: string): boolean {
@@ -58,6 +67,8 @@ function isGitHubProfileEmbedBlocked(url: string): boolean {
 }
 
 export function ChromeLegacyModal({
+  projectTabs,
+  windowId,
   zIndex,
   stackIndex = 0,
   iframeUrl,
@@ -72,16 +83,25 @@ export function ChromeLegacyModal({
   titleBarIconUrl,
   onClose,
   onFocus,
+  minimized = false,
+  onMinimize,
+  mobile = false,
+  compact = false,
 }: Props) {
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const windowRef = useWindowMinimize(windowId, minimized, !mobile);
   const [maximized, setMaximized] = useState(false);
+  const toggleMaximized = () => setMaximized((current) => !current);
   const drag = useWindowDragOffset({
-    disabled: maximized,
+    disabled: mobile || maximized || minimized,
     onBegin: onFocus,
   });
 
   useEffect(() => {
     if (maximized) drag.resetOffset();
   }, [maximized, drag.resetOffset]);
+
+  useEffect(() => { drag.resetOffset(); }, [mobile, compact, drag.resetOffset]);
 
   const showEmbedded = Boolean(embeddedContent);
   const useActivityFallback =
@@ -90,13 +110,13 @@ export function ChromeLegacyModal({
     typeof iframeUrl === "string" &&
     isGitHubProfileEmbedBlocked(iframeUrl);
 
-  const stackX = stackIndex * 14;
-  const stackY = stackIndex * 12;
-  const positionStyle = maximized
+  const stackX = compact ? 0 : stackIndex * 14;
+  const stackY = compact ? 0 : stackIndex * 12;
+  const positionStyle = mobile ? { zIndex, left: "env(safe-area-inset-left)", top: "env(safe-area-inset-top)", width: "calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right))", height: "calc(var(--desktop-height) - var(--mobile-bar-height) - env(safe-area-inset-top))", transform: "none" } : maximized
     ? { zIndex }
     : {
         zIndex,
-        transform: `translate(calc(-50% + ${stackX + drag.offsetX}px), calc(-50% + ${stackY + drag.offsetY}px))`,
+        transform: `translate(calc(-50% + min(${stackX}px, 50vw - 50% - 8px) + ${drag.offsetX}px), calc(-50% + min(${stackY}px, 50dvh - 50% - 50px) + ${drag.offsetY}px))`,
       };
 
   const modalClass =
@@ -104,16 +124,23 @@ export function ChromeLegacyModal({
 
   return (
     <div
-      className={`${modalClass} ${maximized ? "clmPageModalMax" : ""}`}
+      ref={windowRef}
+      className={`${modalClass} ${mobile && projectTabs ? mobileStyles.shell : ""} ${maximized && !mobile ? "clmPageModalMax" : ""}`}
       style={positionStyle}
       role="dialog"
       aria-label={ariaLabel}
       onMouseDown={onFocus}
     >
-        <div className="clmModalHeader">
+        {mobile && projectTabs ? <MobileChromeNavigation tabs={projectTabs} address={displayAddressUrl ?? "portfolio"} onTop={() => bodyRef.current?.querySelector("main")?.scrollTo({ top: 0, behavior: "smooth" })} onClose={onClose} /> : mobile || compact ? <WinFrameTitleBar mobile={mobile} compact={compact} title={titleBarTitle ?? ariaLabel} titleIconUrl={titleBarIconUrl} maximized={maximized} onTitleBarPointerDown={maximized ? undefined : drag.onTitleBarPointerDown} onMinimize={onMinimize} onClose={onClose} onMaximize={toggleMaximized} /> : <div className="clmModalHeader">
           <div
             className="clmHeaderPage"
             onPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
+            onDoubleClick={(event) => {
+              if ((event.target as Element).closest("button")) return;
+              event.preventDefault();
+              event.stopPropagation();
+              toggleMaximized();
+            }}
           >
             <div className="clmOpenPage">
               <ul>
@@ -138,14 +165,24 @@ export function ChromeLegacyModal({
               </ul>
             </div>
             <div className="clmHeaderRight" onPointerDown={(e) => e.stopPropagation()}>
-              <button type="button" className="clmMinimize" aria-label="최소화" onClick={() => {}}>
-                <FaMinus aria-hidden />
+              <button type="button" className="clmMinimize" aria-label="최소화" title="최소화" onClick={onMinimize}>
+                <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" aria-hidden>
+                  <path d="M0 5.5h10" />
+                </svg>
               </button>
-              <button type="button" aria-label={maximized ? "이전 크기로" : "최대화"} onClick={() => setMaximized((m) => !m)}>
-                <FaRegSquare aria-hidden />
+              <button type="button" aria-label={maximized ? "이전 크기로" : "최대화"} title={maximized ? "이전 크기로" : "최대화"} onClick={toggleMaximized}>
+                <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" aria-hidden>
+                  {maximized ? (
+                    <path d="M2.5 2V.5h7v7H8M.5 2.5h7v7h-7Z" />
+                  ) : (
+                    <rect x="0.5" y="0.5" width="9" height="9" />
+                  )}
+                </svg>
               </button>
-              <button type="button" aria-label="닫기" onClick={onClose}>
-                <FaXmark aria-hidden />
+              <button type="button" className="clmClose" aria-label="닫기" title="닫기" onClick={onClose}>
+                <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" aria-hidden>
+                  <path d="m.5.5 9 9m0-9-9 9" />
+                </svg>
               </button>
             </div>
           </div>
@@ -175,17 +212,17 @@ export function ChromeLegacyModal({
             </button>
           </div>
         </div>
-        <div className="clmModalBody">
+        }<div ref={bodyRef} className="clmModalBody">
           {showEmbedded ? (
             <div className="clmEmbeddedBody">{embeddedContent}</div>
           ) : useActivityFallback && activityChartUrl ? (
             variant === "github" && githubMeta && profileUrl ? (
               <GitHubChromeContent
                 username={githubMeta.username}
+                avatarUrl={githubMeta.avatarUrl}
                 displayName={githubMeta.displayName}
                 tagline={githubMeta.tagline}
                 profileUrl={profileUrl}
-                activityChartUrl={activityChartUrl}
                 pinnedRepos={githubMeta.pinnedRepos}
               />
             ) : (
@@ -200,7 +237,7 @@ export function ChromeLegacyModal({
                 />
                 {profileUrl ? (
                   <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="clmActivityLink">
-                    GitHub에서 프로필·Activity 열기
+                    GitHub에서 프로필, Activity 열기
                   </a>
                 ) : null}
               </div>
