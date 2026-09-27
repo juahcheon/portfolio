@@ -67,11 +67,11 @@
 1. **Windows 버튼** → 시작 메뉴 토글.
 2. 열린 창 목록 → 클릭 시 포커스.
 3. 시계·트레이 아이콘(와이파이, 볼륨 등) → 시각적 장식(기능 없음, 분위기 유지).
-4. 시작 메뉴에서 GitHub·타임라인·Cursor 등 바로 실행.
+4. 시작 메뉴에서 GitHub·Cursor 등 바로 실행.
 
 ### 4.3 창
 
-1. 창 제목 표시줄: 최소화·최대화·닫기.
+1. 창 제목 표시줄: 최소화·최대화·닫기. 제목 표시줄을 더블클릭하면 최대화 ↔ 이전 크기 복원 (창 조작 버튼 제외).
 2. 탐색기 스타일: **휴지통**, **내 PC** (폴더·드라이브 UI, 콘텐츠 탐색은 장식).
 3. Office 메타포: **Word** → 소개(About), **제어판** → 스킬.
 4. **Chrome** → iframe 모달, **GitHub** → Chrome 스타일 모달 + 프로필.
@@ -104,16 +104,20 @@
 | 휴지통 | `trash` | `recycle` | 휴지통 탐색기 UI |
 | 내 PC | `hero` | `thisPc` | 탐색기 “내 PC” UI (장식) |
 | 스킬 | `skills` | `skills` | 스킬 탐색기 목록 |
-| 자기소개 | `about` | `about` | Word 스타일 소개 문서 |
+| 자기소개 | `about` | `about` | Word 스타일 3페이지 문서: 소개, 근무 경험, 프로젝트 소개·상세 바로가기 |
 | Cursor | `cursor` | `cursor` | 연락·GitHub 안내 + Cursor 제작 안내 |
 | GitHub | `github` | `github` | GitHub 프로필(Chrome 모달) |
 | 프로젝트 | `projects` | `projects` | **Chrome 창 UI** + `projects` JSON 본문(iframe 대신 임베드) |
-| DS Helper | `external` | — | `https://dshelper.kr/` 새 탭 |
-| AI Switch | `ai-switch` | `projects` | 기존 Chrome 창에서 AI Switch 담당 업무·스크린샷 바로 표시 |
+| AI Switch | `external` | — | `https://ax.aiswitch.co.kr/` 새 탭 |
+| AI Switch Docs | `external` | — | 공식 Docs 새 탭 · 기여 내용은 프로젝트 창의 AI Switch Docs 항목에 표시 |
+| DS Helper | `external` | — | `https://test.dshelper.kr/` 새 탭 · 종료된 프로젝트의 기여 내역은 프로젝트 창에 보존 |
+| 말해부엉 | `external` | — | `https://talky-owl-iota.vercel.app/` 새 탭 |
+
+프로젝트 목록은 AI Switch → AI Switch Docs → DS Helper → 말해부엉 → 나머지 순서입니다. 바탕화면·프로젝트 창·명령 프롬프트에 이 순서로 표시하고 GitHub 핀 카드는 앞의 4개를 표시합니다. 넓은 화면에서 AI Switch·AI Switch Docs는 첫 행, DS Helper·말해부엉은 둘째 행에 두 열로 배치합니다. AI Switch Docs의 문서 구축·업데이트 자동화 기여는 프로젝트 창에서 독립된 항목으로 탐색합니다.
 
 ### 6.2 시작 메뉴·기타
 
-- 시작 메뉴 **타임라인** → `timeline` 창 (학력·경력 연표).
+- 화면 오른쪽 아래 ‘둘러보기 안내’는 방문 목적별 제목과 화면 아이콘으로 자기소개·프로젝트·스킬·GitHub·CMD를 안내하고 행 전체 클릭으로 연결한다. 자기소개 하단의 고정 바로가기는 제거하고, 3페이지의 프로젝트별 상세 버튼은 유지한다.
 - **Excel / PowerPoint 창은 사용하지 않음** (제거됨). 경력·프로젝트 상세는 JSON에 남을 수 있으나 전용 Office 창으로 노출하지 않음.
 
 ### 6.3 스코프 인 (1차)
@@ -122,12 +126,14 @@
 - API `GET /v1/portfolio`
 - 레거시 에셋 동기화 (`npm run sync:legacy`)
 - 키보드: 아이콘 Enter/Space, 시작 메뉴 Esc
+- 폭 768px 미만 또는 높이 600px 미만: 제공된 아이폰 홈 화면 레퍼런스를 따라 실제 시각, 소개·날짜 위젯 2개, 기존 앱 아이콘 4열과 검색 버튼을 배치합니다. 기존 바탕화면 색 #5F9EA0 계열의 곡선 배경을 사용하며 검색에서 앱·프로젝트·기술을 찾아 바로 엽니다. CMD·외부 서비스도 제공하며 내 PC·휴지통은 모바일 홈·검색에서 제외합니다. 스킬은 iOS 메모 형태로 표시합니다. 자동 자기소개 실행 없음.
+- 모바일 홈 하단에는 자기소개·프로젝트·GitHub·CMD 4개 앱의 반투명 독을 표시합니다. 앱은 전체 화면으로 열고 앱 도구 모음의 복귀 버튼과 하단 홈 막대로 홈에 돌아옵니다. 전환 시 읽던 위치·프로젝트 선택·CMD 기록을 유지합니다. 모바일 시작 메뉴·창 조작 버튼은 제공하지 않습니다. 폭 768px 이상·높이 600px 이상은 기존 다중 창 UX를 제공하며, 폭 768~1023px에서는 간결한 본문과 작업 표시줄을 사용합니다. 기종 식별 대신 CSS 뷰포트로 전환합니다.
 
 ### 6.4 스코프 아웃 (1차)
 
 - 실제 파일 시스템·다운로드 폴더 연동
 - 로그인·CMS 관리 화면
-- 모바일 전용 UX (데스크톱 메타포 유지)
+- 모바일 전용 라우트·브라우저 뒤로 가기를 이용한 앱 전환
 - 뚜레쥬르·탐앤탐스·KINNI 등 **제거된** 레거시 브랜드 아이콘
 - **Excel / PowerPoint** Office 메타포 창
 - **escapeFinal** 링크·아이콘
