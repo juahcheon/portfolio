@@ -1,15 +1,19 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FaBolt, FaChevronLeft, FaChevronRight, FaCodeBranch, FaLink, FaShieldHalved, FaTriangleExclamation } from "react-icons/fa6";
-import type { Project, PortfolioPayload, StructuredTroubleshootingItem } from "@/types/portfolio";
+import type { Project, PortfolioPayload, ProjectScreenshot, StructuredTroubleshootingItem } from "@/types/portfolio";
+import { ScreenshotModal } from "./ScreenshotModal";
 
 function isStructured(item: unknown): item is StructuredTroubleshootingItem {
   return typeof item === "object" && item !== null && "발단" in item;
 }
 
 type Props = {
+  mobile?: boolean;
   projects: PortfolioPayload["projects"];
+  selectedProjectSlug?: string;
+  onProjectSelect: (slug: string) => void;
 };
 
 const COPY = {
@@ -20,7 +24,6 @@ const COPY = {
   stack: "Stack",
   troubleshooting: "Troubleshooting",
   links: "Links",
-  current: "\uc9c4\ud589\uc911\uc778 \ud504\ub85c\uc81d\ud2b8",
   teamProject: "\ud300 \ud504\ub85c\uc81d\ud2b8",
   personal: "\uac1c\uc778 \ud504\ub85c\uc81d\ud2b8",
   team: "\ud300",
@@ -57,47 +60,55 @@ function projectColor(project: Project) {
 }
 
 function projectStatus(project: Project) {
-  if (project.slug === "dshelper") return COPY.current;
+  if (project.statusLabel) return project.statusLabel;
   if (project.slug === "portfolio") return COPY.personal;
   return project.team;
 }
 
 function sidebarStatus(project: Project) {
+  if (project.statusLabel) return project.statusLabel;
   if (project.slug === "dshelper") return COPY.teamProject;
   return projectStatus(project);
 }
 
-export function ProjectsPanelView({ projects }: Props) {
-  const [selectedSlug, setSelectedSlug] = useState(() => projects[0]?.slug ?? "");
+export function ProjectsPanelView({ projects, selectedProjectSlug, onProjectSelect, mobile = false }: Props) {
+  const mainRef = useRef<HTMLElement>(null);
+  const [previewScreenshot, setPreviewScreenshot] = useState<ProjectScreenshot | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const selectedProject = useMemo(
-    () => projects.find((project) => project.slug === selectedSlug) ?? projects[0],
-    [projects, selectedSlug]
+    () => projects.find((project) => project.slug === selectedProjectSlug) ?? projects[0],
+    [projects, selectedProjectSlug]
   );
+
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0 });
+    setPreviewScreenshot(null);
+  }, [selectedProjectSlug]);
 
   if (!selectedProject) {
     return null;
   }
 
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const accent = projectColor(selectedProject);
+  const accent = `var(--mobile-project-accent, ${projectColor(selectedProject)})`;
   const selectedTags = uniqueTags([
     ...stackTags(selectedProject.stackSummary),
     ...selectedProject.env.split(",").map((tag) => tag.trim()).filter(Boolean),
   ]);
 
   return (
-    <div className="flex min-h-full flex-col bg-white text-[#202124]">
-      <header className="border-b border-[#e8eaed] px-6 py-5">
+    <div className="project-panel flex min-h-full min-w-0 flex-col bg-white text-[16px] text-[#202124] roomy:text-[19px]">
+      <header className="border-b border-[#e8eaed] px-4 py-4 roomy:px-6 roomy:py-5">
         <div className="mt-1 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="m-0 text-[28px] font-semibold leading-tight text-[#202124]">{COPY.title}</h2>
-            <p className="m-0 mt-1 text-sm text-[#5f6368]">{COPY.auditSummary}</p>
+            <h2 className="m-0 text-[24px] font-semibold leading-tight text-[#202124] roomy:text-[33px]">{COPY.title}</h2>
+            <p className="m-0 mt-1 hidden text-[17px] text-[#5f6368] roomy:block">{COPY.auditSummary}</p>
           </div>
         </div>
+        {mobile && <label className="mt-4 block text-[13px] font-semibold">{COPY.projectList}<select aria-label={COPY.projectList} value={selectedProject.slug} onChange={(event) => onProjectSelect(event.target.value)} className="mt-1 block min-h-11 w-full rounded border border-[#cfd7df] bg-white px-3 text-base font-normal">{projects.map((project) => <option key={project.slug} value={project.slug}>{project.name}</option>)}</select></label>}
       </header>
 
-      <div className="relative grid min-h-0 flex-1" style={{ gridTemplateColumns: sidebarOpen ? "20fr 80fr" : "0fr 1fr" }}>
-        <aside
+      <div className="relative grid min-h-0 min-w-0 flex-1" style={{ gridTemplateColumns: mobile ? "minmax(0, 1fr)" : sidebarOpen ? "20fr 80fr" : "0fr 1fr" }}>
+        {!mobile && <aside
           className="overflow-hidden border-r border-[#e8eaed] bg-[#f8fafd] transition-all duration-200"
           aria-label={COPY.projectList}
           style={{ minWidth: sidebarOpen ? 120 : 0 }}
@@ -113,11 +124,11 @@ export function ProjectsPanelView({ projects }: Props) {
                   className={`w-full cursor-pointer rounded border px-2.5 py-3 text-left transition ${
                     active ? "border-[#cfd7df] bg-white shadow-[0_1px_3px_rgba(60,64,67,0.18)]" : "border-transparent bg-transparent hover:bg-white"
                   }`}
-                  onClick={() => setSelectedSlug(project.slug)}
+                  onClick={() => onProjectSelect(project.slug)}
                 >
-                  <span className="block text-sm font-semibold text-[#202124]">{project.name}</span>
-                  <span className="mt-1 block text-xs text-[#5f6368]">{sidebarStatus(project)}</span>
-                  <span className="mt-2 flex items-center gap-1.5 text-[11px] text-[#70757a]">
+                  <span className="block text-[17px] font-semibold text-[#202124]">{project.name}</span>
+                  <span className="mt-1 block text-[14px] text-[#5f6368]">{sidebarStatus(project)}</span>
+                  <span className="mt-2 flex items-center gap-1.5 text-[13px] text-[#70757a]">
                     <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} aria-hidden />
                     {project.slug}
                   </span>
@@ -125,56 +136,91 @@ export function ProjectsPanelView({ projects }: Props) {
               );
             })}
           </div>
-        </aside>
+        </aside>}
 
-        <main className="relative min-h-0 overflow-auto p-7 pb-10">
-          <button
+        <main ref={mainRef} className="relative min-h-0 min-w-0 overflow-auto break-words p-4 pb-8 roomy:p-7 roomy:pb-10">
+          {!mobile && <button
             type="button"
             onClick={() => setSidebarOpen((o) => !o)}
-            className="absolute left-0 top-6 z-10 flex h-6 w-5 items-center justify-center rounded-r border border-l-0 border-[#e8eaed] bg-[#f8fafd] text-[10px] text-[#5f6368] hover:bg-[#e8eaed]"
+            className="absolute left-0 top-6 z-10 flex h-6 w-5 items-center justify-center rounded-r border border-l-0 border-[#e8eaed] bg-[#f8fafd] text-[13px] text-[#5f6368] hover:bg-[#e8eaed]"
             aria-label={sidebarOpen ? "목록 접기" : "목록 펼치기"}
           >
             {sidebarOpen ? <FaChevronLeft aria-hidden /> : <FaChevronRight aria-hidden />}
-          </button>
-          <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_270px]">
+          </button>}
+          <section className={`grid gap-4 ${mobile ? "" : "xl:grid-cols-[minmax(0,1fr)_270px]"}`}>
             <div>
+              <div className="project-overview">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full px-2.5 py-1 text-xs font-medium text-white" style={{ backgroundColor: accent }}>
+                <span className="rounded-full px-2.5 py-1 text-[14px] font-medium text-white" style={{ backgroundColor: accent }}>
                   {projectStatus(selectedProject)}
                 </span>
                 {selectedProject.contribution ? (
-                  <span className="rounded-full border border-[#dadce0] px-2.5 py-1 text-xs text-[#5f6368]">
+                  <span className="rounded-full border border-[#dadce0] px-2.5 py-1 text-[14px] text-[#5f6368]">
                     {COPY.contribution} {selectedProject.contribution}
                   </span>
                 ) : null}
               </div>
 
-              <h3 className="m-0 mt-3 text-2xl font-semibold leading-tight" style={{ color: accent }}>
+              <h3 className="m-0 mt-3 text-[28px] font-semibold leading-tight" style={{ color: accent }}>
                 {selectedProject.name}
               </h3>
-              <p className="m-0 mt-2 text-base leading-relaxed text-[#4d5156]">{selectedProject.description}</p>
+              <p className="m-0 mt-2 text-[16px] leading-relaxed text-[#4d5156] roomy:text-[19px]">{selectedProject.description}</p>
+              </div>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              <div className="project-details-grid mt-5 grid gap-3 roomy:grid-cols-3">
                 {(selectedProject.details ?? []).map((detail) => (
-                  <div key={detail.label} className="rounded border border-[#e8eaed] bg-white p-3 shadow-[0_1px_2px_rgba(60,64,67,0.08)]">
-                    <p className="m-0 flex items-center gap-2 text-xs font-semibold text-[#3c4043]">
+                  <div key={detail.label} className="project-info-card rounded border border-[#e8eaed] bg-white p-3 shadow-[0_1px_2px_rgba(60,64,67,0.08)]">
+                    <p className="m-0 flex items-center gap-2 text-[14px] font-semibold text-[#3c4043]">
                       <FaBolt aria-hidden style={{ color: accent }} />
                       {detail.label}
                     </p>
-                    <p className="m-0 mt-2 text-sm leading-relaxed text-[#5f6368]">{detail.value}</p>
+                    <p className="m-0 mt-2 text-[17px] leading-relaxed text-[#5f6368]">{detail.value}</p>
                   </div>
                 ))}
               </div>
+
+              {selectedProject.screenshots && selectedProject.screenshots.length > 0 ? (
+                <section className="mt-5" aria-label="작업했던 화면 미리보기">
+                  <h4 className="m-0 text-[17px] font-semibold text-[#202124]">작업했던 화면 미리보기</h4>
+                  <div className="mt-3 space-y-4">
+                    {selectedProject.screenshots.map((screenshot) => (
+                      <figure key={screenshot.imageUrl} className="m-0 overflow-hidden rounded border border-[#e8eaed] bg-white">
+                        <button
+                          type="button"
+                          onClick={() => setPreviewScreenshot(screenshot)}
+                          aria-label={`${screenshot.title} 확대 보기`}
+                          aria-haspopup="dialog"
+                          className="block w-full cursor-zoom-in border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#1a0dab]"
+                        >
+                          <img
+                            src={screenshot.imageUrl}
+                            alt={screenshot.title}
+                            width={screenshot.width}
+                            height={screenshot.height}
+                            loading="lazy"
+                            decoding="async"
+                            className="block h-auto w-full"
+                          />
+                        </button>
+                        <figcaption className="border-t border-[#e8eaed] p-3">
+                          <p className="m-0 text-[17px] font-semibold text-[#202124]">{screenshot.title}</p>
+                          <p className="m-0 mt-1 text-[17px] leading-relaxed text-[#5f6368]">{screenshot.description}</p>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
 
               {selectedProject.features && selectedProject.features.length > 0 ? (
                 <section className="mt-5 rounded border border-[#e8eaed] bg-white p-4 shadow-[0_1px_2px_rgba(60,64,67,0.08)]">
                   <div className="flex items-center gap-2">
                     <FaCodeBranch aria-hidden style={{ color: accent }} />
-                    <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.implemented}</h4>
+                    <h4 className="m-0 text-[17px] font-semibold text-[#202124]">{COPY.implemented}</h4>
                   </div>
                   <ul className="m-0 mt-3 list-none space-y-2 p-0">
                     {selectedProject.features.map((feature) => (
-                      <li key={feature} className="flex gap-2 text-base leading-relaxed text-[#4d5156]">
+                      <li key={feature} className="flex gap-2 text-[16px] leading-relaxed text-[#4d5156] roomy:text-[19px]">
                         <span className="mt-[10px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: accent }} aria-hidden />
                         <span>{feature}</span>
                       </li>
@@ -186,13 +232,13 @@ export function ProjectsPanelView({ projects }: Props) {
               <section className="mb-5 mt-5 p-4">
                 <div className="flex items-center gap-2">
                   <FaTriangleExclamation aria-hidden style={{ color: accent }} />
-                  <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.troubleshooting}</h4>
+                  <h4 className="m-0 text-[17px] font-semibold text-[#202124]">{COPY.troubleshooting}</h4>
                 </div>
                 <ol className="m-0 mt-3 list-none space-y-4 p-0">
                   {(selectedProject.troubleshooting ?? []).map((item, index) => (
                     <li key={index}>
                       <p
-                        className="mb-1.5 text-xs font-bold tracking-widest"
+                        className="mb-1.5 text-[14px] font-bold tracking-widest"
                         style={{ color: accent }}
                       >
                         {String(index + 1).padStart(2, "0")}
@@ -202,21 +248,21 @@ export function ProjectsPanelView({ projects }: Props) {
                           {(["발단", "전개", "해결"] as const).map((label, i) => (
                             <div
                               key={label}
-                              className="grid text-sm"
+                              className="grid text-[17px]"
                               style={{
-                                gridTemplateColumns: "62px 1fr",
+                                gridTemplateColumns: mobile ? "minmax(0, 1fr)" : "74px minmax(0, 1fr)",
                                 borderTop: i === 0 ? "none" : "1px solid #111827",
                               }}
                             >
-                              <span className="flex items-center justify-center border-r border-[#111827] py-1.5 text-center text-[13px] font-bold text-[#111827]">
+                              <span className={`flex items-center px-2.5 py-1.5 text-[15px] font-bold text-[#111827] ${mobile ? "bg-[#f8fafd]" : "justify-center border-r border-[#111827] text-center"}`}>
                                 {label}
                               </span>
-                              <p className="m-0 px-2.5 py-1.5 text-[13px] leading-relaxed text-[#4b5563]">{item[label]}</p>
+                              <p className="m-0 px-2.5 py-1.5 text-[16px] leading-relaxed text-[#4b5563] roomy:text-[15px]">{item[label]}</p>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="m-0 text-sm leading-relaxed text-[#4d5156]">{item}</p>
+                        <p className="m-0 text-[17px] leading-relaxed text-[#4d5156]">{item}</p>
                       )}
                     </li>
                   ))}
@@ -228,13 +274,13 @@ export function ProjectsPanelView({ projects }: Props) {
               <section className="rounded border border-[#e8eaed] bg-white p-4 shadow-[0_1px_2px_rgba(60,64,67,0.08)]">
                 <div className="flex items-center gap-2">
                   <FaCodeBranch aria-hidden className="text-[#5f6368]" />
-                  <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.stack}</h4>
+                  <h4 className="m-0 text-[17px] font-semibold text-[#202124]">{COPY.stack}</h4>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {selectedTags.map((tag) => (
                     <span
                       key={`${selectedProject.slug}-${tag}`}
-                      className="rounded border border-[#dadce0] bg-[#f8fafd] px-2 py-1 text-sm text-[#3c4043]"
+                      className="rounded border border-[#dadce0] bg-[#f8fafd] px-2 py-1 text-[17px] text-[#3c4043]"
                     >
                       {tag}
                     </span>
@@ -245,7 +291,7 @@ export function ProjectsPanelView({ projects }: Props) {
               <section className="rounded border border-[#e8eaed] bg-white p-4 shadow-[0_1px_2px_rgba(60,64,67,0.08)]">
                 <div className="flex items-center gap-2">
                   <FaLink aria-hidden className="text-[#5f6368]" />
-                  <h4 className="m-0 text-sm font-semibold text-[#202124]">{COPY.links}</h4>
+                  <h4 className="m-0 text-[17px] font-semibold text-[#202124]">{COPY.links}</h4>
                 </div>
                 <div className="mt-3 space-y-2">
                   {selectedProject.links.map((link) => (
@@ -254,9 +300,9 @@ export function ProjectsPanelView({ projects }: Props) {
                       href={link.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="block rounded border border-[#dfe1e5] bg-white px-3 py-2 text-sm text-[#1a0dab] underline-offset-2 hover:bg-[#f8fafd] hover:underline"
+                      className="block rounded border border-[#dfe1e5] bg-white px-3 py-2 text-[17px] text-[#1a0dab] underline-offset-2 hover:bg-[#f8fafd] hover:underline"
                     >
-                      <span className="block font-medium">{link.label}</span>
+                      <span className="block font-medium">{link.label}{link.visibility === "private" ? ", 비공개" : ""}</span>
                       <span className="mt-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-[#5f6368]">
                         {linkHost(link.url)}
                       </span>
@@ -268,6 +314,9 @@ export function ProjectsPanelView({ projects }: Props) {
           </section>
         </main>
       </div>
+      {previewScreenshot ? (
+        <ScreenshotModal screenshot={previewScreenshot} onClose={() => setPreviewScreenshot(null)} />
+      ) : null}
     </div>
   );
 }

@@ -14,12 +14,19 @@ export type DesktopIcon = {
 
 export type Desktop = {
   wallpaper: string;
+  mobileIntro?: string;
   icons: DesktopIcon[];
+  exploreGuide?: {
+    buttonLabel: string;
+    title: string;
+    items: { windowId: string; title: string }[];
+  };
 };
 
 export type Profile = {
   name: string;
   title: string;
+  aiToolAttitude?: { heading: string; body: string };
   headlineLines: string[];
   email: string;
   githubUrl: string;
@@ -80,14 +87,15 @@ export type Skills = {
   folders: SkillFolder[];
 };
 
-export type TimelineItem = {
-  dateLabel: string;
-  title: string;
-  description: string;
-};
-
-export type ProjectLink = { label: string; url: string };
+export type ProjectLink = { label: string; url: string; visibility?: "public" | "private" };
 export type ProjectDetail = { label: string; value: string };
+export type ProjectScreenshot = {
+  title: string;
+  imageUrl: string;
+  description: string;
+  width: number;
+  height: number;
+};
 
 export type StructuredTroubleshootingItem = {
   발단: string;
@@ -100,24 +108,31 @@ export type TroubleshootingItem = string | StructuredTroubleshootingItem;
 export type Project = {
   slug: string;
   name: string;
+  organizationAvatarUrl?: string;
   role: string;
   team: string;
   contribution: string;
   stackSummary: string;
   env: string;
+  /** GitHub 저장소 언어 통계에서 코드량이 가장 많은 언어 */
+  githubLanguage?: string;
   description: string;
   details?: ProjectDetail[];
+  statusLabel?: string;
   features?: string[];
   troubleshooting?: TroubleshootingItem[];
   links: ProjectLink[];
   subtitle?: string;
   aboutBadge?: string;
+  aboutSummary?: string;
   aboutHighlights?: string[];
+  screenshots?: ProjectScreenshot[];
 };
 
 export type GithubSection = {
   username: string;
   profileUrl: string;
+  avatarUrl: string;
   chartImageUrl: string;
 };
 
@@ -135,7 +150,6 @@ export type PortfolioPayload = {
   experienceSummary: ExperienceSummary;
   jobs: Job[];
   skills: Skills;
-  timeline: TimelineItem[];
   projects: Project[];
   github: GithubSection;
   windowsCopy: WindowsCopy;

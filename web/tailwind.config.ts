@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss";
 import { tailwindPalette } from "./tailwind.palette";
+import { ROOMY_VIEWPORT } from "./src/lib/desktopViewport";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      screens: { phone: { raw: "(min-width: 360px) and (max-width: 639px)" }, roomy: { raw: ROOMY_VIEWPORT } },
       fontFamily: {
         sans: ["Pretendard Variable", "Pretendard", "Malgun Gothic", "system-ui", "sans-serif"],
       },

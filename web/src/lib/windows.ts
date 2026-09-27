@@ -38,12 +38,3 @@ export function githubWindow(): OpenWindow {
     taskbarIconUrl: "/img/webp/github.webp",
   };
 }
-
-export function timelineWindow(): OpenWindow {
-  return {
-    id: "win-timeline",
-    title: "\ud0c0\uc784\ub77c\uc778",
-    kind: "timeline",
-    taskbarIconUrl: "/img/document.png",
-  };
-}

@@ -25,6 +25,40 @@ body {
   overflow: hidden;
 }
 
+@media (width < 1024px), (height < 600px) {
+  .mobile-desktop {
+    --mobile-bar-height: max(34px, env(safe-area-inset-bottom));
+    background-image: radial-gradient(ellipse 155% 85% at 105% -15%, transparent 57%, #82c4bf 58%, #82c4bf 71%, transparent 72%), radial-gradient(ellipse 165% 80% at 5% -5%, #254755 8%, #497e8b 58%, transparent 59%), linear-gradient(150deg, #4a74a5, var(--mobile-accent) 45%, #72cfc1 80%, #b6e9d9);
+  }
+  .mobile-desktop .clmPageModal { box-shadow: none; }
+  .mobile-desktop .mobile-app-window { border: 0; box-shadow: none; }
+  .mobile-desktop .clmEmbeddedBody { padding: 0; }
+  .mobile-explorer-table,
+  .mobile-explorer-table tbody { display: block; width: 100%; }
+  .mobile-explorer-table colgroup,
+  .mobile-explorer-table thead { display: none; }
+  .mobile-explorer-table tr { display: block; padding: 12px; }
+  .mobile-explorer-table td {
+    display: block;
+    border: 0;
+    padding: 3px 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+  }
+  .mobile-explorer-table td:first-child { font-size: 16px; font-weight: 600; }
+  .mobile-explorer-table td:not(:first-child)::before {
+    content: attr(data-label) " · ";
+    color: #666;
+  }
+}
+
+@media (pointer: coarse) {
+  .window-title-bar, .window-title-actions { height: 44px; }
+  .clmHeaderRight { height: 44px; }
+  .clmModalHeader { height: 88px; }
+}
+
 body {
   /* next/font에 로드한 실제 300 — 없으면 브라우저가 두껍게 합성함 */
   font-weight: 400;
@@ -111,7 +145,7 @@ button {
     height: 100%;
     width: 100%;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 147px 0 10px;
   }
 
   .clmOpenPage ul {
@@ -217,37 +251,56 @@ button {
   .clmHeaderRight {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
     display: flex;
-    align-items: center;
+    height: 29px;
+    gap: 1px;
+    align-items: stretch;
   }
 
   .clmHeaderRight button {
     display: flex;
-    width: 40px;
+    width: 45px;
+    flex: 0 0 45px;
     height: 100%;
     align-items: center;
     justify-content: center;
     border: none;
+    border-radius: 0;
+    padding: 0;
     background-color: transparent;
-    color: #555;
+    color: #fff;
     cursor: default;
-    transition: 0.3s;
+    transition: background-color 100ms, color 100ms;
   }
 
   .clmHeaderRight button svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  .clmHeaderRight button[aria-label="닫기"] svg {
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
+    stroke-width: 1;
+    pointer-events: none;
   }
 
   .clmHeaderRight button:hover {
-    color: #111;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .clmHeaderRight button:active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .clmHeaderRight .clmClose:hover {
+    background-color: #e81123;
+    color: #fff;
+  }
+
+  .clmHeaderRight .clmClose:active {
+    background-color: rgba(232, 17, 35, 0.6);
+  }
+
+  .clmHeaderRight button:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: -3px;
   }
 
   .clmHeaderAddress {
@@ -414,49 +467,41 @@ button {
     text-decoration: underline;
   }
 
-  /* GitHub 창만: 본문·주소줄 다크 (다른 Chrome 모달은 기존 밝은 스타일) */
+  /* GitHub 창: 본문과 주소줄을 라이트 테마로 표시 */
   .clmPageModal--github .clmModalBody {
-    background: #0d1117;
+    background: #fff;
   }
 
   .clmPageModal--github .clmHeaderAddress {
-    background: #21262d;
+    background: #f6f8fa;
   }
 
   .clmPageModal--github .clmAddressMove button,
   .clmPageModal--github .clmSettingChrome {
-    color: #c9d1d9;
+    color: #59636e;
   }
 
   .clmPageModal--github .clmAddressMove button:hover,
   .clmPageModal--github .clmSettingChrome:hover {
-    background-color: rgba(240, 246, 252, 0.12);
-    color: #f0f6fc;
+    background-color: #eaeef2;
+    color: #1f2328;
   }
 
   .clmPageModal--github .clmAddressDetail {
-    border: 1px solid #30363d;
-    background-color: #0d1117;
+    border: 1px solid #d1d9e0;
+    background-color: #fff;
   }
 
   .clmPageModal--github .clmAddressDetail button {
-    color: #d1d9e0;
+    color: #59636e;
   }
 
   .clmPageModal--github .clmAddressDetail button:hover {
-    background-color: rgba(240, 246, 252, 0.08);
+    background-color: #eaeef2;
   }
 
   .clmPageModal--github .clmAddressUrl {
-    color: #d1d9e0;
-  }
-
-  .clmPageModal--github .clmHeaderRight button {
-    color: #e6edf3;
-  }
-
-  .clmPageModal--github .clmHeaderRight button:hover {
-    color: #f0f6fc;
+    color: #1f2328;
   }
 
   .clmPageModal--github .clmActivePage .clmExitPage {

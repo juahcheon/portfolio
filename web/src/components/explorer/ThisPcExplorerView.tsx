@@ -53,7 +53,7 @@ const folderCornerBadgeByName: Record<string, string> = {
 
 /** 섹션 제목 행: 제목 오른쪽 5px 뒤 #ddd 구분선이 남은 너비까지 */
 const thisPcSectionHeaderRow =
-  "mb-2.5 flex w-full min-w-0 cursor-default items-center text-xs font-normal text-[#3190c5]";
+  "mb-2.5 flex w-full min-w-0 cursor-default items-center text-[13px] roomy:text-xs font-normal text-[#3190c5]";
 
 const drives = [
   { label: "로컬 디스크 (C:)", meta: "207GB 중 120GB 사용 가능", pct: 42, showWin: true },
@@ -62,7 +62,7 @@ const drives = [
 
 /** 폴더·드라이브 행 공통: 아이콘 왼쪽, 텍스트 오른쪽 */
 const thisPcItemRow =
-  "flex w-[200px] shrink-0 cursor-default flex-row items-start rounded-sm gap-1 px-1.5 py-1.5 text-left hover:bg-[#e5f3ff]";
+  "flex w-full roomy:w-[200px] shrink-0 cursor-default flex-row items-start rounded-sm gap-1 px-1.5 py-1.5 text-left hover:bg-[#e5f3ff]";
 
 export function ThisPcExplorerView() {
   return (
@@ -125,7 +125,7 @@ export function ThisPcExplorerView() {
                           </span>
                         ) : null}
                       </div>
-                      <span className="min-w-0 mt-1.5 flex-1 break-keep text-[11px] leading-tight text-black">{name}</span>
+                      <span className="min-w-0 mt-1.5 flex-1 break-keep text-[16px] roomy:text-[11px] leading-tight text-black">{name}</span>
                     </div>
                   );
                 })}
@@ -157,11 +157,11 @@ export function ThisPcExplorerView() {
                       ) : null}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="mb-1 break-keep text-[11px] font-normal leading-snug text-black">{d.label}</div>
+                      <div className="mb-1 break-keep text-[16px] roomy:text-[11px] font-normal leading-snug text-black">{d.label}</div>
                       <div className="mb-0.5 h-2.5 w-full overflow-hidden rounded-sm border border-[#c8c8c8] bg-[#e8e8e8]">
                         <div className="h-full bg-winBlue" style={{ width: `${d.pct}%` }} />
                       </div>
-                      <div className="break-keep text-[10px] leading-tight text-[#505050]">{d.meta}</div>
+                      <div className="break-keep text-[13px] roomy:text-[10px] leading-tight text-[#505050]">{d.meta}</div>
                     </div>
                   </div>
                 ))}

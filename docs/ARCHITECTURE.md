@@ -41,6 +41,7 @@
 - `web/data/portfolio.json`이 **진실의 원천(Single Source of Truth)**.
 - `web/src/types/portfolio.ts`의 `PortfolioPayload`가 프론트 계약.
 - Route Handler(`app/api/v1/portfolio/route.ts`)가 이 파일을 읽어 반환.
+- GitHub 잔디는 `/api/github/contributions`가 JSON의 `github.username`에 해당하는 공개 GitHub 기여 달력을 읽어 날짜·기여 수·색상 단계를 반환. 인증 정보 없이 공개 데이터만 요청하며, 10초 제한·캐시 미사용·파싱 실패 시 502로 처리한다. 클라이언트는 각 칸의 hover·포커스 툴팁과 방향키 이동을 제공한다.
 
 ### 2.2 개발·운영 편의
 
@@ -89,7 +90,6 @@ web/src/
 | `Lnb.tsx` | 작업 표시줄, 시작 메뉴, 시계, 트레이 |
 | `WindowsStartMenu.tsx` + `.module.scss` | 시작 메뉴 UI·스크롤 |
 | `WinWindow.tsx` | 창 크롬, kind별 분기(탐색기/Word/GitHub/`projects`는 Chrome 모달+임베드) |
-| `WindowContents.tsx` | timeline, cursor |
 | `ChromeLegacyModal.tsx` | GitHub iframe 셸 |
 
 ### 3.3 windowId → kind 매핑

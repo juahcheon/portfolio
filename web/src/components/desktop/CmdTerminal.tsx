@@ -1,19 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Profile } from "@/types/portfolio";
-
-const PROMPT = "juahcheon@portfolio:~$";
+import type { PortfolioPayload, Profile, Project } from "@/types/portfolio";
+import packageInfo from "../../../package.json";
 
 type Line = { text: string; color?: "green" | "yellow" | "cyan" | "dim" | "white" };
 
 function helpLines(): Line[] {
   return [
     { text: "" },
-    { text: "  npm run dev       포트폴리오 개발 서버 실행" },
-    { text: "  git log           프로젝트 히스토리" },
-    { text: "  git status        현재 상태" },
+    { text: "  npm run dev       개발 서버 실행 방법" },
+    { text: "  git log           프로젝트별 소개와 기여" },
+    { text: "  git status        근무 경험과 프로젝트 상태" },
     { text: "  cat skills.md     기술 스택 출력" },
+    { text: "  troubleshoot      프로젝트별 트러블슈팅" },
+    { text: "                    예: troubleshoot ai-switch-docs", color: "dim" },
     { text: "  ls                프로젝트 목록" },
     { text: "  whoami            개발자 소개" },
     { text: "  clear             화면 지우기" },
@@ -27,88 +28,119 @@ function whoamiLines(profile: Profile): Line[] {
     { text: `  ${profile.name}`, color: "white" },
     { text: `  ${profile.title}`, color: "cyan" },
     { text: `  ${profile.email}`, color: "dim" },
-    { text: `  github.com/juahcheon`, color: "dim" },
+    { text: `  ${profile.githubUrl}`, color: "dim" },
     { text: "" },
+    ...(profile.aiToolAttitude ? [
+      { text: `  ${profile.aiToolAttitude.heading}`, color: "cyan" as const },
+      { text: `  ${profile.aiToolAttitude.body}` },
+      { text: "" },
+    ] : []),
   ];
 }
 
-function npmRunDevLines(): Line[] {
+function npmRunDevLines(siteUrl?: string): Line[] {
   return [
     { text: "" },
-    { text: "  > portfolio@0.1.0 dev" },
-    { text: "  > next dev" },
+    { text: `  > ${packageInfo.name}@${packageInfo.version} dev` },
+    { text: `  > ${packageInfo.scripts.dev}` },
     { text: "" },
-    { text: "    ▲ Next.js 15.3.3", color: "white" },
-    { text: "    - Local:   http://localhost:3000", color: "cyan" },
-    { text: "" },
-    { text: "   ✓ Starting...", color: "green" },
-    { text: "   ✓ Ready in 1.2s", color: "green" },
+    { text: "  web 폴더에서 실행하는 개발 명령입니다." },
+    { text: "  이 체험 화면에서는 실제 서버를 실행하지 않습니다.", color: "dim" },
+    ...(siteUrl ? [{ text: `  배포 주소: ${siteUrl}`, color: "cyan" as const }] : []),
     { text: "" },
   ];
 }
 
-function gitLogLines(): Line[] {
+function gitLogLines(projects: Project[]): Line[] {
   return [
     { text: "" },
-    { text: "  commit a3f1b2c", color: "yellow" },
-    { text: "  feat: 말해부엉 Gemini API 모델 분기 최적화" },
+    { text: "  프로젝트별 소개와 기여", color: "cyan" },
     { text: "" },
-    { text: "  commit 9d4e8a1", color: "yellow" },
-    { text: "  fix: TanStack Query staleTime — 응답시간 1초 이하로 개선" },
-    { text: "" },
-    { text: "  commit 3c7f2b9", color: "yellow" },
-    { text: "  feat: DS Helper 도메인 기반 환경 자동 분기 구현" },
-    { text: "" },
-    { text: "  commit 1a2b3c4", color: "yellow" },
-    { text: "  feat: 소셜 로그인 흐름 및 사용자 인증 화면 구현" },
-    { text: "" },
-    { text: "  commit 8e9f0d5", color: "yellow" },
-    { text: "  chore: EC2 GitHub Actions 자동 배포 세팅" },
-    { text: "" },
-    { text: "  commit 2b4c6d8", color: "yellow" },
-    { text: "  feat: 포트폴리오 Windows 데스크톱 메타포 구현" },
-    { text: "" },
+    ...projects.flatMap((project): Line[] => [
+      { text: `  ${project.name}`, color: "yellow" },
+      { text: `  ${project.aboutSummary ?? project.description}` },
+      { text: `  담당: ${project.contribution || project.role}`, color: "white" },
+      { text: `  문제 해결: troubleshoot ${project.slug}`, color: "dim" },
+      { text: "" },
+    ]),
   ];
 }
 
-function gitStatusLines(): Line[] {
+function gitStatusLines({ profile, jobs, projects }: PortfolioPayload): Line[] {
   return [
     { text: "" },
-    { text: "  On branch main", color: "white" },
-    { text: "  현재 상태: 구직 중", color: "green" },
+    { text: `  ${profile.name} | ${profile.title}`, color: "green" },
     { text: "" },
-    { text: "  Changes ready to commit:", color: "white" },
-    { text: "        new file:   천주아_포트폴리오.pdf", color: "green" },
-    { text: "        modified:   README.md", color: "green" },
-    { text: "" },
-    { text: "  Untracked files:", color: "white" },
-    { text: "        입사지원서/", color: "dim" },
+    { text: "  근무 경험", color: "cyan" },
+    ...jobs.flatMap((job): Line[] => [
+      { text: `  ${job.company} | ${job.periodLabel}`, color: "white" },
+      { text: `  ${[job.serviceName, job.role].filter(Boolean).join(" / ")}` },
+      ...(job.stackSummary ? [{ text: `  ${job.stackSummary}` }] : []),
+      { text: "" },
+    ]),
+    { text: `  등록된 프로젝트: ${projects.length}개`, color: "cyan" },
+    ...projects.filter((project) => project.statusLabel).map((project): Line => (
+      { text: `  ${project.name}: ${project.statusLabel}`, color: "yellow" }
+    )),
     { text: "" },
   ];
 }
 
-function catSkillsLines(): Line[] {
+function catSkillsLines({ skills, projects }: PortfolioPayload): Line[] {
   return [
     { text: "" },
     { text: "  # skills.md", color: "cyan" },
     { text: "" },
-    { text: "  Frontend    Next.js · React · TypeScript · JavaScript", color: "white" },
-    { text: "             TanStack Query · Zustand · Tailwind CSS · SCSS" },
-    { text: "             REST API · 소셜 로그인 · 반응형 웹앱" },
+    ...skills.folders.flatMap((folder): Line[] => [
+      { text: `  ${folder.name}`, color: "white" },
+      { text: `  ${folder.files.map((file) => file.displayName).join(", ")}` },
+      { text: "" },
+    ]),
+    { text: "  프로젝트별 기술과 도구", color: "cyan" },
+    ...projects.flatMap((project): Line[] => [
+      { text: `  ${project.name}`, color: "white" },
+      { text: `  ${project.stackSummary}` },
+      { text: `  ${project.env}` },
+      { text: "" },
+    ]),
+  ];
+}
+
+function lsLines(projects: Project[]): Line[] {
+  return [
     { text: "" },
-    { text: "  Deploy      Vercel · Netlify · AWS EC2 · AWS S3", color: "white" },
-    { text: "             GitHub Actions · PM2 · Nginx" },
-    { text: "" },
-    { text: "  Collab      Git · GitHub · Figma · Notion · Slack · Monorepo", color: "white" },
+    ...projects.map((project): Line => ({
+      text: `  ${project.name}/${project.statusLabel ? `  (${project.statusLabel})` : ""}`,
+      color: "cyan",
+    })),
+    { text: "  자기소개.docx", color: "white" },
     { text: "" },
   ];
 }
 
-function lsLines(): Line[] {
+function troubleshootingLines(projects: Project[], query = ""): Line[] {
+  const selected = query
+    ? projects.filter((project) => project.slug.toLowerCase() === query || project.name.toLowerCase() === query)
+    : projects;
+  if (!selected.length) return [
+    { text: `  프로젝트를 찾을 수 없습니다: ${query}`, color: "yellow" },
+    { text: `  사용 가능한 이름: ${projects.map((project) => project.slug).join(", ")}` },
+    { text: "" },
+  ];
   return [
     { text: "" },
-    { text: "  DS-Helper/    말해부엉/    Portfolio/    자기소개.docx", color: "cyan" },
-    { text: "" },
+    ...selected.flatMap((project): Line[] => [
+      { text: `  ${project.name} — 트러블슈팅`, color: "cyan" },
+      ...(project.troubleshooting?.length ? project.troubleshooting.flatMap((item, index): Line[] => [
+        { text: `  사례 ${index + 1}`, color: "yellow" },
+        ...(typeof item === "string" ? [{ text: `  ${item}` }] : [
+          { text: `  발단: ${item.발단}` },
+          { text: `  전개: ${item.전개}` },
+          { text: `  해결: ${item.해결}`, color: "white" as const },
+        ]),
+        { text: "" },
+      ]) : [{ text: "  등록된 트러블슈팅이 없습니다." }, { text: "" }]),
+    ]),
   ];
 }
 
@@ -121,13 +153,16 @@ function unknownLines(cmd: string): Line[] {
   ];
 }
 
-type Props = { profile: Profile };
+type Props = { data: PortfolioPayload; mobile?: boolean };
 
-export function CmdTerminal({ profile }: Props) {
+export function CmdTerminal({ data, mobile = false }: Props) {
+  const { profile, projects } = data;
+  const prompt = `${profile.githubUsername}@portfolio:~$`;
   const [lines, setLines] = useState<Line[]>(() => [
-    { text: "juahcheon@portfolio:~$ —— 포트폴리오 터미널", color: "dim" },
+    { text: `${profile.name} | ${profile.title} | 포트폴리오 터미널`, color: "cyan" },
+    { text: "명령어로 소개, 근무 경험과 프로젝트를 살펴보세요.", color: "dim" },
     { text: "" },
-    { text: `${PROMPT} help` },
+    { text: `${prompt} help` },
     ...helpLines(),
   ]);
   const [input, setInput] = useState("");
@@ -138,12 +173,25 @@ export function CmdTerminal({ profile }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [lines]);
+    if (!mobile) return;
+    let frame = 0;
+    const revealInput = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (document.activeElement === inputRef.current) inputRef.current?.scrollIntoView({ block: "nearest" });
+      });
+    };
+    window.visualViewport?.addEventListener("resize", revealInput);
+    return () => { cancelAnimationFrame(frame); window.visualViewport?.removeEventListener("resize", revealInput); };
+  }, [mobile]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: mobile ? "instant" : "smooth", block: "nearest" });
+  }, [lines, mobile]);
 
   function runCommand(raw: string) {
     const cmd = raw.trim().toLowerCase();
-    let newLines: Line[] = [{ text: `${PROMPT} ${raw}` }];
+    let newLines: Line[] = [{ text: `${prompt} ${raw}` }];
 
     switch (cmd) {
       case "help":
@@ -153,19 +201,22 @@ export function CmdTerminal({ profile }: Props) {
         newLines = newLines.concat(whoamiLines(profile));
         break;
       case "npm run dev":
-        newLines = newLines.concat(npmRunDevLines());
+        newLines = newLines.concat(npmRunDevLines(data.siteUrl));
         break;
       case "git log":
-        newLines = newLines.concat(gitLogLines());
+        newLines = newLines.concat(gitLogLines(projects));
         break;
       case "git status":
-        newLines = newLines.concat(gitStatusLines());
+        newLines = newLines.concat(gitStatusLines(data));
         break;
       case "cat skills.md":
-        newLines = newLines.concat(catSkillsLines());
+        newLines = newLines.concat(catSkillsLines(data));
+        break;
+      case "troubleshoot":
+        newLines = newLines.concat(troubleshootingLines(projects));
         break;
       case "ls":
-        newLines = newLines.concat(lsLines());
+        newLines = newLines.concat(lsLines(projects));
         break;
       case "clear":
         setLines([]);
@@ -173,10 +224,12 @@ export function CmdTerminal({ profile }: Props) {
         setHistIdx(-1);
         return;
       case "":
-        newLines = [{ text: PROMPT }];
+        newLines = [{ text: prompt }];
         break;
       default:
-        newLines = newLines.concat(unknownLines(cmd));
+        newLines = newLines.concat(cmd.startsWith("troubleshoot ")
+          ? troubleshootingLines(projects, cmd.slice("troubleshoot ".length).trim())
+          : unknownLines(cmd));
     }
 
     setLines((prev) => [...prev, ...newLines]);
@@ -214,23 +267,26 @@ export function CmdTerminal({ profile }: Props) {
 
   return (
     <div
-      className="min-h-0 flex-1 overflow-auto bg-[#0c0c0c] p-4 font-mono text-sm cursor-text"
-      onClick={() => inputRef.current?.focus()}
+      className="min-h-0 flex-1 overflow-auto [overflow-wrap:anywhere] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bg-[#0c0c0c] p-4 font-mono text-base roomy:text-sm cursor-text"
+      onClick={mobile ? undefined : () => { if (window.matchMedia("(pointer: fine)").matches) inputRef.current?.focus(); }}
     >
       {lines.map((line, i) => (
         <div key={i} className={`whitespace-pre-wrap leading-[1.5] ${colorClass(line.color)}`}>
           {line.text || " "}
         </div>
       ))}
-      <div className="flex leading-[1.5] text-[#cccccc]">
-        <span className="whitespace-pre select-none text-[#4ec94e]">{PROMPT}&nbsp;</span>
+      <div className="flex flex-col roomy:flex-row leading-[1.5] text-[#cccccc]">
+        <span className="whitespace-pre select-none text-[#4ec94e]">{prompt}&nbsp;</span>
         <input
           ref={inputRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="flex-1 bg-transparent text-[#cccccc] font-mono text-sm outline-none caret-[#cccccc]"
-          autoFocus
+          className="min-h-11 min-w-0 flex-1 bg-transparent text-[#cccccc] font-mono text-base roomy:min-h-0 roomy:text-sm outline-none caret-[#cccccc]"
+          aria-label="명령 입력"
+          autoFocus={!mobile && typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches}
+          onFocus={() => inputRef.current?.scrollIntoView({ block: "nearest" })}
+          enterKeyHint="send"
           spellCheck={false}
           autoComplete="off"
           autoCorrect="off"

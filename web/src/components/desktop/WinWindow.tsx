@@ -1,15 +1,14 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useWindowDragOffset } from "@/hooks/useWindowDragOffset";
+import { useWindowMinimize } from "@/hooks/useWindowMinimize";
 import { FaFolder } from "react-icons/fa6";
-import type { OpenWindow } from "@/store/desktopStore";
+import { useDesktopStore, type OpenWindow } from "@/store/desktopStore";
 import type { PortfolioPayload } from "@/types/portfolio";
 import { WinFrameTitleBar } from "@/components/desktop/WinFrameTitleBar";
 import { pickGithubPinnedRepos } from "./githubPinnedRepos";
-import { WindowContents } from "./WindowContents";
 import { CmdTerminal } from "./CmdTerminal";
 
 const ChromeLegacyModal = dynamic(
@@ -62,11 +61,12 @@ function DefaultExplorerIcon() {
 }
 
 type Props = {
+  mobile?: boolean;
+  compact?: boolean;
   win: OpenWindow;
   data: PortfolioPayload;
   zIndex: number;
   stackIndex: number;
-  isActive: boolean;
   onClose: (id: string) => void;
   onFocus: (id: string) => void;
 };
@@ -81,16 +81,15 @@ function titleLeading(win: OpenWindow) {
   return <DefaultExplorerIcon />;
 }
 
-function minimizedLeading(win: OpenWindow) {
-  return titleLeading(win);
-}
-
-export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, onFocus }: Props) {
+export function WinWindow({ win, data, zIndex, stackIndex, onClose, onFocus, mobile = false, compact = false }: Props) {
   const [maximized, setMaximized] = useState(false);
-  const [minimized, setMinimized] = useState(false);
+  const minimized = win.minimized ?? false;
+  const windowRef = useWindowMinimize(win.id, minimized, !mobile);
+  const minimizeWindow = useDesktopStore((s) => s.minimizeWindow);
+  const openWindow = useDesktopStore((s) => s.openWindow);
   const isChromeShell = win.kind === "projects" || win.kind === "github";
   const drag = useWindowDragOffset({
-    disabled: minimized || (!isChromeShell && maximized),
+    disabled: mobile || minimized || (!isChromeShell && maximized),
     onBegin: () => onFocus(win.id),
   });
 
@@ -98,14 +97,22 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
     if (!isChromeShell && maximized) drag.resetOffset();
   }, [isChromeShell, maximized, drag.resetOffset]);
 
+  useEffect(() => { drag.resetOffset(); }, [mobile, compact, drag.resetOffset]);
+
   if (win.kind === "projects") {
     return (
       <ChromeLegacyModal
+        mobile={mobile}
+        compact={compact}
         zIndex={zIndex}
         stackIndex={stackIndex}
-        embeddedContent={<ProjectsPanelView projects={data.projects} />}
-        displayAddressUrl="https://portfolio/projects?q=portfolio"
-        ariaLabel="프로젝트"
+        embeddedContent={<ProjectsPanelView mobile={compact} projects={data.projects} selectedProjectSlug={win.projectSlug} onProjectSelect={(projectSlug) => openWindow({ ...win, projectSlug })} />}
+        projectTabs={{ projects: data.projects, selectedSlug: win.projectSlug, onSelect: (projectSlug) => openWindow({ ...win, projectSlug }) }}
+        windowId={win.id}
+        minimized={minimized}
+        onMinimize={() => minimizeWindow(win.id)}
+        displayAddressUrl={`https://portfolio/projects?q=${win.projectSlug ?? data.projects[0]?.slug ?? "portfolio"}`}
+        ariaLabel={win.title}
         titleBarTitle={win.title}
         titleBarIconUrl={win.taskbarIconUrl ?? "/icons/desktop/chromeIcon.svg"}
         onClose={() => onClose(win.id)}
@@ -118,15 +125,21 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
     const gh = data.github;
     return (
       <ChromeLegacyModal
+        mobile={mobile}
+        compact={compact}
         zIndex={zIndex}
         stackIndex={stackIndex}
         iframeUrl={gh.profileUrl}
-        displayAddressUrl="https://github.com/juahcheon"
+        windowId={win.id}
+        minimized={minimized}
+        onMinimize={() => minimizeWindow(win.id)}
+        displayAddressUrl={gh.profileUrl}
         activityChartUrl={gh.chartImageUrl}
         profileUrl={gh.profileUrl}
         variant="github"
         githubMeta={{
           username: gh.username,
+          avatarUrl: gh.avatarUrl,
           displayName: data.profile.name,
           tagline: data.profile.headlineLines[0] ?? data.profile.title,
           pinnedRepos: pickGithubPinnedRepos(data.projects),
@@ -140,46 +153,13 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
     );
   }
 
-  if (minimized) {
-    return (
-      <button
-        type="button"
-        className="fixed bottom-[52px] flex h-8 min-w-[168px] max-w-[220px] cursor-pointer items-center gap-2 border border-[#a0a0a0] bg-white px-2.5 text-left font-sans text-xs text-black shadow-md hover:bg-[#f0f0f0]"
-        style={{
-          zIndex,
-          left: `max(8px, calc(50% - 90px + ${stackIndex * 168}px))`,
-        }}
-        title="복원"
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={() => {
-          setMinimized(false);
-          onFocus(win.id);
-        }}
-      >
-        {win.taskbarIconUrl ? (
-          <Image
-            src={win.taskbarIconUrl}
-            alt=""
-            width={16}
-            height={16}
-            className="h-4 w-4 shrink-0 object-contain"
-            unoptimized
-          />
-        ) : (
-          minimizedLeading(win)
-        )}
-        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap">{win.title}</span>
-      </button>
-    );
-  }
-
   const explorer = isExplorerShell(win.kind);
   const isWordDoc = win.kind === "about";
   const isCmdWin = win.kind === "cmd";
-  const stackX = stackIndex * 14;
-  const stackY = stackIndex * 12;
+  const stackX = compact ? 0 : stackIndex * 14;
+  const stackY = compact ? 0 : stackIndex * 12;
 
-  const sizeStyle = maximized
+  const sizeStyle = mobile ? { left: "env(safe-area-inset-left)", top: "env(safe-area-inset-top)", width: "calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right))", height: "calc(var(--desktop-height) - var(--mobile-bar-height) - env(safe-area-inset-top))", transform: "none" } : maximized
     ? {
         left: 0,
         top: 0,
@@ -200,18 +180,19 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
           : explorer
             ? "min(76vh, 520px)"
             : "min(78vh, min(640px, calc(100vh - 70px)))",
-        transform: `translate(calc(-50% + ${stackX + drag.offsetX}px), calc(-50% + ${stackY + drag.offsetY}px))`,
+        transform: `translate(calc(-50% + min(${stackX}px, 50vw - 50% - 8px) + ${drag.offsetX}px), calc(-50% + min(${stackY}px, 50dvh - 50% - 50px) + ${drag.offsetY}px))`,
       };
 
   return (
     <div
+      ref={windowRef}
       role="dialog"
       aria-modal="false"
       aria-label={win.title}
       onMouseDown={() => onFocus(win.id)}
-      className={`fixed flex flex-col overflow-hidden border border-[#a0a0a0] bg-white shadow-win ${
+      className={`mobile-app-window fixed flex flex-col overflow-hidden border border-[#a0a0a0] bg-white shadow-win ${
         isCmdWin ? "rounded-none" : ""
-      } ${isActive ? "outline outline-2 outline-[rgba(0,120,212,0.55)] outline-offset-0" : ""}`}
+      }`}
       style={{
         zIndex,
         ...sizeStyle,
@@ -219,43 +200,43 @@ export function WinWindow({ win, data, zIndex, stackIndex, isActive, onClose, on
     >
       {isWordDoc ? (
         <>
-          <WinFrameTitleBar
+          {!mobile && <WinFrameTitleBar
+            mobile={mobile}
+            compact={compact}
             title={win.title}
             titleIconUrl={win.taskbarIconUrl}
             maximized={maximized}
             onTitleBarPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
-            onMinimize={() => setMinimized(true)}
+            onMinimize={() => minimizeWindow(win.id)}
             onMaximize={() => setMaximized((m) => !m)}
             onClose={() => onClose(win.id)}
-          />
-          <WordAppWindow data={data} />
+          />}
+          <WordAppWindow data={data} mobile={mobile} />
         </>
       ) : (
         <>
-          <WinFrameTitleBar
+          {!(mobile && win.kind === "skills") && <WinFrameTitleBar
+            mobile={mobile}
+            compact={compact}
             title={win.title}
             titleIconUrl={win.taskbarIconUrl}
             leading={titleLeading(win)}
             maximized={maximized}
             onTitleBarPointerDown={maximized ? undefined : drag.onTitleBarPointerDown}
-            onMinimize={() => setMinimized(true)}
+            onMinimize={() => minimizeWindow(win.id)}
             onMaximize={() => setMaximized((m) => !m)}
             onClose={() => onClose(win.id)}
-          />
+          />}
 
           {win.kind === "recycle" ? (
             <RecycleBinExplorerView />
           ) : win.kind === "thisPc" ? (
             <ThisPcExplorerView />
           ) : win.kind === "skills" ? (
-            <SkillsExplorerView skills={data.skills} />
+            <SkillsExplorerView skills={data.skills} mobile={mobile} />
           ) : win.kind === "cmd" ? (
-            <CmdTerminal profile={data.profile} />
-          ) : (
-            <div className="min-h-0 flex-1 overflow-auto p-4 text-sm text-neutral-800">
-              <WindowContents win={win} data={data} />
-            </div>
-          )}
+            <CmdTerminal data={data} mobile={mobile} />
+          ) : null}
         </>
       )}
     </div>

@@ -187,18 +187,18 @@ export function RecycleBinExplorerView() {
               <tbody>
                 {rows.map((row, i) => (
                   <tr key={`${row.name}-${row.deleted}-${i}`} className={exTr}>
-                    <td className={exTd}>
+                    <td className={exTd} data-label="이름">
                       <div className={exNameCell}>
                         <FileGlyph kind={row.icon} />
                         <span>{row.name}</span>
                       </div>
                     </td>
-                    <td className={exTd} title={row.original}>
+                    <td className={exTd} data-label="원래 위치" title={row.original}>
                       {row.original}
                     </td>
-                    <td className={exTd}>{row.deleted}</td>
-                    <td className={exTd}>{row.size}</td>
-                    <td className={exTd}>{row.type}</td>
+                    <td className={exTd} data-label="삭제된 날짜">{row.deleted}</td>
+                    <td className={exTd} data-label="크기">{row.size}</td>
+                    <td className={exTd} data-label="항목 유형">{row.type}</td>
                   </tr>
                 ))}
               </tbody>

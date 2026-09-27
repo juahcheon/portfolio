@@ -35,7 +35,7 @@ type Props = {
 export function ExplorerSidebar({ thisPcSelected = false }: Props) {
   return (
     <nav
-      className="w-[168px] shrink-0 overflow-x-hidden overflow-y-auto border-r border-[#d9d9d9] py-2 pb-3 pl-0 pr-0 font-[Segoe_UI,Malgun_Gothic,system-ui,sans-serif] text-xs text-black"
+      className="hidden roomy:block w-[168px] shrink-0 overflow-x-hidden overflow-y-auto border-r border-[#d9d9d9] py-2 pb-3 pl-0 pr-0 font-[Segoe_UI,Malgun_Gothic,system-ui,sans-serif] text-xs text-black"
       aria-label="탐색기 내비게이션"
     >
       <div className="flex items-center gap-1.5 py-1 pl-3.5 pr-3 font-normal text-black">
