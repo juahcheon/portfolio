@@ -1,0 +1,30 @@
+.notes { display: flex; flex: 1; flex-direction: column; min-height: 0; background: #fffefa; color: #242424; font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", sans-serif;
+  button { cursor: pointer; }
+  button:focus-visible { outline: 2px solid #ae7900; outline-offset: -2px; border-radius: 8px; }
+}
+.header { display: grid; grid-template-columns: 72px minmax(0,1fr) 72px; align-items: center; flex-shrink: 0; height: 52px; padding: 0 10px; background: #fffefaf2;
+  > span { text-align: center; font-size: 15px; font-weight: 600; }
+  button { display: flex; align-items: center; justify-content: center; min-width: 44px; height: 44px; color: #a87600; font-size: 16px; }
+  button:first-child { justify-self: start; gap: 1px; }
+  button:last-child { justify-self: end; }
+  svg { width: 23px; height: 23px; stroke-width: 1.8; }
+}
+.search { display: flex; flex-shrink: 0; align-items: center; gap: 8px; min-height: 44px; margin: 0 20px 10px; padding-left: 12px; border-radius: 11px; background: #efeee9; color: #77766e;
+  input { flex: 1; min-width: 0; background: transparent; font-size: 16px; outline: 0; }
+  button { width: 44px; height: 44px; display: grid; place-items: center; }
+}
+.paper { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: none; padding: 16px 26px 32px; overflow-wrap: anywhere;
+  h1 { font-size: 28px; line-height: 1.25; font-weight: 700; letter-spacing: -.6px; }
+  section { margin-top: 28px; }
+  h2 { font-size: 18px; font-weight: 650; margin-bottom: 10px; }
+  ul { margin: 0; padding-left: 20px; list-style: disc; }
+  li { font-size: 15px; line-height: 1.65; padding: 3px 0 3px 1px; }
+  li::marker { font-size: 12px; color: #46443e; }
+}
+.subtitle { font-size: 13px; color: #8a887f; margin-top: 6px; }
+.empty { padding: 30px 0; color: #77766e; font-size: 14px; }
+.footer { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; align-items: center; flex-shrink: 0; min-height: 46px; padding: 0 12px; border-top: 1px solid #eeede7; background: #fffefa;
+  span { grid-column: 2; text-align: center; font-size: 13px; color: #86847b; }
+  button { display: grid; place-items: center; width: 44px; height: 44px; color: #a87600; svg { width: 21px; height: 21px; } }
+}
+@media (min-width: 600px) { .paper { padding-inline: max(26px, calc((100% - 600px) / 2)); } }

@@ -15,6 +15,7 @@ import type { PortfolioPayload, SkillFolder } from "@/types/portfolio";
 import { ExplorerFolderIcon } from "./ExplorerFolderIcon";
 import { ExplorerHtmlFileIcon } from "./ExplorerHtmlFileIcon";
 import { ExplorerSidebar } from "./ExplorerSidebar";
+import { SkillsNotesView } from "./SkillsNotesView";
 import {
   exAddressBox,
   exAddressCrumb,
@@ -46,6 +47,7 @@ const HTML_DOC_TYPE = "Chrome HTML Document";
 
 type Props = {
   skills: PortfolioPayload["skills"];
+  mobile?: boolean;
 };
 
 type FolderRow = {
@@ -98,11 +100,13 @@ function ListGlyph({ row }: { row: ListRow }) {
   return <ExplorerHtmlFileIcon width={16} height={16} />;
 }
 
-export function SkillsExplorerView({ skills }: Props) {
+export function SkillsExplorerView({ skills, mobile = false }: Props) {
   const rows = useMemo(() => buildFlatRows(skills.folders), [skills.folders]);
 
   return (
-    <div className={exShell}>
+    <>
+    <SkillsNotesView skills={skills} hidden={!mobile} />
+    <div className={exShell} style={mobile ? { display: "none" } : undefined}>
       <div className={exCommandBar}>
         <div className={exNavCluster}>
           <button type="button" className={exNavBtn} aria-label="뒤로" title="뒤로" disabled>
@@ -158,15 +162,15 @@ export function SkillsExplorerView({ skills }: Props) {
               <tbody>
                 {rows.map((row) => (
                   <tr key={`${row.kind}-${row.id}`} className={exTr}>
-                    <td className={exTd}>
+                    <td className={exTd} data-label="이름">
                       <div className={`${exNameCell}${row.kind === "file" ? " pl-6" : ""}`}>
                         <ListGlyph row={row} />
                         <span>{row.name}</span>
                       </div>
                     </td>
-                    <td className={exTd}>{row.modified}</td>
-                    <td className={exTd}>{row.kind === "folder" ? "파일 폴더" : HTML_DOC_TYPE}</td>
-                    <td className={exTd}>{row.size}</td>
+                    <td className={exTd} data-label="수정한 날짜">{row.modified}</td>
+                    <td className={exTd} data-label="유형">{row.kind === "folder" ? "파일 폴더" : HTML_DOC_TYPE}</td>
+                    <td className={exTd} data-label="크기">{row.size}</td>
                   </tr>
                 ))}
               </tbody>
@@ -186,5 +190,6 @@ export function SkillsExplorerView({ skills }: Props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
