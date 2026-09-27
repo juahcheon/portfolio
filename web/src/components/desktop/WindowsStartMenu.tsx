@@ -14,7 +14,6 @@ import {
 } from "react";
 import {
   FiChevronDown,
-  FiFileText,
 } from "react-icons/fi";
 import {
   SiAndroidstudio,
@@ -40,7 +39,6 @@ import styles from "./WindowsStartMenu.module.scss";
 export type WindowsStartMenuProps = {
   onClose: () => void;
   onOpenGitHub: () => void;
-  onOpenTimeline: () => void;
   onOpenWindowById: (windowId: string) => void;
   onOpenExternal: (url: string) => void;
   dsHelperUrl: string;
@@ -63,7 +61,7 @@ const RAIL_EXPAND_HOVER_MS = 500;
 
 export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps>(
   function WindowsStartMenu(
-    { onClose, onOpenGitHub, onOpenTimeline, onOpenWindowById, onOpenExternal, dsHelperUrl },
+    { onClose, onOpenGitHub, onOpenWindowById, onOpenExternal, dsHelperUrl },
     ref
   ) {
     const [recentExpanded, setRecentExpanded] = useState(false);
@@ -497,18 +495,6 @@ export const WindowsStartMenu = forwardRef<HTMLDivElement, WindowsStartMenuProps
                   </span>
                 </button>
 
-                <p className={styles.startMenuLetter}>T</p>
-                <button type="button" className={styles.startMenuRow} onClick={() => run(onOpenTimeline)}>
-                  <span className={styles.startMenuIconWrap}>
-                    <FiFileText aria-hidden />
-                  </span>
-                  <span className={styles.startMenuRowBody}>
-                    <span className={styles.startMenuRowTitle}>타임라인</span>
-                    <span className={`${styles.startMenuRowSub} ${styles.startMenuRowSubMuted}`}>
-                      포트폴리오
-                    </span>
-                  </span>
-                </button>
               </div>
               <div
                 ref={scrollRailRef}
