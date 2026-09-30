@@ -306,20 +306,19 @@ export function WordAppWindow({ data, mobile = false }: Props) {
 
             <TimelineBlock heading="소개">
               <p className="text-[16px] leading-[1.78] text-[#222]">
-                국어국문학을 전공하며 사람의 의도와 문장의 구조를 읽는 법을 배웠고, 개발을 통해 그 이해를 실제 화면과 기능으로 구현하게 되었습니다. 사용자가 자연스럽게 이해할 수 있는 흐름을 고민하면서도, 코드의 구조와 데이터의 흐름은 논리적으로 설계하는{" "}
-                웹 개발자입니다.
+                {profile.headlineLines[0]}
               </p>
             </TimelineBlock>
 
             <TimelineBlock heading="문제 해결 방식">
               <p className="text-[16px] leading-[1.78] text-[#222]">
-                문제가 생기면 먼저 사용자가 어디에서 불편을 겪는지 살피고, 그 뒤에 코드, 데이터, 환경을 차례로 확인합니다. 겉으로 보이는 현상만 고치기보다 원인을 찾고, 같은 문제가 반복되지 않도록 구조를 정리하려 합니다. 환경별 API 분기, 인증 흐름, 데이터 캐싱을 통한 성능 개선을 직접 경험하며 트러블슈팅 감각을 키워왔습니다.
+                {profile.headlineLines[1]}
               </p>
             </TimelineBlock>
 
             <TimelineBlock heading="지향점" isLast={!profile.aiToolAttitude}>
               <p className="text-[16px] leading-[1.78] text-[#222]">
-                사람의 언어와 맥락을 이해하는 감각, 그리고 복잡한 문제를 구조로 정리하는 논리를 함께 발휘하겠습니다. 사용자의 의도를 정확히 읽고, 팀이 함께 유지보수할 수 있는 코드와 화면으로 완성하는 개발자로 기여하겠습니다.
+                {profile.headlineLines[2]}
               </p>
             </TimelineBlock>
             {profile.aiToolAttitude ? (
