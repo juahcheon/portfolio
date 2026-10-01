@@ -129,6 +129,7 @@
 | [docs/DEPLOY.md](docs/DEPLOY.md) | 배포 URL (미정) |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | 할 일 |
 | [docs/WORKLOG.md](docs/WORKLOG.md) | 작업 일지 |
+| [.agents/skills/saramin-job-application/SKILL.md](.agents/skills/saramin-job-application/SKILL.md) | 사람인 지원·자기소개서·PDF 동기화·HTML 기록 요청에 사용하는 스킬 |
 
 ---
 

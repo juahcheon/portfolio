@@ -1,0 +1,4 @@
+interface:
+  display_name: "사람인 취업 지원 인수인계"
+  short_description: "커밋 근거 확인부터 회사별 자기소개서와 지원 내역 검증까지"
+  default_prompt: "$saramin-job-application을 사용해 기존 지원 내역을 확인하고, 마감 임박 공고 선별부터 회사별 자기소개서 작성·지원·제출본 검증과 HTML 기록 업데이트까지 진행해줘."

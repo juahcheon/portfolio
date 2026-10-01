@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "instructions": "이 파일을 비공개 작업 폴더에 복사한 뒤 사용합니다. null은 미확인입니다. paths는 복사한 설정 파일의 폴더 기준으로 해석하며 원본 공유 파일에 개인정보를 넣지 않습니다.",
+  "confirmedAt": null,
+  "preferences": {
+    "dailyTarget": 5,
+    "deadlineOrder": "soonest-open-first",
+    "preferredRoles": ["프론트엔드 개발자", "웹 개발자"],
+    "maxRequiredExperienceYears": 2,
+    "preferredAreas": ["마포", "홍대", "김포", "마곡", "마곡나루", "발산", "강남"],
+    "preferredCommuteMinutes": 60,
+    "commuteOrigin": null,
+    "preferEstablishedCompany": true,
+    "dailyEditScope": "self-introduction",
+    "paragraphSeparator": "\n"
+  },
+  "currentFacts": {
+    "employmentStatus": null,
+    "expectedDepartureDate": null,
+    "availableStartDate": null,
+    "expectedAnnualSalaryKrw": null,
+    "confirmedPrivateProfileSource": null
+  },
+  "paths": {
+    "portfolioRoot": "..",
+    "portfolioSource": null,
+    "resumeSource": null,
+    "resumePdf": null,
+    "experienceBank": null,
+    "applicationRecords": null,
+    "applicationNotebook": null
+  },
+  "activeSession": {
+    "requestedCount": null,
+    "historyReconciledAt": null,
+    "currentResumeTargetCompany": null,
+    "approvedApplications": [],
+    "pendingQuestion": null,
+    "nextStep": null
+  }
+}

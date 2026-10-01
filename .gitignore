@@ -6,3 +6,6 @@
 *.tsbuildinfo
 .DS_Store
 .playwright-mcp/
+
+# Local job application records and private applicant profile
+.job-search/

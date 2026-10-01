@@ -18,6 +18,18 @@
 | [docs/DEPLOY.md](docs/DEPLOY.md) | Vercel 배포·URL |
 | [AGENTS.md](AGENTS.md) | **AI 공통 규칙 (세션마다 먼저 읽기)** |
 
+## 사람인 취업 지원 스킬
+
+[사람인 취업 지원 인수인계](.agents/skills/saramin-job-application/SKILL.md)는 공고 선별, 커밋 근거 확인, 회사별 자기소개서, PDF 반영, 실제 제출본 검증과 HTML 지원 기록 관리 기준을 담고 있습니다.
+
+이 스킬이 포함된 브랜치를 내려받아 Codex에서 저장소를 연 뒤 사용합니다. 다른 컴퓨터나 프로젝트에서의 설치 방법도 스킬 안에 있습니다.
+
+```text
+$saramin-job-application 오늘도 5곳 지원해줘. 기존 지원 내역부터 확인해.
+```
+
+개인 지원 자료는 Git에서 제외한 `.job-search/` 또는 별도 비공개 폴더에 보관합니다. 스킬에는 실제 연락처·지원서·로그인 정보가 포함되지 않습니다.
+
 ## 구조
 
 | 경로 | 설명 |
